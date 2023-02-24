@@ -45,8 +45,8 @@
                             {{-- <h3>Explore More</h3> --}}
                         </div>
                         <ul class="wt-fwidgetcontent">
-                            <li><a href="/privacy-policy">Privacy Policy</a></li>
-                            <li><a href="/about-us">About us</a></li>
+                            <li><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
+                            <li><a href="{{ url('/about-us') }}">About us</a></li>
                         </ul>
                     </div>
                 </div>

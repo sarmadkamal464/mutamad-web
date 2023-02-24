@@ -19,16 +19,16 @@
                                          <a href="javascript:void(0);">Home</a>
                                      </li>
                                      <li class="nav-item">
-                                         <a href="/hows-it-work">How's it work</a>
+                                         <a href="{{ url('/hows-it-work') }}">How's it work</a>
                                      </li>
                                      {{-- <li class="nav-item">
                                          <a href="javascript:void(0);">Find Freelancer</a>
                                      </li> --}}
                                      <li class="nav-item">
-                                         <a href="/about-us">Contact Us</a>
+                                         <a href="{{ url('/about-us') }}">Contact Us</a>
                                      </li>
                                      <li class="nav-item">
-                                         <a href="/about-us">About Us</a>
+                                         <a href="{{ url('/about-us') }}">About Us</a>
                                      </li>
                                  </ul>
                              </div>
