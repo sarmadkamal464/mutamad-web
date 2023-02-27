@@ -4,7 +4,7 @@
          <div class="container-fluid">
              <div class="row">
                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                     <strong class="wt-logo"><a href="index-2.html"><img src="{{ asset('images/logo.png') }}"
+                     <strong class="wt-logo"><a href="{{ url('') }}"><img src="{{ asset('images/logo.png') }}"
                                  alt="company logo here"></a></strong>
                      <div class="wt-rightarea">
                          <nav id="wt-nav" class="wt-nav navbar-expand-lg">
@@ -16,7 +16,7 @@
                              <div class="collapse navbar-collapse wt-navigation" id="navbarNav">
                                  <ul class="navbar-nav">
                                      <li class="menu-item-has-children page_item_has_children">
-                                         <a href="javascript:void(0);">Home</a>
+                                         <a href="{{ url('') }}">Home</a>
                                      </li>
                                      <li class="nav-item">
                                          <a href="{{ url('/hows-it-work') }}">How's it work</a>
@@ -33,7 +33,7 @@
                                  </ul>
                              </div>
                          </nav>
-                         <div class="wt-loginarea">
+                         <div class="wt-loginarea" style="">
                              <figure class="wt-userimg">
                                  <img src="{{ asset('images/user-login.png') }}" alt="img description">
                              </figure>
@@ -64,7 +64,7 @@
                                          </fieldset>
                                          <div class="wt-loginfooterinfo">
                                              <a href="javascript:;" class="wt-forgot-password">Forgot password?</a>
-                                             <a href="register.html">Create account</a>
+                                             <a href="javascript:void(0);">Create account</a>
                                          </div>
                                      </form>
                                      <form class="wt-formtheme wt-loginform do-forgot-password-form wt-hide-form">
@@ -80,104 +80,12 @@
                                          </fieldset>
                                          <div class="wt-loginfooterinfo">
                                              <a href="javascript:void(0);" class="wt-show-login">Login</a>
-                                             <a href="register.html">Create account</a>
+                                             <a href="javascript:void(0);">Create account</a>
                                          </div>
                                      </form>
                                  </div>
                              </div>
-                             <a href="register.html" class="wt-btn">Join Now</a>
-                         </div>
-                         <div class="wt-userlogedin">
-                             <figure class="wt-userimg">
-                                 <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
-                             </figure>
-                             <div class="wt-username">
-                                 <h3>Louanne Mattioli</h3>
-                                 <span>FreeLancer</span>
-                             </div>
-                             {{-- <nav class="wt-usernav">
-                                 <ul>
-                                     <li class="menu-item-has-children page_item_has_children">
-                                         <a href="javascript:void(0);">
-                                             <span>Insights</span>
-                                         </a>
-                                         <ul class="sub-menu children">
-                                             <li><a href="dashboard-insights.html">Insights</a></li>
-                                             <li><a href="dashboard-insightsuser.html">Insights User</a></li>
-                                         </ul>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-profile.html">
-                                             <span>My Profile</span>
-                                         </a>
-                                     </li>
-                                     <li class="menu-item-has-children">
-                                         <a href="javascript:void(0);">
-                                             <span>All Jobs</span>
-                                         </a>
-                                         <ul class="sub-menu">
-                                             <li><a href="dashboard-completejobs.html">Completed Jobs</a></li>
-                                             <li><a href="dashboard-canceljobs.html">Cancelled Jobs</a></li>
-                                             <li><a href="dashboard-ongoingjob.html">Ongoing Jobs</a></li>
-                                             <li><a href="dashboard-ongoingsingle.html">Ongoing Single</a></li>
-                                         </ul>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-managejobs.html">
-                                             <span>Manage Jobs</span>
-                                         </a>
-                                     </li>
-                                     <li class="wt-notificationicon menu-item-has-children">
-                                         <a href="javascript:void(0);">
-                                             <span>Messages</span>
-                                         </a>
-                                         <ul class="sub-menu">
-                                             <li><a href="dashboard-messages.html">Messages</a></li>
-                                             <li><a href="dashboard-messages2.html">Messages V 2</a></li>
-                                         </ul>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-saveitems.html">
-                                             <span>My Saved Items</span>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-invocies.html">
-                                             <span>Invoices</span>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-category.html">
-                                             <span>Category</span>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-packages.html">
-                                             <span>Packages</span>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-proposals.html">
-                                             <span>Proposals</span>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-accountsettings.html">
-                                             <span>Account Settings</span>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a href="dashboard-helpsupport.html">
-                                             <span>Help &amp; Support</span>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a href="index-2.html">
-                                             <span>Logout</span>
-                                         </a>
-                                     </li>
-                                 </ul>
-                             </nav> --}}
+                             <a href="javascript:void(0);" class="wt-btn">Join Now</a>
                          </div>
                      </div>
                  </div>

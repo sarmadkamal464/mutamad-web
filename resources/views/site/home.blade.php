@@ -1,9 +1,10 @@
 @extends('site.layout')
-@section('title', 'Home Page')
+@section('title', 'Mutamad')
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
 @endsection
+
 @section('content')
     <!--Home Banner Start-->
     <div class="wt-haslayout wt-bannerholder">
@@ -50,12 +51,7 @@
                                             <span class="wt-radio">
                                                 <input id="wt-jobs" data-title="Jobs" type="radio" name="searchtype"
                                                     value="job">
-                                                <label for="wt-jobs">Jobs</label>
-                                            </span>
-                                            <span class="wt-radio">
-                                                <input id="wt-company" data-title="Companies" type="radio"
-                                                    name="searchtype" value="job">
-                                                <label for="wt-company">Companies</label>
+                                                <label for="wt-jobs">Projects</label>
                                             </span>
                                         </div>
                                         <a href="userlisting.html" class="wt-searchbtn"><i
@@ -198,11 +194,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 float-left">
+                        {{-- <div class="col-12 col-sm-12 col-md-12 col-lg-12 float-left">
                             <div class="wt-btnarea">
                                 <a href="javascript:void(0)" class="wt-btn">View All</a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

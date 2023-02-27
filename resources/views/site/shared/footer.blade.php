@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="wt-footerlogohold">
-                        <strong class="wt-logo"><a href="index-2.html"><img src="{{ asset('images/logo.png') }}"
+                        <strong class="wt-logo"><a href="/"><img src="{{ asset('images/logo.png') }}"
                                     alt="company logo here"></a></strong>
                         <div class="wt-description">
                             <p>Dotem eiusmod tempor incune utnaem labore etdolore maigna aliqua enim poskina ilukita
