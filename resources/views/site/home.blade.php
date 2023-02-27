@@ -248,7 +248,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 float-left">
                         <figure class="wt-mobileimg">
-                            {{-- <img src="{{ asset('images/mobile-img.png') }}" alt="img description"> --}}
+                            <img src="{{ asset('images/app.png') }}" alt="img description">
                         </figure>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 float-left">
