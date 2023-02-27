@@ -53,21 +53,21 @@
             </div>
         </div>
     </div>
-    <div class="wt-haslayout wt-joininfo">
+    {{-- <div class="wt-haslayout wt-joininfo">
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 push-lg-1">
                     <div class="wt-companyinfo">
-                        {{-- <span><a href="javascript:void(0);">New @ Worktern?</a> Dotem eiusmod tempor incune utnaem
-                            labore etdolore.</span> --}}
+                        <span><a href="javascript:void(0);">New @ Worktern?</a> Dotem eiusmod tempor incune utnaem
+                            labore etdolore.</span>
                     </div>
-                    {{-- <div class="wt-fbtnarea">
+                    <div class="wt-fbtnarea">
                         <a href="javascript:void(0)" class="wt-btn">Join Now</a>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="wt-haslayout wt-footerbottom">
         {{-- <div class="container">
             <div class="row">
