@@ -21,4 +21,8 @@
         height: 80px;
         margin-left: 20px;
     }
+
+    .white {
+        color: white !important;
+    }
 </style>

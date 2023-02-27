@@ -9,7 +9,7 @@
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
         <!--Categories Start-->
-        <div class="wt-haslayout wt-main-section">
+        <div class="wt-haslayout">
             <div class="wt-contentwrappers">
                 <div class="container">
                     <div class="row">

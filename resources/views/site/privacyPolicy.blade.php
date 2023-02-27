@@ -16,7 +16,7 @@
                             <h2>Terms &amp; Conditions</h2>
                         </div>
                         <ol class="wt-breadcrumb">
-                            <li><a>Home</a></li>
+                            <li><a href="{{ url('') }}">Home</a></li>
                             <li class="wt-active">Terms &amp; Conditions</li>
                         </ol>
                     </div>
