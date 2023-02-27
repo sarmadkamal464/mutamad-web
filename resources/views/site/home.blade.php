@@ -54,8 +54,7 @@
                                                 <label for="wt-jobs">Projects</label>
                                             </span>
                                         </div>
-                                        <a href="userlisting.html" class="wt-searchbtn"><i
-                                                class="lnr lnr-magnifier"></i></a>
+                                        <a class="wt-searchbtn"><i class="lnr lnr-magnifier"></i></a>
                                     </div>
                                 </div>
                             </fieldset>
