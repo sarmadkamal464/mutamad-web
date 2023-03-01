@@ -2,11 +2,10 @@
  <header id="wt-header" class="wt-header wt-haslayout">
      <div class="wt-navigationarea">
          <div class="container-fluid">
-             <div class="row">
-                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                 <div class="d-flex justify-content-between align-items-center">
                      <strong class="wt-logo"><a href="{{ url('') }}"><img src="{{ asset('images/logo.png') }}"
                                  alt="company logo here"></a></strong>
-                     <div class="wt-rightarea">
+                     <div class="wt-rightarea ml-3">
                          <nav id="wt-nav" class="wt-nav navbar-expand-lg">
                              <button class="navbar-toggler" type="button" data-toggle="collapse"
                                  data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -15,7 +14,7 @@
                              </button>
                              <div class="collapse navbar-collapse wt-navigation" id="navbarNav">
                                  <ul class="navbar-nav">
-                                     <li class="menu-item-has-children page_item_has_children">
+                                     <li class="nav-item">
                                          <a href="{{ url('') }}">Home</a>
                                      </li>
                                      <li class="nav-item">
@@ -88,7 +87,6 @@
                              <a href="javascript:void(0);" class="wt-btn">Join Now</a>
                          </div>
                      </div>
-                 </div>
              </div>
          </div>
      </div>
