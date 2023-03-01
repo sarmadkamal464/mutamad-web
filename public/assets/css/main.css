@@ -1545,10 +1545,6 @@ li.wt-rss a {
 }
 
 /* Header Style */
-.wt-logo {
-    float: left;
-    margin: 25px 0;
-}
 
 .wt-header {
     padding: 0;
@@ -1629,10 +1625,6 @@ li.wt-rss a {
     margin: 0;
     display: table;
     table-layout: fixed;
-}
-
-.wt-rightarea {
-    float: right;
 }
 
 .wt-navigation>ul>li>a {
