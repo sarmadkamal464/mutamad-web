@@ -6,6 +6,9 @@
 @endsection
 @section('content')
     <!--Inner Home End-->
+    <!--Inner Home Banner Start-->
+    @include('site.shared.topbanner')
+    <!--Inner Home End-->
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
         <!--Categories Start-->
