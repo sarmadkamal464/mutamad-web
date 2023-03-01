@@ -21,7 +21,7 @@ a:active,
 .wt-comfollowers ul li:hover a span,
 .wt-postarticlemeta .wt-following span,
 .tg-qrcodefeat h3 span {
-	color: #1f5a8b;
+	color: #0583ce;
 }
 
 /* Theme Background Color */
@@ -56,7 +56,7 @@ a:active,
 .wt-tablecategories tbody tr td:first-child:before,
 .wt-slidernav .wt-prev:hover,
 .wt-slidernav .wt-next:hover {
-	background: #1f5a8b;
+	background: #0583ce;
 }
 
 /* Theme Border Color */
@@ -73,21 +73,21 @@ input:focus,
 .wt-clicksavebtn,
 .wt-pagination ul li.wt-active a,
 .wt-usernav>ul {
-	border-color: #1f5a8b;
+	border-color: #0583ce;
 }
 
 .wt-filtertag .wt-filtertagclear a:after {
-	border-left-color: #1f5a8b;
+	border-left-color: #0583ce;
 }
 
 /* RGBA Background Color */
 .loader {
-	background: #1f5a8b;
-	background: -moz-linear-gradient(left, #1f5a8b 10%, rgba(255, 88, 81, 0) 42%);
-	background: -webkit-linear-gradient(left, #1f5a8b 10%, rgba(255, 88, 81, 0) 42%);
-	background: -o-linear-gradient(left, #1f5a8b 10%, rgba(255, 88, 81, 0) 42%);
-	background: -ms-linear-gradient(left, #1f5a8b 10%, rgba(255, 88, 81, 0) 42%);
-	background: linear-gradient(to right, #1f5a8b 10%, rgba(255, 88, 81, 0) 42%);
+	background: #0583ce;
+	background: -moz-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: -webkit-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: -o-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: -ms-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: linear-gradient(to right, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
 }
 
 /* Secondary Theme Colors */

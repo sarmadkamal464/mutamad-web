@@ -1485,7 +1485,8 @@ li.wt-rss a {
 }
 
 .wt-footer {
-    background: #323232;
+    /* background: #323232; */
+    background: linear-gradient(to bottom, #89C664 0%, #1B84BB 100%);
 }
 
 .wt-sectionhead,
@@ -3859,7 +3860,7 @@ body.wt-login .wt-userlogedin {
 .wt-unlike,
 .wt-unlike:hover,
 .wt-unlike:focus {
-    color: #1f5a8b;
+    color: #0583ce;
 }
 
 .wt-likeunlike a+a {
@@ -4375,7 +4376,7 @@ body.wt-login .wt-userlogedin {
 }
 
 .wt-reportdescription .wt-description p i {
-    color: #1f5a8b;
+    color: #0583ce;
 }
 
 /* User listing Style */
@@ -4674,7 +4675,7 @@ body.wt-login .wt-userlogedin {
 .wt-filtertag li a i {
     opacity: 1;
     float: none;
-    color: #1f5a8b;
+    color: #0583ce;
     text-shadow: none;
     margin: 0 15px 0 -25px;
     display: inline-block;
@@ -4683,7 +4684,7 @@ body.wt-login .wt-userlogedin {
 
 .wt-filtertag li:hover a i,
 .wt-filtertag li a i:focus {
-    color: #1f5a8b;
+    color: #0583ce;
 }
 
 .tipso_bubble {
@@ -4718,7 +4719,7 @@ body.wt-login .wt-userlogedin {
     right: -20px;
     position: absolute;
     border-top: 16px solid transparent;
-    border-left: 20px solid #1f5a8b;
+    border-left: 20px solid #0583ce;
     border-bottom: 15px solid transparent;
 }
 
@@ -4907,7 +4908,7 @@ body.wt-login .wt-userlogedin {
 }
 
 .wt-featuredtag.wt-featuredtagcolor3 {
-    border-top-color: #1f5a8b;
+    border-top-color: #0583ce;
 }
 
 .wt-featuredtag {
@@ -4999,7 +5000,7 @@ body.wt-login .wt-userlogedin {
 }
 
 .wt-viewjobclock {
-    color: #1f5a8b;
+    color: #0583ce;
 }
 
 .wt-viewjobtag {
@@ -6050,7 +6051,7 @@ body.wt-login .wt-userlogedin {
 .wt-attachmentsvtwo .wt-attachfile em a {
     width: 35px;
     font-size: 13px;
-    color: #1f5a8b;
+    color: #0583ce;
     text-align: right;
     display: inline-block;
     vertical-align: middle;
@@ -6242,7 +6243,7 @@ body.wt-login .wt-userlogedin {
 
 .wt-userprofile .wt-title .wt-reportuser {
     display: block;
-    color: #1f5a8b;
+    color: #0583ce;
     font-size: 14px;
     margin-top: 13px;
     line-height: 18px;
