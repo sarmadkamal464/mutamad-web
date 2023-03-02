@@ -40,7 +40,7 @@
                                     <div class="wt-formoptions">
                                         <div class="wt-dropdown">
                                             <span>In: <em class="selected-search-type">Freelancers </em><i
-                                                    class="lnr lnr-chevron-down"></i></span>
+                                                    id="lnr-chevron-down" class="lnr lnr-chevron-down"></i></span>
                                         </div>
                                         <div class="wt-radioholder">
                                             <span class="wt-radio">
@@ -49,8 +49,8 @@
                                                 <label for="wt-freelancers">Freelancers</label>
                                             </span>
                                             <span class="wt-radio">
-                                                <input id="wt-jobs" data-title="Jobs" type="radio" name="searchtype"
-                                                    value="job">
+                                                <input id="wt-jobs" data-title="Projects" type="radio" name="searchtype"
+                                                    value="project">
                                                 <label for="wt-jobs">Projects</label>
                                             </span>
                                         </div>
@@ -289,4 +289,20 @@
     <!--Main End-->
 @endsection
 @section('script')
+    <script>
+        // get the dropdown menu element
+        const dropdown = document.querySelector('.wt-formoptions');
+        const dropdownMenu = document.querySelector('.wt-radioholder');
+
+        // add a click event listener to the document object
+        document.addEventListener('click', function(event) {
+            // check if the click target is inside the dropdown menu
+            if (!dropdown.contains(event.target)) {
+                // if the click target is outside the dropdown menu, hide the menu
+                dropdownMenu.style.display = 'none';
+            }
+        });
+    </script>
+
+
 @endsection
