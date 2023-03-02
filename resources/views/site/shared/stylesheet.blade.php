@@ -15,19 +15,21 @@
 <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
 <style>
-    .wt-header {
-        padding: 0;
-        z-index: 10;
-        position: fixed;
-        background-color: white;
-        box-shadow: 0 0 8px 0px rgb(0 0 0 / 15%);
-    }
+    @media only screen and (min-width: 500px) {
+        .wt-header {
+            padding: 0;
+            z-index: 10;
+            position: fixed;
+            background-color: white;
+            box-shadow: 0 0 8px 0px rgb(0 0 0 / 15%);
+        }
 
-    .wt-logo img {
-        background-repeat: no-repeat;
-        background-position: center;
-        height: 80px;
-        margin-left: 20px;
+        .wt-logo img {
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 80px;
+            margin-left: 20px;
+        }
     }
 
     .white {
