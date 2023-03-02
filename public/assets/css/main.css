@@ -7477,39 +7477,3 @@ body.wt-login .wt-userlogedin {
 [v-cloak] {
     display: none;
 }
-
-@media (max-width: 509px) {
-    .wt-navigationarea .wt-rightarea {
-        display: flex;
-        justify-content: flex-end;
-        width: 100%;
-    }
-    .wt-rightarea .wt-nav .navbar-toggler {
-        margin: 11px 9px !important;
-    }
-    .wt-logo a img {
-        margin: -4px !important;
-    }
-    .wt-logo {
-        margin: 4px auto 4px !important;
-    }
-}
-@media (max-width: 289px) {
-    .wt-rightarea .wt-nav .navbar-toggler {
-        margin: 27px 7px !important;
-    }
-    .wt-loginoption {
-        position: relative;
-        display: flex;
-        vertical-align: middle;
-        justify-content: center;
-    }
-    .wt-loginarea > .wt-btn {
-        padding: 0px 4px !important;
-        line-height: 27px !important;
-    }
-    .wt-rightarea .wt-nav .navbar-toggler {
-        margin: 20px 20px;
-        padding: 3px 9px !important;
-    }
-}
