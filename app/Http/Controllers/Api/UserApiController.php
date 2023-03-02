@@ -59,7 +59,7 @@ class UserApiController extends Controller
             'password' => bcrypt($request->password),
             'username' => $request->username,
             'role' => $request->role,
-            'categoryId' => 1
+            'category_id' => $request->category_id
         ]);
         $user->save();
         $token = $user->createToken('MyApp')->accessToken;
