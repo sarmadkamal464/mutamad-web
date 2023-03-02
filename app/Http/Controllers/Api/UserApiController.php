@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ApiController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Session;
 
 class UserApiController extends Controller
@@ -74,32 +75,36 @@ class UserApiController extends Controller
     public function logout()
     {
         Session::flush();
-
         Auth::logout();
-
-        return redirect('login');
+        return $this->api->successResponse('User Logout Successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function redirectToGoogle()
     {
-        //
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function handleGoogleCallback()
     {
-        //
+        $user = Socialite::driver('google')->stateless()->user();
+        $name = $user->getName();
+        $email = $user->getEmail();
+        return $this->api->collectionResponse(['name' => $name, 'email' => $email]);
+    }
+
+    public function handleFacebookCallback()
+    {
+        $user = Socialite::driver('facebook')->user();
+        $name = $user->getName();
+        $email = $user->getEmail();
+        return $this->api->collectionResponse(['name' => $name, 'email' => $email]);
+    }
+
+    public function handleLinkedInCallback()
+    {
+        $user = Socialite::driver('linkedin')->user();
+        $name = $user->name;
+        $email = $user->email;
+        return $this->api->collectionResponse(['name' => $name, 'email' => $email]);
     }
 }

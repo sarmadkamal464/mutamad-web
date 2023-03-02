@@ -22,6 +22,14 @@ Route::prefix('v1')->group(
         });
         Route::post('/signup', [UserApiController::class, 'signup']);
         Route::post('/login', [UserApiController::class, 'login']);
+        Route::get('login/facebook', 'UserApiController@redirectToFacebook');
+        Route::get('login/facebook/callback', 'UserApiController@handleFacebookCallback');
+        Route::get('login/linkedin', 'UserApiController@redirectToLinkedIn');
+        Route::get('login/linkedin/callback', 'UserApiController@handleLinkedInCallback');
+        Route::get('login/google', [UserApiController::class, 'redirectToGoogle']);
+        Route::get('login/google/callback', [UserApiController::class, 'handleGoogleCallback']);
+
+
         Route::middleware('auth')->group(function () {
         });
     }
