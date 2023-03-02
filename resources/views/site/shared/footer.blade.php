@@ -5,8 +5,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="wt-footerlogohold">
-                        <strong class="wt-logo"><a href="/"><img src="{{ asset('images/logo.png') }}"
-                                    alt="company logo here"></a></strong>
+
                         <div class="wt-description">
                             <p>Dotem eiusmod tempor incune utnaem labore etdolore maigna aliqua enim poskina ilukita
                                 ylokem lokateise ination voluptate velit esse cillum dolore eu fugiat nulla pariatur
@@ -45,6 +44,8 @@
                             {{-- <h3>Explore More</h3> --}}
                         </div>
                         <ul class="wt-fwidgetcontent">
+                            <li><a href="{{ url('') }}">Home </a></li>
+                            <li><a href="{{ url('/hows-it-work') }}">Hows it work</a></li>
                             <li><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
                             <li><a href="{{ url('/about-us') }}">About us</a></li>
                         </ul>

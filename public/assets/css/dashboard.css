@@ -1257,7 +1257,7 @@ body {
 }
 
 .wt-deleteinfo {
-	background: #1f5a8b;
+	background: #0583ce;
 }
 
 .wt-myskills li .wt-rightarea a:hover,
@@ -1926,7 +1926,7 @@ table.wt-tablecategories tbody tr td figure img {
 }
 
 .wt-dashboardsavetag {
-	border-top: 40px solid #1f5a8b;
+	border-top: 40px solid #0583ce;
 }
 
 .wt-saveitem-breadcrumb {
@@ -1961,7 +1961,7 @@ table.wt-tablecategories tbody tr td figure img {
 }
 
 .wt-saveitem-breadcrumb li .wt-dashboradclock i {
-	color: #1f5a8b;
+	color: #0583ce;
 }
 
 .wt-dashboradsavebg {
@@ -2057,7 +2057,7 @@ table.wt-tablecategories tbody tr td figure img {
 }
 
 .wt-followcompomy-breadcrumb li .wt-savefollow {
-	color: #1f5a8b;
+	color: #0583ce;
 }
 
 .wt-focomponylist {
@@ -3157,11 +3157,11 @@ li.collapsed .wt-msgbtns .wt-msgbtn i.lnr-chevron-up:before {
 
 .chosen-container-multi .chosen-choices li.search-choice:hover {
 	background: #fff5f5;
-	border-color: #1f5a8b;
+	border-color: #0583ce;
 }
 
 .chosen-container-multi .chosen-choices li.search-choice:hover .search-choice-close:after {
-	color: #1f5a8b;
+	color: #0583ce;
 }
 
 .chosen-container-multi:after {
@@ -3740,7 +3740,7 @@ li.collapsed .wt-msgbtns .wt-msgbtn i.lnr-chevron-up:before {
 	height: 16px;
 	border-radius: 50px;
 	position: absolute;
-	background: #1f5a8b;
+	background: #0583ce;
 }
 
 .wt-insightinfo .wt-insightsitem+.wt-insightsitem {
