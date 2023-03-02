@@ -1,28 +1,14 @@
 @extends('site.layout')
-@section('title', 'About Page')
+@section('title', 'About us')
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+
 @endsection
 @section('content')
     <!--Inner Home Banner Start-->
-    <div class="wt-haslayout wt-innerbannerholder">
-        <div class="container">
-            <div class="row justify-content-md-center">
-                <div class="col-xs-12 col-sm-12 col-md-8 push-md-2 col-lg-6 push-lg-3">
-                    <div class="wt-innerbannercontent">
-                        <div class="wt-title">
-                            <h2>A Brief Intro</h2>
-                        </div>
-                        <ol class="wt-breadcrumb">
-                            <li><a href="index-2.html">Home</a></li>
-                            <li class="wt-active">About</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('site.shared.topbanner')
     <!--Inner Home End-->
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
@@ -34,7 +20,7 @@
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="wt-greeting-holder">
                                 <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-7 float-left">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
                                         <div class="wt-greetingcontent">
                                             <div class="wt-sectionhead">
                                                 <div class="wt-sectiontitle">
@@ -73,16 +59,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-5 float-left">
-                                        <div class="wt-greetingvideo">
-                                            <figure>
-                                                <a data-rel="prettyPhoto[video]"
-                                                    href="https://www.youtube.com/watch?v=J37W6DjqT3Q"><img
-                                                        src='{{ asset('images/video-img.png') }}' alt="video">
-                                                </a>
 
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -91,31 +68,7 @@
             </section>
             <!--Greetings & Welcome End-->
             <!--Signup Start-->
-            <section class="wt-haslayout">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="wt-signupholder">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 pull-right">
-                                    <div class="wt-signupcontent">
-                                        <div class="wt-title">
-                                            <h2><span>Signup as</span>Worktern Pro</h2>
-                                        </div>
-                                        <div class="wt-description">
-                                            <p>Consectetur adipisicing elit amissed dotem eiusmod tempor incuntes utneai
-                                                labore etdolore.</p>
-                                        </div>
-                                        <div class="wt-btnarea">
-                                            <a href="javascript:void(0);" class="wt-btn wt-btnvtwo">Join Now</a>
-                                            <a href="javascript:void(0);" class="wt-btn">What’s new</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+
             <!--Signup End-->
             <!--Brand Start-->
             <div class="wt-haslayout">
@@ -124,19 +77,19 @@
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                             <div id="wt-brandslider" class="wt-barandslider wt-haslayout owl-carousel">
                                 <figure class="item wt-brandimg">
-                                    <img src='{{ asset('images/brands/img-01.png') }}'alt="image description">
+                                    <img src="{{ asset('images/brands/img-01.png') }}"alt="image description">
                                 </figure>
                                 <figure class="item wt-brandimg">
-                                    <img src='{{ asset('images/brands/img-02.png') }}'alt="image description">
+                                    <img src="{{ asset('images/brands/img-02.png') }}"alt="image description">
                                 </figure>
                                 <figure class="item wt-brandimg">
-                                    <img src='{{ asset('images/brands/img-03.png') }}'alt="image description">
+                                    <img src="{{ asset('images/brands/img-03.png') }}"alt="image description">
                                 </figure>
                                 <figure class="item wt-brandimg">
-                                    <img src='{{ asset('images/brands/img-04.png') }}'alt="image description">
+                                    <img src="{{ asset('images/brands/img-04.png') }}"alt="image description">
                                 </figure>
                                 <figure class="item wt-brandimg">
-                                    <img src='{{ asset('images/brands/img-05.png') }}'alt="image description">
+                                    <img src="{{ asset('images/brands/img-05.png') }}"alt="image description">
                                 </figure>
                             </div>
                         </div>
@@ -148,186 +101,7 @@
             <section class="wt-haslayout">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="wt-ourteamhold wt-haslayout wt-bgwhite">
-                                <div id="filter-masonry" class="wt-teamfilter wt-haslayout">
-                                    <div class="wt-sectionhead">
-                                        <div class="wt-sectiontitle">
-                                            <h2>Our Professionals</h2>
-                                            <span>Team Behind The Curtain</span>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-01.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Luisa Moxley</a></h2>
-                                                <span>Marketing Manager</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-02.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Guadalupe</a></h2>
-                                                <span>Marketing Administrator</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-03.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Brande Feeley</a></h2>
-                                                <span>Marketing Director</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-04.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Joseph Farner</a></h2>
-                                                <span>VP Marketing</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-05.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Rozella Hott</a></h2>
-                                                <span>Marketing Director</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-06.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Duane Villalta</a></h2>
-                                                <span>Marketing Administrator</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-07.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Johanne Deyoung</a></h2>
-                                                <span>VP Marketing</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="wt-teamholder">
-                                        <figure class="wt-speakerimg">
-                                            <img src='{{ asset('images/team/img-08.jpg') }}'alt="image description">
-                                        </figure>
-                                        <div class="wt-teamcontent">
-                                            <div class="wt-title">
-                                                <h2><a href="javascript:void(0);">Joseph Farner</a></h2>
-                                                <span>Marketing Manager</span>
-                                            </div>
-                                            <ul class="wt-socialicons wt-socialiconssimple">
-                                                <li class="wt-facebook"><a href="javascript:void(0);"><i
-                                                            class="fa fa-facebook"></i></a></li>
-                                                <li class="wt-twitter"><a href="javascript:void(0);"><i
-                                                            class="fa fa-twitter"></i></a></li>
-                                                <li class="wt-linkedin"><a href="javascript:void(0);"><i
-                                                            class="fa fa-linkedin"></i></a></li>
-                                                <li class="wt-googleplus"><a href="javascript:void(0);"><i
-                                                            class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {{-- content here --}}
                     </div>
                 </div>
             </section>

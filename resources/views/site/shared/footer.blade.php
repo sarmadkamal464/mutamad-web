@@ -5,8 +5,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="wt-footerlogohold">
-                        <strong class="wt-logo"><a href="index-2.html"><img src="{{ asset('images/logo.png') }}"
-                                    alt="company logo here"></a></strong>
+
                         <div class="wt-description">
                             <p>Dotem eiusmod tempor incune utnaem labore etdolore maigna aliqua enim poskina ilukita
                                 ylokem lokateise ination voluptate velit esse cillum dolore eu fugiat nulla pariatur
@@ -45,29 +44,31 @@
                             {{-- <h3>Explore More</h3> --}}
                         </div>
                         <ul class="wt-fwidgetcontent">
-                            <li><a href="/privacy-policy">Privacy Policy</a></li>
-                            <li><a href="/about-us">About us</a></li>
+                            <li><a href="{{ url('') }}">Home </a></li>
+                            <li><a href="{{ url('/hows-it-work') }}">Hows it work</a></li>
+                            <li><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
+                            <li><a href="{{ url('/about-us') }}">About us</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="wt-haslayout wt-joininfo">
+    {{-- <div class="wt-haslayout wt-joininfo">
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 push-lg-1">
                     <div class="wt-companyinfo">
-                        {{-- <span><a href="javascript:void(0);">New @ Worktern?</a> Dotem eiusmod tempor incune utnaem
-                            labore etdolore.</span> --}}
+                        <span><a href="javascript:void(0);">New @ Worktern?</a> Dotem eiusmod tempor incune utnaem
+                            labore etdolore.</span>
                     </div>
-                    {{-- <div class="wt-fbtnarea">
+                    <div class="wt-fbtnarea">
                         <a href="javascript:void(0)" class="wt-btn">Join Now</a>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="wt-haslayout wt-footerbottom">
         {{-- <div class="container">
             <div class="row">

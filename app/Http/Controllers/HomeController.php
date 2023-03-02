@@ -25,4 +25,14 @@ class HomeController extends Controller
     {
         return view('site.howsItWork');
     }
+
+    public function login()
+    {
+        return view('site.auth.login');
+    }
+
+    public function signup()
+    {
+        return view('site.auth.signup');
+    }
 }

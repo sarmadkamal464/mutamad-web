@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +19,7 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/about-us', [HomeController::class, 'about']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/hows-it-work', [HomeController::class, 'howsItWork']);
+Route::get('/login', [HomeController::class, 'login']);
+Route::post('/login', [UserController::class, 'login']);
+Route::get('/signup', [HomeController::class, 'signup']);
+Route::post('/signup', [UserController::class, 'signup']);

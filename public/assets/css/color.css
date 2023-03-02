@@ -6,8 +6,8 @@ p a:hover,
 a:hover,
 a:focus,
 a:active,
-.wt-navigation > ul > li:hover > a,
-.wt-navigation > ul > li.current-menu-item > a,
+.wt-navigation>ul>li:hover>a,
+.wt-navigation>ul>li.current-menu-item>a,
 .wt-navarticletab li:hover a,
 .wt-navarticletab li a.active,
 .wt-categoriescontent li a:hover,
@@ -20,15 +20,16 @@ a:active,
 .wt-qrcodefeat h3 span,
 .wt-comfollowers ul li:hover a span,
 .wt-postarticlemeta .wt-following span,
-.tg-qrcodefeat h3 span
+.tg-qrcodefeat h3 span {
+	color: #0583ce;
+}
 
-{ color: #ff5851; }
 /* Theme Background Color */
 .wt-btn:hover,
 .wt-dropdowarrow,
 .navbar-toggle,
 .wt-btn,
-.wt-navigationarea .wt-navigation > ul > li > a:after,
+.wt-navigationarea .wt-navigation>ul>li>a:after,
 .wt-searchbtn,
 .wt-sectiontitle:after,
 .wt-navarticletab li a:after,
@@ -41,7 +42,7 @@ a:active,
 .ui-slider-horizontal .ui-slider-range,
 .wt-btnsearch,
 .wt-newnoti a em,
-.wt-notificationicon > a:after,
+.wt-notificationicon>a:after,
 .wt-rightarea .wt-nav .navbar-toggler,
 .wt-usersidebaricon span,
 .wt-usersidebaricon span i,
@@ -54,13 +55,15 @@ a:active,
 .wt-tablecategories thead tr th:first-child:before,
 .wt-tablecategories tbody tr td:first-child:before,
 .wt-slidernav .wt-prev:hover,
-.wt-slidernav .wt-next:hover
-{ background:#ff5851; }
+.wt-slidernav .wt-next:hover {
+	background: #0583ce;
+}
+
 /* Theme Border Color */
 input:focus,
 .select select:focus,
 .form-control:focus,
-.wt-navigation > ul > li > .sub-menu,
+.wt-navigation>ul>li>.sub-menu,
 .wt-pagination ul li a:hover,
 .wt-widgettag a:hover,
 .wt-joinsteps li.wt-active a,
@@ -69,20 +72,28 @@ input:focus,
 .wt-themerangeslider .ui-slider-handle,
 .wt-clicksavebtn,
 .wt-pagination ul li.wt-active a,
-.wt-usernav > ul
-{ border-color: #ff5851; }
-.wt-filtertag .wt-filtertagclear a:after{ border-left-color: #ff5851; }
-/* RGBA Background Color */
-.loader{
-	background: #ff5851;
-	background: -moz-linear-gradient(left, #ff5851 10%, rgba(255, 88, 81, 0) 42%);
-	background: -webkit-linear-gradient(left, #ff5851 10%, rgba(255, 88, 81, 0) 42%);
-	background: -o-linear-gradient(left, #ff5851 10%, rgba(255, 88, 81, 0) 42%);
-	background: -ms-linear-gradient(left, #ff5851 10%, rgba(255, 88, 81, 0) 42%);
-	background: linear-gradient(to right, #ff5851 10%, rgba(255, 88, 81, 0) 42%);
+.wt-usernav>ul {
+	border-color: #0583ce;
 }
+
+.wt-filtertag .wt-filtertagclear a:after {
+	border-left-color: #0583ce;
+}
+
+/* RGBA Background Color */
+.loader {
+	background: #0583ce;
+	background: -moz-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: -webkit-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: -o-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: -ms-linear-gradient(left, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+	background: linear-gradient(to right, #0583ce 10%, rgba(255, 88, 81, 0) 42%);
+}
+
 /* Secondary Theme Colors */
 .form-group-label label span,
 .form-group-label label span:hover,
 .wt-categoriesholder .wt-tablecategories tbody tr td .wt-actionbtn a.wt-deleteinfo,
-.wt-msgbtn{background: #00cc8d;}
+.wt-msgbtn {
+	background: #00cc8d;
+}
