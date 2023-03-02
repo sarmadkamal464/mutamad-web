@@ -1,89 +1,97 @@
 @extends('site.layout')
-@section('title', 'Singup')
+@section('title', 'Signup')
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
 @endsection
 @section('content')
+    {{-- Start Content Here --}}
+    <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
+        <div class="wt-haslayout wt-main-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2>Sign up</h2>
+                                <div class="wt-accountdel">
+                                    <form class="wt-formtheme wt-userform">
+                                        <fieldset>
+                                            <div class="form-group form-group">
+                                                <label class="form-label" for="email">Name</label>
+                                                <input id="name" type="text" name="name" class="form-control"
+                                                    placeholder="Name">
+                                            </div>
+                                            <div class="form-group form-group">
+                                                <label class="form-label" for="email">Username</label>
+                                                <input id="username" type="text" name="username" class="form-control"
+                                                    placeholder="Username">
+                                            </div>
+                                            <div class="form-group form-group">
+                                                <label class="form-label" for="email">Email</label>
+                                                <input id="email" type="email" name="email" class="form-control"
+                                                    placeholder="Email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="category">Category</label>
+                                                <span class="wt-select">
+                                                    <select id="category">
+                                                        <option value="" disabled="">Category
+                                                        </option>
+                                                        <option value="">one</option>
+                                                        <option value="">Two</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <div class="form-group form-group">
+                                                <label class="form-label" for="password">Password</label>
+                                                <input id="password" type="password" name="password" class="form-control"
+                                                    placeholder="Password">
+                                            </div>
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ @title }}</div>
-
-                    <div class="card-body">
-                        <form method="POST" action="{{ url('signup') }}">
-                            @csrf
-
-                            <div class="mb-3">
-                                <label for="name" class="form-label">{{ __('Name') }}</label>
-                                <input id="name" type="text"
-                                    class="form-control @error('name') is-invalid @enderror" name="name"
-                                    value="{{ old('name') }}" required autocomplete="name" autofocus>
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="username" class="form-label">{{ __('Username') }}</label>
-                                <input id="username" type="text"
-                                    class="form-control @error('username') is-invalid @enderror" name="username"
-                                    value="{{ old('username') }}" required autocomplete="username">
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label">{{ __('Email') }}</label>
-                                <input id="email" type="email"
-                                    class="form-control @error('email') is-invalid @enderror" name="email"
-                                    value="{{ old('email') }}" required autocomplete="email">
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">{{ __('Password') }}</label>
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password" required
-                                    autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
-                                <input id="password-confirm" type="password" class="form-control"
-                                    name="password_confirmation" required autocomplete="new-password">
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Submit
-                                    </button>
-                                    <a href="{{ url('/api/v1/login/google') }}" class="btn btn-primary">Sign in with
-                                        Google</a>
+                                            <div class="form-group">
+                                                <label class="form-label" for="category">Country</label>
+                                                <span class="wt-select">
+                                                    <select id="category">
+                                                        <option value="" disabled="">Country
+                                                        </option>
+                                                        <option value="">one</option>
+                                                        <option value="">Two</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <div class="form-group form-group-half wt-btnarea">
+                                                <a href="javascript:void(0);" class="wt-btn">Sign Up</a>
+                                            </div>
+                                        </fieldset>
+                                        <div class="text-center">
+                                            <p>Sign up with</p>
+                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
+                                                <i class="fab fa-google"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
+                                                <i class="fab fa-twitter"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
+                                                <i class="fab fa-github"></i>
+                                            </button>
+                                            <div class="mt-3">
+                                                Already have an account?
+                                                <a href="{{ url('/login') }}">
+                                                    Login
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 @endsection

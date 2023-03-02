@@ -23,3 +23,5 @@ Route::get('/login', [HomeController::class, 'login']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/signup', [HomeController::class, 'signup']);
 Route::post('/signup', [UserController::class, 'signup']);
+Route::get('/forgetPassword', [HomeController::class, 'forgetPassword']);
+Route::post('/forgetPassword', [UserController::class, 'forgetPassword']);
