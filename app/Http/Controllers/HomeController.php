@@ -35,4 +35,9 @@ class HomeController extends Controller
     {
         return view('site.auth.signup');
     }
+
+    public function forgetPassword()
+    {
+        return view('site.auth.forgetPassword');
+    }
 }
