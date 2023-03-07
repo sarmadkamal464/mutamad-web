@@ -15,9 +15,9 @@
 
 <body class="wt-login">
     <!-- Preloader Start -->
-    <div class="preloader-outer">
+    {{-- <div class="preloader-outer">
         <div class="loader"></div>
-    </div>
+    </div> --}}
     <!-- Preloader End -->
     <!-- Wrapper Start -->
     <div id="wt-wrapper" class="wt-wrapper wt-haslayout">

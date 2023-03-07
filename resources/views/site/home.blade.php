@@ -297,9 +297,11 @@
         // add a click event listener to the document object
         document.addEventListener('click', function(event) {
             // check if the click target is inside the dropdown menu
-            if (!dropdown.contains(event.target)) {
-                // if the click target is outside the dropdown menu, hide the menu
-                dropdownMenu.style.display = 'none';
+            if (dropdownMenu.style.display = 'block') {
+                if (!dropdown.contains(event.target)) {
+                    // if the click target is outside the dropdown menu, hide the menu
+                    dropdownMenu.style.display = 'none';
+                }
             }
         });
     </script>

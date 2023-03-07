@@ -25,57 +25,38 @@
                              </ul>
                          </div>
                      </nav>
-                     <div class="wt-loginarea" style="">
-                         <div class="wt-loginoption">
-                             <a href="javascript:void(0);" id="wt-loginbtn" class="wt-loginbtn">Login</a>
-                             {{-- <div class="wt-loginformhold">
-                                 <div class="wt-loginheader">
-                                     <span>Login</span>
-                                     <a href="javascript:;"><i class="fa fa-times"></i></a>
-                                 </div>
-                                 <form class="wt-formtheme wt-loginform do-login-form">
-                                     <fieldset>
-                                         <div class="form-group">
-                                             <input type="text" name="username" class="form-control"
-                                                 placeholder="Username">
-                                         </div>
-                                         <div class="form-group">
-                                             <input type="password" name="password" class="form-control"
-                                                 placeholder="Password">
-                                         </div>
-                                         <div class="wt-logininfo">
-                                             <a href="javascript:;" class="wt-btn do-login-button">Login</a>
-                                             <span class="wt-checkbox">
-                                                 <input id="wt-login" type="checkbox" name="rememberme">
-                                                 <label for="wt-login">Keep me logged in</label>
-                                             </span>
-                                         </div>
-                                     </fieldset>
-                                     <div class="wt-loginfooterinfo">
-                                         <a href="javascript:;" class="wt-forgot-password">Forgot password?</a>
-                                         <a href="javascript:void(0);">Create account</a>
-                                     </div>
-                                 </form>
-                                 <form class="wt-formtheme wt-loginform do-forgot-password-form wt-hide-form">
-                                     <fieldset>
-                                         <div class="form-group">
-                                             <input type="email" name="email" class="form-control get_password"
-                                                 placeholder="Email">
-                                         </div>
-
-                                         <div class="wt-logininfo">
-                                             <a href="javascript:;" class="wt-btn do-get-password">Get Pasword</a>
-                                         </div>
-                                     </fieldset>
-                                     <div class="wt-loginfooterinfo">
-                                         <a href="javascript:void(0);" class="wt-show-login">Login</a>
-                                         <a href="javascript:void(0);">Create account</a>
-                                     </div>
-                                 </form>
-                             </div> --}}
+                     @auth
+                         <div class="wt-userlogedin">
+                             <figure class="wt-userimg">
+                                 <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
+                             </figure>
+                             <div class="wt-username">
+                                 <h3>{{ Session::get('name') }}</h3>
+                                 <span></span>
+                             </div>
+                             <nav class="wt-usernav">
+                                 <ul>
+                                     <li>
+                                         <a href="{{ url('profile') }}">
+                                             <span>My Profile</span>
+                                         </a>
+                                     </li>
+                                     <li>
+                                         <a href="{{ url('logout') }}">
+                                             <span>Logout</span>
+                                         </a>
+                                     </li>
+                                 </ul>
+                             </nav>
                          </div>
-                         <a href="javascript:void(0);" class="wt-btn">Join Now</a>
-                     </div>
+                     @else
+                         <div class="wt-loginarea" style="">
+                             <div class="wt-loginoption">
+                                 <a href="/login" class="wt-loginbtn">Login</a>
+                             </div>
+                             <a href="/signup" class="wt-btn">Join Now</a>
+                         </div>
+                     @endauth
                  </div>
              </div>
          </div>

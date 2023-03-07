@@ -19,7 +19,30 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/about-us', [HomeController::class, 'about']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/hows-it-work', [HomeController::class, 'howsItWork']);
-Route::get('/login', [HomeController::class, 'login']);
-Route::post('/login', [UserController::class, 'login']);
-Route::get('/signup', [HomeController::class, 'signup']);
-Route::post('/signup', [UserController::class, 'signup']);
+Route::any('password/reset', [UserController::class, 'resetPassword']);
+Route::post('changePassword', [UserController::class, 'changePassword']);
+// Will redirect to profile if loggedIn
+Route::group(
+    ['middleware' => 'auth.check'],
+    function () {
+        include 'hybrid.php';
+        Route::get('/login', [HomeController::class, 'login'])->name('login');
+        Route::get('/signup', [HomeController::class, 'signup'])->name('signup');
+        Route::get('/forgetPassword', [HomeController::class, 'forgetPassword']);
+        ##Socialite Login
+        Route::get('login/facebook', [UserController::class, 'redirectToFacebook']);
+        Route::get('login/facebook/callback', [UserController::class, 'handleFacebookCallback']);
+        Route::get('login/linkedin', [UserController::class, 'redirectToLinkedIn']);
+        Route::get('login/linkedin/callback', [UserController::class, 'handleLinkedInCallback']);
+        Route::get('login/google', [UserController::class, 'redirectToGoogle']);
+        Route::get('login/google/callback', [UserController::class, 'handleGoogleCallback']);
+    }
+);
+Route::get('logout', [UserController::class, 'logout']);
+
+Route::group(
+    ['middleware' => 'auth'],
+    function () {
+        Route::get('profile', [UserController::class, 'userProfile'])->name('profile');
+    }
+);

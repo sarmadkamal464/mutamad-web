@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ResponseController;
 
 class CategoryController extends Controller
 {
+    protected $response;
+
+    public function __construct(ResponseController $response)
+    {
+        $this->response = $response;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return
+            $this->response->resourceResponse($request, Category::all());
     }
 
     /**
