@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'username',
         'role',
-        'category_id'
+        'category_id',
+        'resetToken'
     ];
 
     /**
@@ -45,8 +46,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // public function setPasswordAttribute($value)
-    // {
-    //     $this->attributes['password'] = bcrypt($value);
-    // }
+    public function isFreelancer(User $user)
+    {
+        return ($user->role == "freelancer") ? true : false;
+    }
 }

@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_active')->default(1)->comment('Whether the user is active or deactive');
             $table->string('deactivate-reason')->nullable()->comment('Reason why user deactivate his/her account');
             $table->boolean('is_admin')->default(0)->comment('Whether the user is admin or not');
+            $table->text('resetToken')->comment('forget password Token')->nullable();
             $table->rememberToken()->comment('The user\'s "remember me" token');
             $table->timestamps();
         });

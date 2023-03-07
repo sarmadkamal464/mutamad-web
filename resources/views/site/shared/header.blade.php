@@ -25,13 +25,38 @@
                              </ul>
                          </div>
                      </nav>
-                     <div class="wt-loginarea" style="">
-                         <div class="wt-loginoption">
-                             <a href="/login" class="wt-loginbtn">Login</a>
-
+                     @auth
+                         <div class="wt-userlogedin">
+                             <figure class="wt-userimg">
+                                 <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
+                             </figure>
+                             <div class="wt-username">
+                                 <h3>{{ Session::get('name') }}</h3>
+                                 <span></span>
+                             </div>
+                             <nav class="wt-usernav">
+                                 <ul>
+                                     <li>
+                                         <a href="{{ url('profile') }}">
+                                             <span>My Profile</span>
+                                         </a>
+                                     </li>
+                                     <li>
+                                         <a href="{{ url('logout') }}">
+                                             <span>Logout</span>
+                                         </a>
+                                     </li>
+                                 </ul>
+                             </nav>
                          </div>
-                         <a href="/signup" class="wt-btn">Join Now</a>
-                     </div>
+                     @else
+                         <div class="wt-loginarea" style="">
+                             <div class="wt-loginoption">
+                                 <a href="/login" class="wt-loginbtn">Login</a>
+                             </div>
+                             <a href="/signup" class="wt-btn">Join Now</a>
+                         </div>
+                     @endauth
                  </div>
              </div>
          </div>

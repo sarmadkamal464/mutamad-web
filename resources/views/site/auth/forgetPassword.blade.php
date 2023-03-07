@@ -15,7 +15,8 @@
                             <div class="card-body">
                                 <h2>Forget Password</h2>
                                 <div class="wt-accountdel">
-                                    <form class="wt-formtheme wt-userform">
+                                    <form action="{{ url('request-forget-password') }}" method="POST"
+                                        class="wt-formtheme wt-userform">
                                         <fieldset>
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Enter your Email</label>
@@ -24,7 +25,7 @@
                                             </div>
                                             <div>
                                                 <div class="form-group form-group-half wt-btnarea">
-                                                    <a href="javascript:void(0);" class="wt-btn">Send Email</a>
+                                                    <button class="wt-btn">Send Email</button>
                                                 </div>
                                             </div>
                                         </fieldset>

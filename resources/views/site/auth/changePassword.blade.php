@@ -15,22 +15,25 @@
                             <div class="card-body">
                                 <h2>Change Password</h2>
                                 <div class="wt-accountdel">
-                                    <form class="wt-formtheme wt-userform">
+                                    @include('site.shared.message')
+                                    <form action="{{ url('changePassword') }}" method="POST"
+                                        class="wt-formtheme wt-userform">
+                                        @csrf
                                         <fieldset>
+                                            <input type="hidden" name="resetToken" value="{{ $token }}">
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Current Password</label>
-                                                <input id="currentPassword" type="password" name="password"
-                                                    class="form-control" placeholder="Password">
+                                                <label class="form-label" for="email">New Password</label>
+                                                <input type="password" name="password" class="form-control"
+                                                    placeholder="Password">
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Conform Password</label>
-                                                <input id="conformPassword" type="password" name="password"
-                                                    class="form-control" placeholder="Password">
-                                            </div>
-                                            <div>
-                                                <div class="form-group form-group-half wt-btnarea">
-                                                    <a href="javascript:void(0);" class="wt-btn">Conform</a>
+                                                <label class="form-label" for="email">Confirm New Password</label>
+                                                <input type="password" name="password_confirmation" class="form-control" ">
                                                 </div>
+                                                <div>
+                                                    <div class="form-group form-group-half wt-btnarea">
+                                                        <button class="wt-btn">Change Password</button>
+                                                    </div>
                                             </div>
                                         </fieldset>
                                     </form>
