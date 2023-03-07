@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
 <style>
-    @media only screen and (min-width: 500px) {
+    @media only screen and (min-width: 455px) {
         .wt-header {
             padding: 0;
             z-index: 10;
@@ -29,6 +29,14 @@
             background-position: center;
             height: 80px;
             margin-left: 20px;
+        }
+
+        .small-wt-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: .875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+
         }
     }
 

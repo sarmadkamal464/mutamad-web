@@ -20,9 +20,10 @@
      // add a click event listener to the document object
      document.addEventListener('click', function(event) {
          // check if the click target is inside the navigation menu
+
          if (!navMenu.contains(event.target)) {
              // if the click target is outside the navigation menu, close the menu
-             navMenu.querySelector('.collapse.show').classList.remove('show');
+             navMenu.querySelector('.navbar-collapse').classList.remove('show');
          }
      });
      // nav active class 
