@@ -219,6 +219,6 @@ class UserController extends Controller
     public function userProfile(Request $request)
     {
         $user = User::findOrFail(Auth::user()->id);
-        return $user->isFreelancer($user) ? view('site.freelancer.myprofile', ['user' => $user]) : view('site.client.myprofile', ['user' => $user]);
+        return $user->isFreelancer($user) ? view('site.freelancer.myProfile', ['user' => $user]) : view('site.client.myProfile', ['user' => $user]);
     }
 }
