@@ -33,9 +33,11 @@ class HomeController extends Controller
         return view('site.auth.login');
     }
 
-    public function signup()
+    public function signup(Request $request)
     {
-        return view('site.auth.signup', ['categories' => Category::all(), 'countries' => Country::all()]);
+        $name = $request->query('name');
+        $email = $request->query('email');
+        return view('site.auth.signup', ['categories' => Category::all(), 'countries' => Country::all(), 'name' => $name, 'email' => $email]);
     }
 
     public function forgetPassword()
