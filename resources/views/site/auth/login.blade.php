@@ -22,7 +22,7 @@
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Email or Username</label>
                                                 <input id="email" type="text" name="email" class="form-control"
-                                                    placeholder="Email">
+                                                    placeholder="Email" value="{{ isset($email) ? $email : '' }}">
                                             </div>
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="password">Password</label>
@@ -42,18 +42,18 @@
                                         </fieldset>
                                         <div class="text-center">
                                             <p>Or login with</p>
-                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
-                                                <i class="fab fa-facebook-f"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
-                                                <i class="fab fa-google"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
-                                                <i class="fab fa-twitter"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-floating mx-1">
-                                                <i class="fab fa-github"></i>
-                                            </button>
+                                            <a href="{{ url('/login/facebook') }}"><button type="button"
+                                                    class="btn btn-secondary btn-floating mx-1">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </button></a>
+                                            <a href="{{ url('/login/google') }}"><button type="button"
+                                                    class="btn btn-secondary btn-floating mx-1">
+                                                    <i class="fab fa-google"></i>
+                                                </button></a>
+                                            <a href="{{ url('/login/linkedin') }}"><button type="button"
+                                                    class="btn btn-secondary btn-floating mx-1">
+                                                    <i class="fab fa-linkedin-in"></i>
+                                                </button></a>
                                             <div class="mt-3">
                                                 Don't have an Mutamad account?<br>
                                                 <a href="{{ url('/signup') }}">

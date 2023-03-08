@@ -35,7 +35,7 @@
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Name</label>
                                                 <input id="name" type="text" name="name" class="form-control"
-                                                    placeholder="Name">
+                                                    placeholder="Name" value="{{ isset($name) ? $name : '' }}">
                                             </div>
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Username</label>
@@ -45,7 +45,7 @@
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Email</label>
                                                 <input id="email" type="email" name="email" class="form-control"
-                                                    placeholder="Email">
+                                                    placeholder="Email" value="{{ isset($email) ? $email : '' }}">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="category">Category</label>
