@@ -19,6 +19,11 @@
                                  <li class="nav-item">
                                      <a href="{{ url('/hows-it-work') }}">How's it work</a>
                                  </li>
+                                 @auth
+                                     {{-- <li class="nav-item">
+                                         <a>Browse job</a>
+                                     </li> --}}
+                                 @endauth
                                  <li class="nav-item">
                                      <a href="{{ url('/about-us') }}">About Us</a>
                                  </li>
@@ -52,9 +57,10 @@
                      @else
                          <div class="wt-loginarea" style="">
                              <div class="wt-loginoption">
-                                 <a href="/login" class="wt-loginbtn">Login</a>
+                                 {{-- <a href="/login" class="wt-loginbtn">Login</a> --}}
                              </div>
-                             <a href="/signup" class="wt-btn">Join Now</a>
+                             <a href="{{ url('/login') }}" class="wt-btn">Login</a>
+                             {{-- <a href="/signup" class="wt-btn wt-joinbtn">Join Now</a> --}}
                          </div>
                      @endauth
                  </div>

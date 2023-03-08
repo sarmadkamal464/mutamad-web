@@ -18,7 +18,7 @@ class AuthCheck
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check())
-            return redirect()->route('profile');
+            return redirect()->route('home');
         return $next($request);
     }
 }

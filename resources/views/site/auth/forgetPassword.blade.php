@@ -3,6 +3,7 @@
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
+    @include('site.shared.absoluteFooter')
 @endsection
 @section('content')
     {{-- Start Content Here --}}
@@ -13,7 +14,7 @@
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
-                                <h2>Forget Password</h2>
+                                <h3>Forget Password</h3>
                                 <div class="wt-accountdel">
                                     <form action="{{ url('request-forget-password') }}" method="POST"
                                         class="wt-formtheme wt-userform">
@@ -21,11 +22,11 @@
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Enter your Email</label>
                                                 <input id="email" type="email" name="email" class="form-control"
-                                                    placeholder="Email">
+                                                    placeholder="Email" required>
                                             </div>
                                             <div>
                                                 <div class="form-group form-group-half wt-btnarea">
-                                                    <button class="wt-btn">Send Email</button>
+                                                    <button class="wt-btn wt-btn-sm">Submit</button>
                                                 </div>
                                             </div>
                                         </fieldset>

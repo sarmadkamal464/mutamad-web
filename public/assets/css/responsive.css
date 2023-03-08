@@ -883,7 +883,7 @@
     .wt-logo {
         margin: 4px auto 4px !important;
     }
-    .wt-loginbtn {
+    .wt-joinbtn {
         display: none;
     }
 }
@@ -907,6 +907,9 @@
     }
     .wt-loginbtn {
         display: none;
+    }
+    .float-right  a{
+        font-size: smaller;
     }
 }
 /* end custom media query by dev */

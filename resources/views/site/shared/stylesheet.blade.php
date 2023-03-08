@@ -15,6 +15,23 @@
 <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
 <style>
+    /* Application input */
+    input:focus,
+    .select select:focus,
+    .form-control:focus {
+        color: #080808;
+        border-color: #4d4a4a;
+
+    }
+
+    input,
+    .select select,
+    .form-control,
+    option,
+    select {
+        color: #080808 !important;
+    }
+
     @media only screen and (min-width: 455px) {
         .wt-header {
             padding: 0;

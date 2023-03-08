@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Mail\SendMail;
 use Illuminate\Support\Str;
+use App\Models\Country;
 
 class UserController extends Controller
 {
@@ -46,7 +47,7 @@ class UserController extends Controller
             Session::put('name', $user->name);
             Session::put('role', $user->role);
             Session::flash('message', 'Logged In Successfully');
-            return redirect()->route('profile');
+            return redirect()->route('home');
         } else {
             $token = $user->createToken('MyApp')->accessToken;
         }
@@ -89,6 +90,8 @@ class UserController extends Controller
             Session::put('role', $request->role);
             Session::put('name', $request->name);
             Session::flash('message', 'Your Account is Created Successfully');
+            auth()->attempt(['email' => $request->email, 'password' => $request->password]);
+            return redirect()->route('home');
         } else {
             $token = $user->createToken('MyApp')->accessToken;
         }
@@ -219,6 +222,6 @@ class UserController extends Controller
     public function userProfile(Request $request)
     {
         $user = User::findOrFail(Auth::user()->id);
-        return $user->isFreelancer($user) ? view('site.freelancer.myProfile', ['user' => $user]) : view('site.client.myProfile', ['user' => $user]);
+        return view('site.shared.myProfile', ['user' => $user,'countries' => Country::all()]);
     }
 }

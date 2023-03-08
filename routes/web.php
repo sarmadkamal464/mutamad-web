@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', [HomeController::class, 'about']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/hows-it-work', [HomeController::class, 'howsItWork']);
@@ -29,6 +29,7 @@ Route::group(
         Route::get('/login', [HomeController::class, 'login'])->name('login');
         Route::get('/signup', [HomeController::class, 'signup'])->name('signup');
         Route::get('/forgetPassword', [HomeController::class, 'forgetPassword']);
+        Route::get('/changePassword', [HomeController::class, 'changePassword']);
         ##Socialite Login
         Route::get('login/facebook', [UserController::class, 'redirectToFacebook']);
         Route::get('login/facebook/callback', [UserController::class, 'handleFacebookCallback']);

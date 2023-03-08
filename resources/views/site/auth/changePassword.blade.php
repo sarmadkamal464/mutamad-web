@@ -3,6 +3,7 @@
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
+    @include('site.shared.absoluteFooter')
 @endsection
 @section('content')
     {{-- Start Content Here --}}
@@ -29,20 +30,20 @@
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Confirm New Password</label>
                                                 <input type="password" name="password_confirmation" class="form-control" ">
-                                                </div>
-                                                <div>
-                                                    <div class="form-group form-group-half wt-btnarea">
-                                                        <button class="wt-btn">Change Password</button>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="form-group form-group-half wt-btnarea">
+                                                                            <button class="wt-btn">Update</button>
+                                                                        </div>
+                                                                </div>
+                                                            </fieldset>
+                                                        </form>
                                                     </div>
+                                                </div>
                                             </div>
-                                        </fieldset>
-                                    </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+                        </main>
 @endsection

@@ -3,6 +3,7 @@
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
+    @include('site.shared.absoluteFooter')
 @endsection
 @section('content')
     {{-- Start Content Here --}}
@@ -20,18 +21,18 @@
                                         @csrf
                                         <fieldset>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Email or Username</label>
+                                                <label class="form-label" for="email">Email or Username*</label>
                                                 <input id="email" type="text" name="email" class="form-control"
                                                     placeholder="Email" value="{{ isset($email) ? $email : '' }}">
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="password">Password</label>
+                                                <label class="form-label" for="password">Password*</label>
                                                 <input id="password" type="password" name="password" class="form-control"
-                                                    placeholder="Password">
+                                                    placeholder="Password" required>
                                             </div>
                                             <div>
                                                 <div class="form-group form-group-half wt-btnarea">
-                                                    <button class="wt-btn">Login</button>
+                                                    <button class="wt-btn wt-btn-sm ">Login</button>
                                                 </div>
                                                 <div class="float-right ">
                                                     <a href="{{ url('forgetPassword') }}">
@@ -40,28 +41,15 @@
                                                 </div>
                                             </div>
                                         </fieldset>
-                                        <div class="text-center">
-                                            <p>Or login with</p>
-                                            <a href="{{ url('/login/facebook') }}"><button type="button"
-                                                    class="btn btn-secondary btn-floating mx-1">
-                                                    <i class="fab fa-facebook-f"></i>
-                                                </button></a>
-                                            <a href="{{ url('/login/google') }}"><button type="button"
-                                                    class="btn btn-secondary btn-floating mx-1">
-                                                    <i class="fab fa-google"></i>
-                                                </button></a>
-                                            <a href="{{ url('/login/linkedin') }}"><button type="button"
-                                                    class="btn btn-secondary btn-floating mx-1">
-                                                    <i class="fab fa-linkedin-in"></i>
-                                                </button></a>
-                                            <div class="mt-3">
-                                                Don't have an Mutamad account?<br>
-                                                <a href="{{ url('/signup') }}">
-                                                    Create one
-                                                </a>
-                                            </div>
-                                        </div>
                                     </form>
+                                    <div class="text-center">
+                                        <div class="mt-3">
+                                            Don't have Mutamad account yet?
+                                            <a href="{{ url('/signup') }}">
+                                                Create one
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

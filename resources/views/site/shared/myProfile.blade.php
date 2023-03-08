@@ -29,11 +29,7 @@
 
 @section('content')
     <!--Main Start-->
-
     <main id="wt-main" class="wt-main wt-haslayout">
-        <!--Sidebar Start-->
-
-        <!--Sidebar Start-->
         <!--Register Form Start-->
         <section class="wt-haslayout">
             <div class="row">
@@ -68,12 +64,8 @@
                                                         <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                                                             class="rounded-circle" style="width: 150px;" alt="Avatar" />
                                                     </div>
-
-
                                                     <div class="wt-profilephoto wt-tabsinfo form-group_half_selectimag ">
-
                                                         <div class="wt-profilephotocontent">
-
                                                             <form class="wt-formtheme wt-formprojectinfo wt-formcategory">
                                                                 <fieldset>
                                                                     <div class="form-group form-group-label">
@@ -90,9 +82,6 @@
                                                                                     class="fa fa-spinner fa-spin"></i></em>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group">
-
-                                                                    </div>
                                                                 </fieldset>
                                                             </form>
                                                         </div>
@@ -108,26 +97,24 @@
                                                 </div>
                                                 <div class="form-group form-group-half">
                                                     <span class="wt-select">
-                                                        <select>
-                                                            <option value="" disabled=""></option>
-                                                            <option value="">Country*</option>
-                                                            <option value="">Pakistan</option>
+                                                        <select id="country" name="country" required>
+                                                            @foreach ($countries as $country)
+                                                                <option value="{{ $country['name'] }}">
+                                                                    {{ $country['name'] }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </span>
                                                 </div>
-
-
                                                 <div class="form-group">
                                                     <textarea name="message" class="form-control" placeholder="Bio (optional)"></textarea>
+                                                </div>
+                                                <div class="form-group form-group-half wt-btnarea">
+                                                    <button type="button" class="wt-btn wt-btn-sm ">Submit</button>
                                                 </div>
                                             </fieldset>
                                         </form>
                                     </div>
-
-
-
-
-
                                 </div>
                                 <div class="wt-personalskillshold tab-pane fade show" id="wt-account">
                                     <div class="wt-yourdetails wt-tabsinfo">
@@ -137,7 +124,6 @@
                                         <form class="wt-formtheme wt-userform">
                                             <fieldset>
                                                 <h5>Choose reason</h5>
-
                                                 <div class="form-group form-group-half">
                                                     <span class="wt-select">
                                                         <select>
@@ -148,34 +134,22 @@
                                                         </select>
                                                     </span>
                                                 </div>
-
-
                                                 <div class="form-group">
                                                     <textarea name="message" class="form-control" placeholder="Enter description"></textarea>
                                                 </div>
                                             </fieldset>
                                         </form>
                                     </div>
-
                                     <div class="wt-profilephotocontent">
-
                                         <form class="wt-formtheme wt-formprojectinfo wt-formcategory">
-                                            <a class="wt-btn" href="javascript:void(0);">Deactivate Now</a>
+                                            <a class="wt-btn wt-btn-sm" href="javascript:void(0);">Deactivate Now</a>
                                         </form>
                                     </div>
                                 </div>
-
-
-
-
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </section>
         <!--Register Form End-->
