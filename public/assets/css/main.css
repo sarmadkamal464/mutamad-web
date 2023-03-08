@@ -381,6 +381,7 @@ address {
     font-size: inherit;
     line-height: 50px;
     font-family: "Linearicons-Free";
+    pointer-events: none;
 }
 
 .wt-select select {
