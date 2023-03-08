@@ -195,7 +195,7 @@ class UserController extends Controller
             ->user();
         $name = $user->getName();
         $email = $user->getEmail();
-        return redirect()->route('signup', ['name' => $name, 'email' => $email]);
+        return redirect()->route('signup', ['name' => urlencode($name), 'email' => urlencode($email)]);
     }
 
     public function handleFacebookCallback()
@@ -203,7 +203,7 @@ class UserController extends Controller
         $user = Socialite::driver('facebook')->user();
         $name = $user->getName();
         $email = $user->getEmail();
-        return redirect()->route('signup', ['name' => $name, 'email' => $email]);
+        return redirect()->route('signup', ['name' => urlencode($name), 'email' => urlencode($email)]);
     }
 
     public function handleLinkedInCallback()
@@ -213,7 +213,7 @@ class UserController extends Controller
             ->user();
         $name = $user->name;
         $email = $user->email;
-        return redirect()->route('signup', ['name' => $name, 'email' => $email]);
+        return redirect()->route('signup', ['name' => urlencode($name), 'email' => urlencode($email)]);
     }
 
     public function userProfile(Request $request)
