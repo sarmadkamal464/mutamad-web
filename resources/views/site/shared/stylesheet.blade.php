@@ -15,6 +15,20 @@
 <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
 <style>
+    /* Slider of signup page */
+    .wt-select:after {
+        pointer-events: none;
+    }
+
+    /* Navbar logout slider */
+    .wt-usernav {
+        pointer-events: none;
+    }
+
+    .wt-userlogedin:hover .wt-usernav {
+        pointer-events: unset;
+    }
+
     /* Application input */
     input:focus,
     .select select:focus,
