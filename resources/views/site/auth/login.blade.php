@@ -1,9 +1,16 @@
 @extends('site.layout')
 @section('title', 'Login')
+@section('position', 'absolute')
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
-    @include('site.shared.absoluteFooter')
+    <style>
+        @media (min-width: 720px) {
+            .wt-main {
+                padding: 93px 0 10px 0;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     {{-- Start Content Here --}}
@@ -11,7 +18,7 @@
         <div class="wt-haslayout wt-main-section">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <h2>Login</h2>
@@ -43,7 +50,7 @@
                                         </fieldset>
                                     </form>
                                     <div class="text-center">
-                                        <div class="mt-3">
+                                        <div class="mt-3 mb-4">
                                             Don't have Mutamad account yet?
                                             <a href="{{ url('/signup') }}">
                                                 Create one

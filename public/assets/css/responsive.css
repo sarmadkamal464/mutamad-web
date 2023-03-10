@@ -862,6 +862,10 @@
     .wt-userprofile figure {
         width: auto;
     }
+    /* by dev */
+    .float-right  a{
+        font-size: smaller;
+    }
 }
 @media (max-width: 320px) {
 }
@@ -908,8 +912,6 @@
     .wt-loginbtn {
         display: none;
     }
-    .float-right  a{
-        font-size: smaller;
-    }
+
 }
 /* end custom media query by dev */

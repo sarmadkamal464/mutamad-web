@@ -15,6 +15,16 @@
  <script src="{{ asset('js/main.js') }}"></script>
 
  <script>
+     // controlling the bottom footer position
+     function positionFooter() {
+         var docHeight = $(window).height();
+         var footerHeight = $('#wt-footer').height();
+         var footerTop = $('#wt-footer').position().top + footerHeight;
+
+         if (footerTop < docHeight) {
+             $('#wt-footer').css('margin-top', (docHeight - footerTop) + 'px');
+         }
+     }
      // get the navigation menu element
      const navMenu = document.querySelector('#wt-nav');
      // add a click event listener to the document object
@@ -28,6 +38,7 @@
      });
      // nav active class 
      $(document).ready(function() {
+         positionFooter();
          var endpoint = window.location.href;
          console.log(endpoint);
          $('.navbar-nav li').each(function() {
@@ -35,5 +46,8 @@
                  $(this).addClass('nav-item-active ');
              }
          });
+     });
+     $(window).resize(function() {
+         positionFooter();
      });
  </script>

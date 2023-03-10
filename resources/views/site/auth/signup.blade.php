@@ -3,6 +3,13 @@
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
+    <style>
+        @media (max-width: 760px) {
+            .wt-main-section {
+                padding: 40px 0;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     {{-- Start Content Here --}}
@@ -20,12 +27,12 @@
                                         @csrf
                                         <fieldset>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Name*</label>
+                                                <label class="form-label" for="name">Name*</label>
                                                 <input id="name" type="text" name="name" class="form-control"
                                                     placeholder="Name" value="{{ isset($name) ? $name : '' }}" required>
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Username*</label>
+                                                <label class="form-label" for="username">Username*</label>
                                                 <input id="username" type="text" name="username" class="form-control"
                                                     placeholder="Username" required>
                                             </div>

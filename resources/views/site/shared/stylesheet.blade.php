@@ -15,6 +15,13 @@
 <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
 <style>
+    body {
+        background: #f7f7f7;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
     /* Slider of signup page */
     .wt-select:after {
         pointer-events: none;

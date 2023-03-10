@@ -3,7 +3,13 @@
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
-    @include('site.shared.absoluteFooter')
+    <style>
+        @media (min-width: 720px) {
+            .wt-main {
+                padding: 133px 0 0px 0;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     {{-- Start Content Here --}}

@@ -64,8 +64,8 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'username' => 'required|string|regex:/\w*$/|max:255|unique:users,username',
-            'email' => 'required|string|email|unique:users|max:255',
+            'username' => 'required|string|max:255|unique:users,username|alpha_dash|regex:/^[a-zA-Z]+$/u',
+            'email' => 'required|email|unique:users|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'password' => 'required|string|min:8',
             'role' => 'required',
             'country' => 'required',
@@ -100,16 +100,18 @@ class UserController extends Controller
 
     public function requestResetPassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-        ]);
+        $rules = [
+            'email' => 'required|email|exists:users',
+        ];
+        $customMessages = [
+            'required' => 'The :attribute field is required.',
+            'exists' => 'Email is not registered in our system',
+        ];
+        $validator = Validator::make($request->all(), $rules, $customMessages);
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
         $user = User::where('email', $request->email)->first();
-        if (!$user) {
-            return $this->response->errorResponse($request, 'Email is not registered in our system', 401);
-        }
         $token = Str::random(60);
         $hashToken = Hash::make($token);
         $user->update([
@@ -222,6 +224,6 @@ class UserController extends Controller
     public function userProfile(Request $request)
     {
         $user = User::findOrFail(Auth::user()->id);
-        return view('site.shared.myProfile', ['user' => $user,'countries' => Country::all()]);
+        return view('site.shared.myProfile', ['user' => $user, 'countries' => Country::all()]);
     }
 }
