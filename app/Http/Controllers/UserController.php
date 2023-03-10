@@ -63,8 +63,8 @@ class UserController extends Controller
     public function signup(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username|alpha_dash|regex:/^[a-zA-Z]+$/u',
+            'name' => 'required|string|max:255|regex:/^[\pL\s\-]+$/u',
+            'username' => 'required|string|max:255|unique:users,username|alpha_dash',
             'email' => 'required|email|unique:users|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'password' => 'required|string|min:8',
             'role' => 'required',
