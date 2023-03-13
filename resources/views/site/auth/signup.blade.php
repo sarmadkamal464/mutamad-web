@@ -120,6 +120,8 @@
     <script>
         // Reset selected value of dropdown menu when page is loaded
         $(window).on('load', function() {
+            //disable autofill
+            $('input').attr('autocomplete', 'off');
             $('#category').val('');
             $('#country').val('');
         });
