@@ -48,7 +48,7 @@
                                      </li>
                                      <li>
                                          <a href="{{ url('logout') }}">
-                                             <span>Logout</span>
+                                             <span>Log out</span>
                                          </a>
                                      </li>
                                  </ul>
@@ -59,7 +59,7 @@
                              <div class="wt-loginoption">
                                  {{-- <a href="/login" class="wt-loginbtn">Login</a> --}}
                              </div>
-                             <a href="{{ url('/login') }}" class="wt-btn">Login</a>
+                             <a href="{{ url('/login') }}" class="wt-btn">Log in</a>
                              {{-- <a href="/signup" class="wt-btn wt-joinbtn">Join Now</a> --}}
                          </div>
                      @endauth

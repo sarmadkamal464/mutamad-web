@@ -82,7 +82,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group form-group-half wt-btnarea">
-                                                <button type="submit" class="wt-btn  wt-btn-sm">Sign Up</button>
+                                                <button type="submit" class="wt-btn  wt-btn-sm">Sign up</button>
                                             </div>
                                         </fieldset>
                                         <div class="text-center">
@@ -102,7 +102,7 @@
                                             <div class="mt-3">
                                                 Already have an account?
                                                 <a href="{{ url('/login') }}">
-                                                    Login
+                                                    Log in
                                                 </a>
                                             </div>
                                         </div>

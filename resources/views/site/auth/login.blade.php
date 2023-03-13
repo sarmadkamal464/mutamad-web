@@ -39,7 +39,7 @@
                                             </div>
                                             <div>
                                                 <div class="form-group form-group-half wt-btnarea">
-                                                    <button class="wt-btn wt-btn-sm ">Login</button>
+                                                    <button class="wt-btn wt-btn-sm ">Log in</button>
                                                 </div>
                                                 <div class="float-right ">
                                                     <a href="{{ url('forgetPassword') }}">

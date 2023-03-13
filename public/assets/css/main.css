@@ -580,7 +580,7 @@ address {
 /* dev */
 
 .wt-btn-sm {
-    padding: 0 15px !important;
+    padding: 4px 15px !important;
     line-height: 30px !important;
    
 }
