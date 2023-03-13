@@ -10,6 +10,12 @@
                 padding: 93px 0 10px 0;
             }
         }
+
+        @media (max-width: 360px) {
+            .wt-btn-sm {
+                padding: 0px 15px !important;
+            }
+        }
     </style>
 @endsection
 @section('content')
