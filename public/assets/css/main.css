@@ -580,8 +580,9 @@ address {
 /* dev */
 
 .wt-btn-sm {
-    padding: 0 20px !important;
+    padding: 0 15px !important;
     line-height: 30px !important;
+   
 }
 
 .wt-btn {
@@ -593,7 +594,8 @@ address {
     border-radius: 5px;
     display: inline-block;
     vertical-align: middle;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
+    text-transform: capitalize;
     font: 700 13px/50px "Poppins", Arial, Helvetica, sans-serif;
 }
 

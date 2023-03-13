@@ -17,7 +17,7 @@
         <div class="wt-haslayout wt-main-section">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <h2>Change Password</h2>
@@ -36,20 +36,20 @@
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Confirm New Password</label>
                                                 <input type="password" name="password_confirmation" class="form-control" ">
-                                                                                                        </div>
-                                                                                                        <div>
-                                                                                                            <div class="form-group form-group-half wt-btnarea">
-                                                                                                                <button class="wt-btn">Update</button>
                                                                                                             </div>
-                                                                                                    </div>
-                                                                                                </fieldset>
-                                                                                            </form>
+                                                                                                            <div>
+                                                                                                                <div class="form-group form-group-half wt-btnarea">
+                                                                                                                    <button class="wt-btn">Update</button>
+                                                                                                                </div>
+                                                                                                        </div>
+                                                                                                    </fieldset>
+                                                                                                </form>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </main>
+                                                                </main>
 @endsection

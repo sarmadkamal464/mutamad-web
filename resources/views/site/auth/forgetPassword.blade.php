@@ -17,7 +17,7 @@
         <div class="wt-haslayout wt-main-section">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <h3>Forget Password</h3>
