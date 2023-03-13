@@ -20,6 +20,27 @@ class HomeController extends Controller
         return view('site.about');
     }
 
+    public function freelancer()
+    {
+        return view('site.freelancer',['categories' => Category::all()]);
+    }
+    public function ongoingProject()
+    {
+        return view('site.ongoingProject');
+    }
+    public function completedProject()
+    {
+        return view('site.completedProject');
+    }
+    public function assignedProject ()
+    {
+        return view('site.assignedProject ');
+    }
+    public function postProject ()
+    {
+        return view('site.postProject ');
+    }
+
     public function privacyPolicy()
     {
         return view('site.privacyPolicy');

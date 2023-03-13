@@ -54,41 +54,13 @@
                                                 </fieldset>
                                                 <fieldset>
                                                     <div class="wt-checkboxholder wt-verticalscrollbar">
-                                                        <span class="wt-checkbox">
-                                                            <input id="wordpress" type="checkbox" name="description"
-                                                                value="company" checked>
-                                                            <label for="wordpress"> WordPress</label>
-                                                        </span>
-                                                        <span class="wt-checkbox">
-                                                            <input id="graphic" type="checkbox" name="description"
-                                                                value="company">
-                                                            <label for="graphic"> Graphic Design</label>
-                                                        </span>
-                                                        <span class="wt-checkbox">
-                                                            <input id="website" type="checkbox" name="description"
-                                                                value="company">
-                                                            <label for="website"> Website Design</label>
-                                                        </span>
-                                                        <span class="wt-checkbox">
-                                                            <input id="article" type="checkbox" name="description"
-                                                                value="company">
-                                                            <label for="article"> Article Writing</label>
-                                                        </span>
-                                                        <span class="wt-checkbox">
-                                                            <input id="software" type="checkbox" name="description"
-                                                                value="company">
-                                                            <label for="software"> Software Architecture</label>
-                                                        </span>
-                                                        <span class="wt-checkbox">
-                                                            <input id="wordpress1" type="checkbox" name="description"
-                                                                value="company">
-                                                            <label for="wordpress1"> WordPress</label>
-                                                        </span>
-                                                        <span class="wt-checkbox">
-                                                            <input id="graphic1" type="checkbox" name="description"
-                                                                value="company">
-                                                            <label for="graphic1"> Graphic Design</label>
-                                                        </span>
+                                                        @foreach ($categories as $category)
+                                                            <span class="wt-checkbox">
+                                                                <input id="wordpress" type="checkbox" name="category"
+                                                                    value="{{ $category->slug }}">
+                                                                <label for="wordpress"> {{ $category->name }}</label>
+                                                            </span>
+                                                        @endforeach
                                                     </div>
                                                 </fieldset>
                                             </form>
