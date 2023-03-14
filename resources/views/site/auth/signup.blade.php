@@ -27,22 +27,30 @@
                                         @csrf
                                         <fieldset>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="name">Name*</label>
+                                                <label class="form-label" for="name">Name<span st><span
+                                                            style="color: red;"><span style="color: red;">
+                                                                *</span></span></span></label>
                                                 <input id="name" type="text" name="name" class="form-control"
                                                     placeholder="Name" value="{{ isset($name) ? $name : '' }}" required>
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="username">Username*</label>
+                                                <label class="form-label" for="username">Username<span
+                                                        style="color: red;"><span style="color: red;">
+                                                            *</span></span></label>
                                                 <input id="username" type="text" name="username" class="form-control"
                                                     placeholder="Username" required>
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Email*</label>
+                                                <label class="form-label" for="email">Email<span
+                                                        style="color: red;"><span style="color: red;">
+                                                            *</span></span></label>
                                                 <input id="email" type="email" name="email" class="form-control"
                                                     placeholder="Email" value="{{ isset($email) ? $email : '' }}">
                                             </div>
                                             <div class="form-group" id="categoryDiv">
-                                                <label class="form-label" for="category">Category*</label>
+                                                <label class="form-label" for="category">Category<span
+                                                        style="color: red;"><span style="color: red;">
+                                                            *</span></span></label>
                                                 <span class="wt-select">
                                                     <select id="category" name="category" required>
                                                         <option disabled selected value="">Select category</option>
@@ -54,12 +62,23 @@
                                                 </span>
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="password">Password*</label>
+                                                <label class="form-label" for="password">Password<span
+                                                        style="color: red;"><span style="color: red;">
+                                                            *</span></span></label>
                                                 <input id="password" type="password" name="password" class="form-control"
                                                     placeholder="Password" required>
                                             </div>
+                                            <div class="form-group form-group">
+                                                <label class="form-label" for="password_confirmation">Conform Password<span
+                                                        style="color: red;"><span style="color: red;">
+                                                            *</span></span></label>
+                                                <input type="password" name="password_confirmation" class="form-control"
+                                                    placeholder="Conform Password" required>
+                                            </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="country">Country*</label>
+                                                <label class="form-label" for="country">Country<span
+                                                        style="color: red;"><span style="color: red;">
+                                                            *</span></span></label>
                                                 <span class="wt-select">
                                                     <select id="country" name="country" required>
                                                         <option disabled selected value="">Select country</option>
@@ -71,10 +90,11 @@
                                                 </span>
                                             </div>
                                             <div class="form-group">
-                                                <label for="role">Signup as*</label>
+                                                <label for="role">Signup as<span style="color: red;"><span
+                                                            style="color: red;"> *</span></span></label>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="role"
-                                                        id="freelancer" value="freelancer" checked>
+                                                        id="freelancer" value="freelancer">
                                                     <label class="form-check-label" for="freelancer">Freelancer</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">

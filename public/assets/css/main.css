@@ -1943,7 +1943,10 @@ body.wt-login .wt-loginarea {
 }
 
 body.wt-login .wt-userlogedin {
-    display: block;
+    /* //dev-m3 */
+    /* display: block; */
+    display: flex;
+    align-items: center;
 }
 
 .wt-userlogedin .wt-userimg {
