@@ -34,12 +34,14 @@
                                         @csrf
                                         <fieldset>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Email or Username*</label>
+                                                <label class="form-label" for="email">Email or Username<span
+                                                        style="color: red;"> *</span></label>
                                                 <input id="email" type="text" name="email" class="form-control"
-                                                    placeholder="Email" value="{{ isset($email) ? $email : '' }}">
+                                                    placeholder="Email" value="{{ isset($email) ? $email : '' }}" required>
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="password">Password*</label>
+                                                <label class="form-label" for="password">Password<span style="color: red;">
+                                                        *</span></label>
                                                 <input id="password" type="password" name="password" class="form-control"
                                                     placeholder="Password" required>
                                             </div>

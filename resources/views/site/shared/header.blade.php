@@ -5,7 +5,7 @@
              <div class="d-flex justify-content-between align-items-center">
                  <strong class="wt-logo"><a href="{{ url('') }}"><img src="{{ asset('images/logo.png') }}"
                              alt="company logo here"></a></strong>
-                 <div class="wt-rightarea ml-3">
+                 <div class="wt-rightarea ml-3" style="display: flex; vertical-align: middle; align-items: center;">
                      <nav id="wt-nav" class="wt-nav navbar-expand-lg">
                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
