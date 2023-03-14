@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable()->comment('The user\'s bio or description');
             $table->string('experience')->nullable()->comment('The user\'s experience');
             $table->enum('role', ['client', 'freelancer', 'other'])->comment('The user\'s role (either client or freelancer)');
-            $table->unsignedBigInteger('category_id')->comment('The ID of the category that the user belongs to');
+            $table->unsignedBigInteger('category_id')->comment('The ID of the category that the user belongs to')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->string('wallet')->nullable()->comment('Customer Id for User provided by stripe');
             $table->decimal('wallet_balance', 10, 2)->default(0)->comment('The user\'s current balance in their wallet');

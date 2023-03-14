@@ -41,10 +41,11 @@
                                                 <input id="email" type="email" name="email" class="form-control"
                                                     placeholder="Email" value="{{ isset($email) ? $email : '' }}">
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" id="categoryDiv">
                                                 <label class="form-label" for="category">Category*</label>
                                                 <span class="wt-select">
                                                     <select id="category" name="category" required>
+                                                        <option disabled selected value="">Select category</option>
                                                         @foreach ($categories as $category)
                                                             <option value="{{ $category->id }}">{{ $category->name }}
                                                             </option>
@@ -61,6 +62,7 @@
                                                 <label class="form-label" for="country">Country*</label>
                                                 <span class="wt-select">
                                                     <select id="country" name="country" required>
+                                                        <option disabled selected value="">Select country</option>
                                                         @foreach ($countries as $country)
                                                             <option value="{{ $country['name'] }}">{{ $country['name'] }}
                                                             </option>
@@ -72,7 +74,7 @@
                                                 <label for="role">Signup as*</label>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="role"
-                                                        id="freelancer" value="freelancer" required>
+                                                        id="freelancer" value="freelancer" checked>
                                                     <label class="form-check-label" for="freelancer">Freelancer</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -122,8 +124,20 @@
         $(window).on('load', function() {
             //disable autofill
             $('input').attr('autocomplete', 'off');
-            $('#category').val('');
-            $('#country').val('');
+            // $('#category').val('');
+            // $('#country').val('');
+        });
+        //toggle category
+        $('input[name="role"]').change(function() {
+            if ($(this).val() === 'freelancer' && $(this).is(':checked')) {
+                $('#categoryDiv').show();
+                $('#categoryDiv select').prop('disabled', false);
+                $('#categoryDiv select').attr('name', 'category');
+            } else {
+                $('#categoryDiv').hide();
+                $('#categoryDiv select').prop('disabled', true);
+                $('#categoryDiv select').removeAttr('name');
+            }
         });
     </script>
 @endsection

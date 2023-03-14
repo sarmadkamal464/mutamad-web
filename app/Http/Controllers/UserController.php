@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Session;
 use App\Mail\SendMail;
 use Illuminate\Support\Str;
 use App\Models\Country;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -69,7 +70,9 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'role' => 'required',
             'country' => 'required',
-            'category' => 'required',
+            'category' => Rule::requiredIf(function () use ($request) {
+                return $request->input('role') === 'freelancer';
+            }),
         ]);
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
@@ -80,7 +83,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'username' => $request->username,
             'role' => strtolower($request->role),
-            'category_id' => $request->category,
+            'category_id' => ($request->input('role') === 'freelancer') ? $request->category : null,
         ]);
         $user->save();
         $token = '';
