@@ -74,3 +74,10 @@
         </div>
     </main>
 @endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('input').attr('autocomplete', 'off');
+        });
+    </script>
+@endsection
