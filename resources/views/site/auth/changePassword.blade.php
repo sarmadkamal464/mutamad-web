@@ -29,12 +29,14 @@
                                         <fieldset>
                                             <input type="hidden" name="resetToken" value="{{ $token }}">
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">New Password</label>
+                                                <label class="form-label" for="email">New Password <span
+                                                        style="color: red;"> *</span></label>
                                                 <input type="password" name="password" class="form-control"
                                                     placeholder="Password">
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Confirm New Password</label>
+                                                <label class="form-label" for="email">Confirm New Password <span
+                                                        style="color: red;"> *</span></label>
                                                 <input type="password" name="password_confirmation" class="form-control">
                                             </div>
                                             <div>

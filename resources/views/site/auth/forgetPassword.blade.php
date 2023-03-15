@@ -26,7 +26,8 @@
                                         class="wt-formtheme wt-userform">
                                         <fieldset>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="email">Enter your Email</label>
+                                                <label class="form-label" for="email">Enter your Email <span
+                                                        style="color: red;"> *</span></label>
                                                 <input id="email" type="email" name="email" class="form-control"
                                                     placeholder="Email" required>
                                             </div>

@@ -22,6 +22,10 @@
         flex-direction: column;
     }
 
+    .label-required {
+        color: red;
+    }
+
     /* Slider of signup page */
     .wt-select:after {
         pointer-events: none;

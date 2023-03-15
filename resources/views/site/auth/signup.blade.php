@@ -28,29 +28,43 @@
                                         <fieldset>
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="name">Name<span st><span
-                                                            style="color: red;"><span style="color: red;">
-                                                                *</span></span></span></label>
+                                                            class="label-required"><span class="label-required">
+                                                                *</span></label>
                                                 <input id="name" type="text" name="name" class="form-control"
                                                     placeholder="Name" value="{{ isset($name) ? $name : '' }}" required>
                                             </div>
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="username">Username<span
-                                                        style="color: red;"><span style="color: red;">
-                                                            *</span></span></label>
+                                                        class="label-required"><span class="label-required">
+                                                            *</span></label>
                                                 <input id="username" type="text" name="username" class="form-control"
                                                     placeholder="Username" required>
                                             </div>
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="email">Email<span
-                                                        style="color: red;"><span style="color: red;">
-                                                            *</span></span></label>
+                                                        class="label-required"><span class="label-required">
+                                                            *</span></label>
                                                 <input id="email" type="email" name="email" class="form-control"
                                                     placeholder="Email" value="{{ isset($email) ? $email : '' }}">
                                             </div>
+                                            <div class="form-group form-group">
+                                                <label class="form-label" for="password">Password<span
+                                                        class="label-required"><span class="label-required">
+                                                            *</span></label>
+                                                <input id="password" type="password" name="password" class="form-control"
+                                                    placeholder="Password" required>
+                                            </div>
+                                            <div class="form-group form-group">
+                                                <label class="form-label" for="password_confirmation">Confirm Password<span
+                                                        class="label-required"><span class="label-required">
+                                                            *</span></label>
+                                                <input id="confirm" type="password" name="password_confirmation"
+                                                    class="form-control" placeholder="Confirm Password" required>
+                                            </div>
                                             <div class="form-group" id="categoryDiv">
                                                 <label class="form-label" for="category">Category<span
-                                                        style="color: red;"><span style="color: red;">
-                                                            *</span></span></label>
+                                                        class="label-required"><span class="label-required">
+                                                            *</span></label>
                                                 <span class="wt-select">
                                                     <select id="category" name="category" required>
                                                         <option disabled selected value="">Select category</option>
@@ -61,24 +75,10 @@
                                                     </select>
                                                 </span>
                                             </div>
-                                            <div class="form-group form-group">
-                                                <label class="form-label" for="password">Password<span
-                                                        style="color: red;"><span style="color: red;">
-                                                            *</span></span></label>
-                                                <input id="password" type="password" name="password" class="form-control"
-                                                    placeholder="Password" required>
-                                            </div>
-                                            <div class="form-group form-group">
-                                                <label class="form-label" for="password_confirmation">Confirm Password<span
-                                                        style="color: red;"><span style="color: red;">
-                                                            *</span></span></label>
-                                                <input type="password" name="password_confirmation" class="form-control"
-                                                    placeholder="Confirm Password" required>
-                                            </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="country">Country<span
-                                                        style="color: red;"><span style="color: red;">
-                                                            *</span></span></label>
+                                                        class="label-required"><span class="label-required">
+                                                            *</span></label>
                                                 <span class="wt-select">
                                                     <select id="country" name="country" required>
                                                         <option disabled selected value="">Select country</option>
@@ -90,8 +90,8 @@
                                                 </span>
                                             </div>
                                             <div class="form-group">
-                                                <label for="role">Signup as<span style="color: red;"><span
-                                                            style="color: red;"> *</span></span></label>
+                                                <label for="role">Signup as<span class="label-required"><span
+                                                            class="label-required"> *</span></label>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="role"
                                                         id="freelancer" value="freelancer">
@@ -104,7 +104,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group form-group-half wt-btnarea">
-                                                <button type="submit" class="wt-btn  wt-btn-sm">Sign up</button>
+                                                <button type="submit" class="wt-btn singupBtn  wt-btn-sm">Sign
+                                                    up</button>
                                             </div>
                                         </fieldset>
                                         <div class="text-center">
@@ -142,10 +143,7 @@
     <script>
         // Reset selected value of dropdown menu when page is loaded
         $(window).on('load', function() {
-            //disable autofill
             $('input').attr('autocomplete', 'off');
-            // $('#category').val('');
-            // $('#country').val('');
         });
         //toggle category
         $('input[name="role"]').change(function() {
@@ -158,6 +156,14 @@
                 $('#categoryDiv select').prop('disabled', true);
                 $('#categoryDiv select').removeAttr('name');
             }
+        });
+
+        $('input[type="password"]').on('input', function() {
+            let input = document.getElementById('confirm');
+            if ($('#confirm').val() != $('#password').val())
+                input.setCustomValidity("Password and Confirm Password do not match");
+            else
+                input.setCustomValidity("");
         });
     </script>
 @endsection
