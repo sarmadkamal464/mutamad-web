@@ -69,11 +69,11 @@
                                                     placeholder="Password" required>
                                             </div>
                                             <div class="form-group form-group">
-                                                <label class="form-label" for="password_confirmation">Conform Password<span
+                                                <label class="form-label" for="password_confirmation">Confirm Password<span
                                                         style="color: red;"><span style="color: red;">
                                                             *</span></span></label>
                                                 <input type="password" name="password_confirmation" class="form-control"
-                                                    placeholder="Conform Password" required>
+                                                    placeholder="Confirm Password" required>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="country">Country<span
