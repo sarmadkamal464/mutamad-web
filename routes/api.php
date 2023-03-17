@@ -13,15 +13,13 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::prefix('v1')->group(
-    function () {
-        Route::get('/', function () {
-            dd('Welcome to Mutamad-API');
-        });
-        include 'hybrid.php';
-        Route::middleware('auth:api')->group(function () {
-            Route::post('logout', [UserController::class, 'logout']);
-            include 'hybrid-auth.php';
-        });
-    }
-);
+Route::prefix('v1')->group(function () {
+    Route::get('/', function () {
+        dd('Welcome to Mutamad-API');
+    });
+    include 'hybrid.php';
+    Route::middleware('auth:api', 'throttle:60,1')->group(function () {
+        Route::post('logout', [UserController::class, 'logout']);
+        include 'hybrid-auth.php';
+    });
+});

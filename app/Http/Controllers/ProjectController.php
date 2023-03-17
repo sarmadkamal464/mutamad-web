@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Proposal;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
+    protected $response;
+
+    function __construct(ResponseController $response)
+    {
+        $this->response = $response;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +92,66 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    public function getProjects(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $data = !$user->isFreelancer()
+            ? Project::where('client_id', $user->id)
+            ->where('client_id', $user->id)
+            ->get()
+            : Proposal::with('projects')
+            ->where('freelancer_id', $user->id)
+            ->get();
+        return $this->response->collectionResponse($request, $data);
+    }
+
+    public function ongoingProject(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $data = !$user->isFreelancer()
+            ? Project::where('client_id', $user->id)
+            ->ongoing()
+            ->get()
+            : Proposal::with('projects')
+            ->where('freelancer_id', $user->id)
+            ->ongoing()
+            ->get();
+        return $this->response->collectionResponse($request, $data);
+    }
+
+    public function completedProject(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $data = !$user->isFreelancer()
+            ? Project::where('client_id', $user->id)
+            ->completed()
+            ->get()
+            : Proposal::with('projects')
+            ->where('freelancer_id', $user->id)
+            ->completed()
+            ->get();
+        return $this->response->collectionResponse($request, $data);
+    }
+
+    public function getProjectProposals(Request $request, $id)
+    {
+        $project = Project::where('client_id', Auth::user()->id)
+            ->with('proposals')
+            ->find($id);
+        return $this->response->collectionResponse($request, $project->proposals);
+    }
+
+    public function getProjectProposalsFreelancers(Request $request, $id)
+    {
+        return $this->response->collectionResponse(
+            $request,
+            User::with('proposals')
+                ->whereHas('proposals', function ($query) use ($id) {
+                    $query->where('project_id', $id)->proposal();
+                })
+                ->get(),
+        );
     }
 }
