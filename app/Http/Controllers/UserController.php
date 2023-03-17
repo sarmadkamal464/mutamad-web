@@ -40,7 +40,7 @@ class UserController extends Controller
         }
         $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (!auth()->attempt([$fieldType => $request->email, 'password' => $request->password])) {
-            return $this->response->errorResponse($request, 'Invalid credentials', 401);
+            return $this->response->errorResponse($request, 'Invalid credentials', 403);
         }
         $user = Auth::user();
         $token = '';
@@ -83,7 +83,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'username' => $request->username,
             'role' => strtolower($request->role),
-            'category_id' => ($request->input('role') === 'freelancer') ? $request->category : null,
+            'category_id' => $request->input('role') === 'freelancer' ? $request->category : null,
         ]);
         $user->save();
         $token = '';
@@ -133,14 +133,19 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->device_type == 'web' ? Session::flush() : $request->user()->token()->delete();
+        $request->device_type == 'web'
+            ? Session::flush()
+            : $request
+            ->user()
+            ->token()
+            ->delete();
         return $this->response->successResponse($request, 'User Logout Successfully');
     }
 
     public function myProfile(Request $request)
     {
         $user = User::findOrFail(Auth::user()->id);
-        return $this->response->collectionResponse($request, ['user' => $user]);
+        return $this->response->collectionResponse($request, $user);
     }
 
     public function resetPassword(Request $request)
@@ -224,9 +229,8 @@ class UserController extends Controller
         return redirect()->route('signup', ['name' => $name, 'email' => $email]);
     }
 
-    public function userProfile(Request $request)
+    public function getUser(Request $request, $id)
     {
-        $user = User::findOrFail(Auth::user()->id);
-        return view('site.shared.myProfile', ['user' => $user, 'countries' => Country::all()]);
+        return $this->response->collectionResponse($request, User::find($id));
     }
 }

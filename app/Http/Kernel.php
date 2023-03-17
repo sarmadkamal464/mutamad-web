@@ -4,6 +4,8 @@ namespace App\Http;
 
 use App\Http\Middleware\AuthCheck;
 use App\Http\Middleware\CheckDeviceType;
+use App\Http\Middleware\EnsureUserIsClient;
+use App\Http\Middleware\EnsureUserIsFreelancer;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -69,5 +71,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'auth.check' => AuthCheck::class,
+        'auth.client' => EnsureUserIsClient::class,
+        'auth.freelancer' => EnsureUserIsFreelancer::class,
     ];
 }
