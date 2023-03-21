@@ -37,7 +37,8 @@
                     <div class="wt-haslayout wt-dbsectionspace">
                         <div class="wt-dashboardbox wt-dashboardtabsholder">
                             <div class="wt-dashboardboxtitle">
-                                <h2>My Profile</h2>
+                                <h2>{{ $user->name }} Profile</h2>
+                                @include('site.shared.message')
                             </div>
                             <div class="wt-dashboardtabs">
                                 <ul class="wt-tabstitle nav navbar-nav">
@@ -57,49 +58,58 @@
                                         <div class="wt-tabscontenttitle">
                                             <h2>Updating your Profile</h2>
                                         </div>
-                                        <form class="wt-formtheme wt-userform">
+                                        <form class="wt-formtheme wt-userform" method="POST"
+                                            action="{{ url('update-client-profile') }}" enctype="multipart/form-data">
+                                            @csrf
                                             <fieldset>
                                                 <div class="d-flex align-items-center">
                                                     <div class="form-group form-group-half-imag">
-                                                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                                                            class="rounded-circle" style="width: 150px;" alt="Avatar" />
+                                                        @if ($user->profile_image != null)
+                                                            <img src="{{ url('storage/user-profile-pictures/' . $user->profile_image) }}"
+                                                                class="profile-image-avatar" style="width: 150px;"
+                                                                alt="Avatar" />
+                                                        @else
+                                                            <img src="{{ asset('images/user-avatar.png') }}"
+                                                                class="profile-image-avatar" style="width: 150px;"
+                                                                alt="Avatar" />
+                                                        @endif
                                                     </div>
                                                     <div class="wt-profilephoto wt-tabsinfo form-group_half_selectimag ">
                                                         <div class="wt-profilephotocontent">
-                                                            <form class="wt-formtheme wt-formprojectinfo wt-formcategory">
-                                                                <fieldset>
-                                                                    <div class="form-group form-group-label">
-                                                                        <div class="wt-labelgroup">
-                                                                            <label for="filep">
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary btn-sm">Select
-                                                                                    Image</button>
-                                                                                <input type="file" name="file"
-                                                                                    id="filep">
-                                                                            </label>
-                                                                            <span>Drop files here to upload</span>
-                                                                            <em class="wt-fileuploading">Uploading<i
-                                                                                    class="fa fa-spinner fa-spin"></i></em>
-                                                                        </div>
+                                                            <fieldset>
+                                                                <div class="form-group form-group-label">
+                                                                    <div class="wt-labelgroup">
+                                                                        <label for="filep">
+                                                                            <span class="btn-primary btn-sm">Select
+                                                                                Files</span>
+                                                                            <input type="file"
+                                                                                accept="image/png, image/gif, image/jpeg"
+                                                                                id="filep" name="image"
+                                                                                onchange="$('.profile-image-avatar').attr('src',window.URL.createObjectURL(this.files[0]))">
+                                                                        </label>
+                                                                        <span>Drop files here to upload</span>
+                                                                        <em class="wt-fileuploading">Uploading<i
+                                                                                class="fa fa-spinner fa-spin"></i></em>
                                                                     </div>
-                                                                </fieldset>
-                                                            </form>
+                                                                </div>
+                                                            </fieldset>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-group-half">
                                                     <input type="text" name="name" class="form-control"
-                                                        placeholder="Name*">
+                                                        placeholder="Name*" value="{{ $user->name }}" required>
                                                 </div>
                                                 <div class="form-group form-group-half">
-                                                    <input type="email" name="email" class="form-control"
-                                                        placeholder="Email*">
+                                                    <input type="email" class="form-control" placeholder="Email*"
+                                                        value="{{ $user->email }}" disabled>
                                                 </div>
                                                 <div class="form-group form-group-half">
                                                     <span class="wt-select">
                                                         <select id="country" name="country" required>
                                                             @foreach ($countries as $country)
-                                                                <option value="{{ $country['name'] }}">
+                                                                <option value="{{ $country['name'] }}"
+                                                                    {{ $country['name'] == $user->country ? 'selected' : '' }}>
                                                                     {{ $country['name'] }}
                                                                 </option>
                                                             @endforeach
@@ -107,10 +117,10 @@
                                                     </span>
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea name="message" class="form-control" placeholder="Bio (optional)"></textarea>
+                                                    <textarea class="form-control" name="bio" placeholder="Bio (optional)">{{ $user->bio }}</textarea>
                                                 </div>
                                                 <div class="form-group form-group-half wt-btnarea">
-                                                    <button type="button" class="wt-btn wt-btn-sm ">Submit</button>
+                                                    <button class="wt-btn wt-btn-sm ">Submit</button>
                                                 </div>
                                             </fieldset>
                                         </form>
@@ -121,28 +131,27 @@
                                         <div class="wt-tabscontenttitle">
                                             <h2>Deactivate Account</h2>
                                         </div>
-                                        <form class="wt-formtheme wt-userform">
+                                        <form class="wt-formtheme wt-userform" action="{{ url('deactivate-account') }}"
+                                            method="POST">
+                                            @csrf
                                             <fieldset>
                                                 <h5>Choose reason</h5>
                                                 <div class="form-group form-group-half">
                                                     <span class="wt-select">
-                                                        <select>
-                                                            <option value="" disabled="">
-                                                            </option>
-                                                            <option value="">Why you want to leave</option>
-                                                            <option value="">Reason 2</option>
+                                                        <select name="deactivate_reason" id="deactivate_reason" required>
+                                                            <option>Why you want to leave</option>
+                                                            <option value="Just Need A Break">Just Need A Break</option>
+                                                            <option value="$('#other').val()">Other</option>
                                                         </select>
                                                     </span>
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea name="message" class="form-control" placeholder="Enter description"></textarea>
+                                                    <textarea name="other" id="other" class="form-control" placeholder="Enter description"></textarea>
                                                 </div>
                                             </fieldset>
-                                        </form>
-                                    </div>
-                                    <div class="wt-profilephotocontent">
-                                        <form class="wt-formtheme wt-formprojectinfo wt-formcategory">
-                                            <a class="wt-btn wt-btn-sm" href="javascript:void(0);">Deactivate Now</a>
+                                            <div class="form-group form-group-half wt-btnarea">
+                                                <button class="wt-btn wt-btn-sm ">Deactivate Now</button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
