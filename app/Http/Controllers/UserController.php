@@ -52,7 +52,8 @@ class UserController extends Controller
         } else {
             $token = $user->createToken('MyApp')->accessToken;
         }
-        return $this->response->collectionResponse($request, ['token' => $token, 'user' => $user]);
+        $data = User::with('category')->findOrFail($user->id);
+        return $this->response->collectionResponse($request, ['token' => $token, 'user' => $data]);
     }
 
     /**
@@ -82,6 +83,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'username' => $request->username,
+            'country' => $request->country,
             'role' => strtolower($request->role),
             'category_id' => $request->input('role') === 'freelancer' ? $request->category : null,
         ]);
@@ -144,7 +146,7 @@ class UserController extends Controller
 
     public function myProfile(Request $request)
     {
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::with('category')->findOrFail(Auth::user()->id);
         return $this->response->collectionResponse($request, $user);
     }
 
@@ -232,5 +234,28 @@ class UserController extends Controller
     public function getUser(Request $request, $id)
     {
         return $this->response->collectionResponse($request, User::find($id));
+    }
+
+    public function deactivateAccount(Request $request)
+    {
+        $rules = [
+            'deactivate_reason' => 'required',
+        ];
+        $customMessages = [
+            'required' => 'Please Enter the Deactivation Reason',
+        ];
+        $validator = Validator::make($request->all(), $rules, $customMessages);
+        if ($validator->fails()) {
+            return $this->response->validationErrorResponse($request, $validator);
+        }
+        $user = User::find(Auth::user()->id);
+        $user->update(['deactivate_reason' => $request->deactivate_reason, 'is_active' => 0]);
+        $request->device_type == 'web'
+            ? Session::flush()
+            : $request
+            ->user()
+            ->token()
+            ->delete();
+        return $this->response->successResponse($request, 'Your account is deactivated successfully');
     }
 }

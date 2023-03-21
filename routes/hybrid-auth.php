@@ -10,6 +10,7 @@ Hybrid Application Authenticated Routes File which is available both in web and 
 |
 */
 
+Route::post('deactivate-account', [UserController::class, 'deactivateAccount']);
 Route::get('/my-profile', [UserController::class, 'myProfile']);
 Route::get('/get-user/{id}', [UserController::class, 'getUser']);
 Route::get('ongoing-projects', [ProjectController::class, 'ongoingProject']);
@@ -24,7 +25,7 @@ Route::middleware('auth.client')->group(function () {
     Route::resources([
         'clientProject' => ClientController::class,
     ]);
-    Route::put('/update-client-profile', [ClientController::class, 'updateProfile']);
+    Route::post('/update-client-profile', [ClientController::class, 'updateProfile']);
     Route::get('/get-project-proposals/{id}', [ProjectController::class, 'getProjectProposals']);
     Route::get('/get-project-proposals-freelancer/{id}', [ProjectController::class, 'getProjectProposalsFreelancers']);
     Route::post('/invite-freelancer-to-project', [ClientController::class, 'inviteFreelancerToProject']);

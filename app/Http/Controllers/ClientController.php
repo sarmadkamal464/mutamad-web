@@ -8,6 +8,7 @@ use App\Policies\ClientPolicy;
 use App\Models\Project;
 use App\Models\Proposal;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
@@ -58,6 +59,10 @@ class ClientController extends Controller
         }
         $documentName = null;
         if ($request->has('doc') && $request->doc != null) {
+            $validator = Validator::make($request->all(), ['doc' => 'max:2048']);
+            if ($validator->fails()) {
+                return $this->response->validationErrorResponse($request, $validator);
+            }
             $document = $request->file('doc');
             $documentName = time() . '.' . $document->getClientOriginalExtension();
             $document->storeAs('public/documents', $documentName);
@@ -104,9 +109,25 @@ class ClientController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $userAttr = ['name', 'country', 'bio', 'phone'];
+        $documentName = null;
+        if ($request->has('image') && $request->image != null) {
+            $validator = Validator::make($request->all(), ['image' => 'image|mimes:jpeg,png,jpg|max:2048']);
+            if ($validator->fails()) {
+                return $this->response->validationErrorResponse($request, $validator);
+            }
+            $document = $request->file('image');
+            $documentName = 'user-id-' . Auth::user()->id . '-' . time() . '.' . $document->getClientOriginalExtension();
+            $document->storeAs('public/user-profile-pictures', $documentName);
+            $userAttr = ['name', 'country', 'bio', 'phone', 'profile_image'];
+        }
+        $request['profile_image'] = $documentName;
         $user = User::find(Auth::user()->id);
-        $user->update($request->only('name', 'country', 'bio', 'phone'));
-        return $this->response->collectionResponse($request, $user);
+        $user->update($request->only($userAttr));
+        if ($request->device_type != 'web')
+            return $this->response->collectionResponse($request, $user);
+        Session::put('name', $user->name);
+        return $this->response->successResponse($request, "Record Updated Successfully");
     }
 
     /**
@@ -169,7 +190,9 @@ class ClientController extends Controller
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
-        $project = Project::open()->where('client_id', Auth::user()->id)->find($request->project_id);
+        $project = Project::open()
+            ->where('client_id', Auth::user()->id)
+            ->find($request->project_id);
         if (!$project) {
             return $this->response->errorResponse($request, 'No Open Project Found for Details', 403);
         }
@@ -205,7 +228,9 @@ class ClientController extends Controller
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
-        $project = Project::open()->where('client_id', Auth::user()->id)->find($request->project_id);
+        $project = Project::open()
+            ->where('client_id', Auth::user()->id)
+            ->find($request->project_id);
         if (!$project) {
             return $this->response->errorResponse($request, 'No Open Project Found for Details', 403);
         }
@@ -222,11 +247,13 @@ class ClientController extends Controller
         if (!$proposal) {
             return $this->response->errorResponse($request, 'No active freelancer record found for this project', 403);
         }
-        $otherProposals = Proposal::where('project_id', $request->project_id)->where('freelancer_id', '!=', $request->freelancer_id)->update([
-            'status' => 'cancelled',
-            'status_change_by_user' => 'client',
-            'status_change_by_user_id' => Auth::user()->id,
-        ]);
+        $otherProposals = Proposal::where('project_id', $request->project_id)
+            ->where('freelancer_id', '!=', $request->freelancer_id)
+            ->update([
+                'status' => 'cancelled',
+                'status_change_by_user' => 'client',
+                'status_change_by_user_id' => Auth::user()->id,
+            ]);
         $proposal->update([
             'status' => 'completed',
             'status_change_by_user' => 'client',

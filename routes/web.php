@@ -44,5 +44,6 @@ Route::group(['middleware' => 'auth.check'], function () {
 Route::get('logout', [UserController::class, 'logout']);
 
 Route::group(['middleware' => 'auth'], function () {
+    include "hybrid-auth.php";
     Route::get('profile', [HomeController::class, 'userProfile'])->name('profile');
 });
