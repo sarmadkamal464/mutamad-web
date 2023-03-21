@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->decimal('wallet_balance', 10, 2)->default(0)->comment('The user\'s current balance in their wallet');
             $table->boolean('agreed_terms_of_conditions')->default(0)->comment('Whether the user has agreed to the terms and conditions of the platform');
             $table->boolean('is_active')->default(1)->comment('Whether the user is active or deactive');
-            $table->string('deactivate-reason')->nullable()->comment('Reason why user deactivate his/her account');
+            $table->string('deactivate_reason')->nullable()->comment('Reason why user deactivate his/her account');
             $table->boolean('is_admin')->default(0)->comment('Whether the user is admin or not');
             $table->text('resetToken')->comment('forget password Token')->nullable();
             $table->rememberToken()->comment('The user\'s "remember me" token');
