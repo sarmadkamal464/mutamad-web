@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Traits\FilterTrait;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
@@ -43,6 +44,16 @@ class User extends Authenticatable
         return $this->role == 'freelancer' ? true : false;
     }
 
+    public function scopeFreelancer(Builder $query)
+    {
+        return $query->where('role', 'freelancer');
+    }
+
+
+    public function scopeClient(Builder $query)
+    {
+        return $query->where('role', 'client');
+    }
     //relationship
     public function projects()
     {
@@ -67,5 +78,15 @@ class User extends Authenticatable
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function setCountryAttribute($value)
+    {
+        $this->attributes['country'] = strtolower($value);
+    }
+
+    public function getCountryAttribute($value)
+    {
+        return ucfirst($value);
     }
 }

@@ -59,13 +59,13 @@
                                             <h2>Updating your Profile</h2>
                                         </div>
                                         <form class="wt-formtheme wt-userform" method="POST"
-                                            action="{{ url('update-client-profile') }}" enctype="multipart/form-data">
+                                            action="{{ url('update-profile') }}" enctype="multipart/form-data">
                                             @csrf
                                             <fieldset>
                                                 <div class="d-flex align-items-center">
                                                     <div class="form-group form-group-half-imag">
                                                         @if ($user->profile_image != null)
-                                                            <img src="{{ url('storage/user-profile-pictures/' . $user->profile_image) }}"
+                                                            <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $user->profile_image) }}"
                                                                 class="profile-image-avatar" style="width: 150px;"
                                                                 alt="Avatar" />
                                                         @else
@@ -74,7 +74,8 @@
                                                                 alt="Avatar" />
                                                         @endif
                                                     </div>
-                                                    <div class="wt-profilephoto wt-tabsinfo form-group_half_selectimag ">
+                                                    <div id="drop-area"
+                                                        class="wt-profilephoto wt-tabsinfo form-group_half_selectimag ">
                                                         <div class="wt-profilephotocontent">
                                                             <fieldset>
                                                                 <div class="form-group form-group-label">
@@ -85,7 +86,7 @@
                                                                             <input type="file"
                                                                                 accept="image/png, image/gif, image/jpeg"
                                                                                 id="filep" name="image"
-                                                                                onchange="$('.profile-image-avatar').attr('src',window.URL.createObjectURL(this.files[0]))">
+                                                                                onchange="handleFiles(this.files)">
                                                                         </label>
                                                                         <span>Drop files here to upload</span>
                                                                         <em class="wt-fileuploading">Uploading<i
@@ -148,10 +149,10 @@
                                                 <div class="form-group">
                                                     <textarea name="other" id="other" class="form-control" placeholder="Enter description"></textarea>
                                                 </div>
+                                                <div class="form-group form-group-half wt-btnarea">
+                                                    <button class="wt-btn wt-btn-sm ">Deactivate Now</button>
+                                                </div>
                                             </fieldset>
-                                            <div class="form-group form-group-half wt-btnarea">
-                                                <button class="wt-btn wt-btn-sm ">Deactivate Now</button>
-                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -166,4 +167,52 @@
     <!--Main End-->
 @endsection
 @section('script')
+    <script>
+        $(document).ready(function() {
+            // Get the drop area and input element
+            var dropArea = $('.wt-labelgroup');
+            var input = $('#filep');
+            // Prevent default drag behaviors
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.on(eventName, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            });
+            // Highlight the drop area when dragging over it
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.on(eventName, function() {
+                    dropArea.addClass('highlight');
+                });
+            });
+            // Remove the highlight when dragging out of the drop area
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.on(eventName, function() {
+                    dropArea.removeClass('highlight');
+                });
+            });
+            // Handle dropped files
+            dropArea.on('drop', function(e) {
+                var files = e.originalEvent.dataTransfer.files;
+                // Show the preview of the dropped image
+                showPreview(files[0]);
+                // Update the input with the dropped file
+                input.prop('files', files);
+            });
+            // Handle file input change
+            input.on('change', function() {
+                var files = input[0].files;
+                // Show the preview of the selected image
+                showPreview(files[0]);
+            });
+            // Function to show the preview of an image
+            function showPreview(file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('.profile-image-avatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection
