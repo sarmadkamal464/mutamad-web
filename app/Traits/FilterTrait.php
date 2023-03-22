@@ -12,7 +12,15 @@ trait FilterTrait
     {
         return $query
             ->when($filters['country'] ?? false, fn ($query, $value) => $query->where('country', $value))
-            ->when($filters['category_id'] ?? false, fn ($query, $value) => $query->where('category_id', $value))
+            ->when(
+                $filters['category'] ?? false,
+                fn ($query, $value) => $query->where('category_id', function ($subquery) use ($value) {
+                    $subquery
+                        ->select('id')
+                        ->from('categories')
+                        ->where('slug', $value);
+                }),
+            )
             ->when($filters['search'] ?? false, function ($query, $value) {
                 $query->where(function ($query) use ($value) {
                     $query
@@ -22,7 +30,7 @@ trait FilterTrait
                         ->orWhere('bio', 'like', '%' . $value . '%');
                 });
             })
-            ->when($filters['orderBy'] ?? false, fn ($query, $value) => $query->orderBy($value, $filters['order'] ?? 'desc'))
+            ->when($filters['orderBy'] ?? false, fn ($query, $value) => $query->orderBy($value, $filters['order'] ?? 'desc'), fn ($query, $value) => $query->orderBy('earning', 'desc'))
             ->when($filters['offset'] ?? false, fn ($query, $value) => $query->offset($value))
             ->when($filters['limit'] ?? false, fn ($query, $value) => $query->limit($value));
     }
