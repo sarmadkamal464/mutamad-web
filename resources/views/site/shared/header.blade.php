@@ -33,7 +33,12 @@
                      @auth
                          <div class="wt-userlogedin">
                              <figure class="wt-userimg">
-                                 <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
+                                 @if (Session::has('profile_image') && Session::get('profile_image') != null)
+                                     <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $user->profile_image) }}"
+                                         alt="image description">
+                                 @else
+                                     <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
+                                 @endif
                              </figure>
                              <div class="wt-username">
                                  <h3>{{ Session::get('name') }}</h3>

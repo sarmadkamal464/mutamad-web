@@ -22,6 +22,8 @@ trait FilterTrait
                         ->orWhere('bio', 'like', '%' . $value . '%');
                 });
             })
-            ->when($filters['orderBy'] ?? false, fn ($query, $value) => $query->orderBy($value, $filters['order'] ?? 'desc'));
+            ->when($filters['orderBy'] ?? false, fn ($query, $value) => $query->orderBy($value, $filters['order'] ?? 'desc'))
+            ->when($filters['offset'] ?? false, fn ($query, $value) => $query->offset($value))
+            ->when($filters['limit'] ?? false, fn ($query, $value) => $query->limit($value));
     }
 }

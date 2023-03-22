@@ -25,7 +25,7 @@ Route::middleware('auth.client')->group(function () {
     Route::resources([
         'clientProject' => ClientController::class,
     ]);
-    Route::post('/update-client-profile', [ClientController::class, 'updateProfile']);
+    Route::post('/update-profile', [UserController::class, 'updateProfile']);
     Route::get('/get-project-proposals/{id}', [ProjectController::class, 'getProjectProposals']);
     Route::get('/get-project-proposals-freelancer/{id}', [ProjectController::class, 'getProjectProposalsFreelancers']);
     Route::post('/invite-freelancer-to-project', [ClientController::class, 'inviteFreelancerToProject']);

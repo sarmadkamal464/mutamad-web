@@ -100,9 +100,11 @@ class ProjectController extends Controller
         $data = !$user->isFreelancer()
             ? Project::where('client_id', $user->id)
             ->where('client_id', $user->id)
+            ->filter($request->only('limit', 'offset'))
             ->get()
             : Proposal::with('projects')
             ->where('freelancer_id', $user->id)
+            ->filter($request->only('limit', 'offset'))
             ->get();
         return $this->response->collectionResponse($request, $data);
     }

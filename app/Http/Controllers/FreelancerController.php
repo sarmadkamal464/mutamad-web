@@ -91,6 +91,6 @@ class FreelancerController extends Controller
 
     public function searchFreelancer(Request $request)
     {
-        return $this->response->collectionResponse($request, User::filter($request->all())->get());
+        return $this->response->collectionResponse($request, User::freelancer()->filter($request->all())->get());
     }
 }

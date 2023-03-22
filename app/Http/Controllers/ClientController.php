@@ -106,30 +106,6 @@ class ClientController extends Controller
     public function update(Request $request, User $user)
     {
     }
-
-    public function updateProfile(Request $request)
-    {
-        $userAttr = ['name', 'country', 'bio', 'phone'];
-        $documentName = null;
-        if ($request->has('image') && $request->image != null) {
-            $validator = Validator::make($request->all(), ['image' => 'image|mimes:jpeg,png,jpg|max:2048']);
-            if ($validator->fails()) {
-                return $this->response->validationErrorResponse($request, $validator);
-            }
-            $document = $request->file('image');
-            $documentName = 'user-id-' . Auth::user()->id . '-' . time() . '.' . $document->getClientOriginalExtension();
-            $document->storeAs('public/user-profile-pictures', $documentName);
-            $userAttr = ['name', 'country', 'bio', 'phone', 'profile_image'];
-        }
-        $request['profile_image'] = $documentName;
-        $user = User::find(Auth::user()->id);
-        $user->update($request->only($userAttr));
-        if ($request->device_type != 'web')
-            return $this->response->collectionResponse($request, $user);
-        Session::put('name', $user->name);
-        return $this->response->successResponse($request, "Record Updated Successfully");
-    }
-
     /**
      * Remove the specified resource from storage.
      *
