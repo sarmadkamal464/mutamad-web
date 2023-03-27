@@ -22,7 +22,7 @@ class Proposal extends Model
         return $query->where('status', 'completed');
     }
 
-    public function scopePending(Builder $query)
+    public function scopeRequested(Builder $query)
     {
         return $query->where('status', 'pending');
     }

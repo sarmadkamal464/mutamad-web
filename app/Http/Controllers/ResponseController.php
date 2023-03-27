@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 
 class ResponseController extends Controller
@@ -26,13 +27,20 @@ class ResponseController extends Controller
      * Return a JSON response with a collection of resources.
      *
      * @param mixed $resources
+     * @param mixed $route = view route for web app view
+     * $compact = [] merged array for view
      * @return \Illuminate\Http\JsonResponse
      */
-    public function collectionResponse($request, $resources, $success = true)
+    public function collectionResponse($request, $resources, $success = true, $route = null, $compact = [])
     {
         if ($request->device_type != "web")
             return response()->json(['data' => $resources, 'success' => $success], 200);
-        return redirect()->back()->with($resources);
+        else if (is_null($route) && $request->has('noRedirect'))
+            return $resources;
+        else if (is_null($route))
+            return redirect()->back()->with($resources);
+        // return $compact;
+        return view($route, $compact);
     }
 
     /**

@@ -19,6 +19,7 @@ class Project extends Model
     use HasFactory;
     protected $duration;
     protected $fillable = ['category_id', 'title', 'description', 'budget', 'duration_id', 'client_id', 'document', 'status'];
+    // Is assign or invite able if it's open
 
     public function scopeInvitation(Builder $query)
     {
@@ -50,9 +51,14 @@ class Project extends Model
         return $this->belongsTo(User::class, 'client_id');
     }
 
-    public function duration(): HasOne
+    public function duration(): BelongsTo
     {
-        return $this->hasOne(ProjectDuration::class, 'duration_id');
+        return $this->belongsTo(ProjectDuration::class, 'duration_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function invitations()
@@ -63,5 +69,9 @@ class Project extends Model
     public function proposals()
     {
         return $this->hasMany(Proposal::class, 'project_id')->where('proposal_type', 'proposal');
+    }
+    public function getBudgetAttribute($value)
+    {
+        return '$' . $value;
     }
 }

@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Country;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    protected $project;
+    function __construct(ProjectController $project)
+    {
+        $this->project = $project;
+    }
     public function index()
     {
         return view('site.home');
@@ -51,5 +57,12 @@ class HomeController extends Controller
     {
         $user = User::findOrFail(Auth::user()->id);
         return view('site.shared.myProfile', ['user' => $user, 'countries' => Country::all()]);
+    }
+
+    public function assignFreelancer(Request $request, $id)
+    {
+        $request['noRedirect'] = true; // to block redirecting
+        $projectProposalsFreelancer = $this->project->getProjectProposals($request, $id);
+        return view('site.client.project.assignedProject', ['projectProposalsFreelancer' => $projectProposalsFreelancer]);
     }
 }

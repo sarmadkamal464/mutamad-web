@@ -161,7 +161,7 @@ class ClientController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'project_id' => 'required',
-            'freelancer_id' => 'required',
+            'proposal_id' => 'required'
         ]);
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
@@ -172,18 +172,12 @@ class ClientController extends Controller
         if (!$project) {
             return $this->response->errorResponse($request, 'No Open Project Found for Details', 403);
         }
-        $freelancer = User::find($request->freelancer_id);
-        if (!$freelancer->isFreelancer()) {
-            return $this->response->errorResponse($request, 'Requested User is not a freelancer', 403);
-        }
         $proposal = Proposal::where('project_id', $request->project_id)
-            ->where('freelancer_id', $request->freelancer_id)
-            ->proposal()
-            ->latest()
-            ->first();
+            ->find($request->proposal_id);
         if (!$proposal) {
             return $this->response->errorResponse($request, 'No proposal found for this project', 403);
         }
+        $freelancer = User::find($proposal->freelancer_id);
         $proposal->update([
             'status' => 'ongoing',
             'status_change_by_user' => 'client',
@@ -192,7 +186,7 @@ class ClientController extends Controller
         $project->update([
             'status' => 'ongoing',
         ]);
-        return $this->response->collectionResponse($request, $proposal);
+        return $this->response->successResponse($request, 'Project Assigned to ' . $freelancer->name . 'successfully');
     }
 
     public function markProjectAsDone(Request $request)

@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function getUser(Request $request, $id)
     {
-        return $this->response->collectionResponse($request, User::find($id));
+        return $this->response->collectionResponse($request, User::active()->find($id));
     }
 
     public function updateProfile(Request $request)

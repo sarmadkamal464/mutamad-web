@@ -51,6 +51,16 @@
                                              <span>My Profile</span>
                                          </a>
                                      </li>
+                                     <li class="menu-item-has-children">
+                                         <a href="{{ url('/get-all-projects') }}">
+                                             <span>All Projects</span>
+                                         </a>
+                                         <ul class="sub-menu">
+                                             <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
+                                             <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
+                                             <li><a href="{{ url('/ongoing-projects') }}">Ongoing Single</a></li>
+                                         </ul>
+                                     </li>
                                      <li>
                                          <a href="{{ url('logout') }}">
                                              <span>Log out</span>

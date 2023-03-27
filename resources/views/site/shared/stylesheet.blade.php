@@ -22,6 +22,10 @@
         flex-direction: column;
     }
 
+    .color-white {
+        color: white !important;
+    }
+
     .label-required {
         color: red;
     }
