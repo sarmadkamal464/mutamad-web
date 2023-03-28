@@ -20,7 +20,6 @@
 @section('content')
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
-
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
             <div class="row">
@@ -53,7 +52,6 @@
                                                 </div>
                                                 <div class="wt-rightarea">
                                                     <div class="wt-btnarea">
-                                                        <span> Project Complete</span>
                                                         <a href="{{ url('/project/' . $item->id) }}" class="wt-btn">VIEW
                                                             DETAILS</a>
                                                     </div>
@@ -75,7 +73,7 @@
                         </nav>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-3">
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                     <aside id="wt-sidebar" class="wt-sidebar wt-dashboardsave">
                         <div class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
@@ -84,7 +82,7 @@
                                 </figure>
                                 <div class="wt-title">
                                     <h3>{{ $projectCounts['ongoing'] }}</h3>
-                                    <span>Total Ongoing Projects</span>
+                                    <span>Ongoing Projects</span>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +93,7 @@
                                 </figure>
                                 <div class="wt-title">
                                     <h3>{{ $projectCounts['open'] }}</h3>
-                                    <span>Total Open Projects</span>
+                                    <span>Open Projects</span>
                                 </div>
                             </div>
                         </div>
@@ -106,13 +104,12 @@
                                 </figure>
                                 <div class="wt-title">
                                     <h3>{{ $projectCounts['completed'] }}</h3>
-                                    <span>Total Completed Projects</span>
+                                    <span>Completed Projects</span>
                                 </div>
                             </div>
                         </div>
 
                     </aside>
-
                 </div>
             </div>
         </section>
@@ -121,5 +118,4 @@
     <!--Main End-->
 @endsection
 @section('script')
-
 @endsection

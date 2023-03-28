@@ -15,11 +15,13 @@ class ResponseController extends Controller
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function successResponse($request, $message, $success = true)
+    public function successResponse($request, $message, $success = true, $route = null, $compact = [])
     {
         if ($request->device_type != "web")
             return response()->json(['message' => $message, 'success' => $success], 200);
         Session::flash('message', $message);
+        if (!is_null($route))
+            return ($compact) ? view($route, $compact) : redirect($route);
         return redirect()->back()->with("message", $message);
     }
 

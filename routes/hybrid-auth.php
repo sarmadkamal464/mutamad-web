@@ -14,8 +14,8 @@ Hybrid Application Authenticated Routes File which is available both in web and 
 Route::post('deactivate-account', [UserController::class, 'deactivateAccount']);
 Route::get('/my-profile', [UserController::class, 'myProfile']);
 Route::get('/get-user/{id}', [UserController::class, 'getUser']);
-Route::get('ongoing-projects', [ProjectController::class, 'ongoingProject']);
-Route::get('completed-projects', [ProjectController::class, 'completedProject']);
+Route::get('ongoing-projects', [ProjectController::class, 'ongoingProject'])->name('ongoing-projects');
+Route::get('completed-projects', [ProjectController::class, 'completedProject'])->name('completed-projects');
 Route::get('get-projects', [ProjectController::class, 'getProjects']);
 Route::post('/update-profile', [UserController::class, 'updateProfile']);
 Route::get('get-projects-count', [ProjectController::class, 'getProjectsCount']);

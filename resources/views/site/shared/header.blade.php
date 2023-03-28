@@ -37,7 +37,7 @@
                                      <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $user->profile_image) }}"
                                          alt="image description">
                                  @else
-                                     <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
+                                     <img src="{{ asset('images/user-avatar.png') }}" alt="image description">
                                  @endif
                              </figure>
                              <div class="wt-username">

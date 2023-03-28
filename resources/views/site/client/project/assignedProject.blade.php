@@ -108,8 +108,15 @@
                                             </div>
                                             <div class="wt-rightarea">
                                                 <div class="wt-btnarea">
-                                                    <a onclick="submitForm({{ $proposal['id'] }},{{ $proposal['project_id'] }})"
-                                                        class="wt-btn color-white ">Hire Now</a>
+                                                    <form action="{{ url('assign-freelancer-to-project') }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="project_id"
+                                                            value="{{ $proposal['project_id'] }}">
+                                                        <input type="hidden" name="proposal_id"
+                                                            value="{{ $proposal['id'] }}">
+                                                        <button type="submit" class="wt-btn color-white ">Hire Now</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -141,22 +148,4 @@
     <!--Main End-->
 @endsection
 @section('script')
-
-    <script>
-        function submitForm(proposal_id, project_id) {
-            $.ajax({
-                type: "POST",
-                url: "{{ url('assign-freelancer-to-project') }}",
-                data: {
-                    'project_id': project_id,
-                    'proposal_id': proposal_id,
-                    "_token": "{{ csrf_token() }}",
-                },
-                success: function(response) {
-                    if (response.success)
-                        return window.location.href = `{{ url('/ongoingProject') }}`;
-                }
-            });
-        }
-    </script>
 @endsection

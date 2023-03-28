@@ -12,6 +12,7 @@ trait FilterTrait
     {
         return $query
             ->when($filters['country'] ?? false, fn ($query, $value) => $query->where('country', $value))
+            ->when($filters['status'] ?? false, fn ($query, $value) => $query->where('status', $value))
             ->when(
                 $filters['category'] ?? false,
                 fn ($query, $value) => $query->whereIn('category_id', function ($subquery) use ($value) {

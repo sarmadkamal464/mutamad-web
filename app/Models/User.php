@@ -12,10 +12,11 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
+use App\Traits\DateFormatTrait;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, FilterTrait;
+    use HasApiTokens, HasFactory, DateFormatTrait, Notifiable, FilterTrait;
 
     /**
      * The attributes that are mass assignable.

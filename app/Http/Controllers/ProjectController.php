@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectDuration;
 use App\Models\Proposal;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,11 +100,14 @@ class ProjectController extends Controller
         $user = User::find(Auth::user()->id);
         $data = !$user->isFreelancer()
             ? Project::where('client_id', $user->id)
-            ->filter($request->only('limit', 'offset'))
+            ->with('category')
+            ->with('duration')
+            ->freelancers()
+            ->filter($request->only('limit', 'offset', 'status'))
             ->get()
             : Proposal::with('projects')
             ->where('freelancer_id', $user->id)
-            ->filter($request->only('limit', 'offset'))
+            ->filter($request->only('limit', 'offset', 'status'))
             ->get();
         return $this->response->collectionResponse($request, $data);
     }
@@ -113,6 +117,7 @@ class ProjectController extends Controller
         $data = Project::where('client_id', Auth::user()->id)
             ->with('category')
             ->with('duration')
+            ->freelancers()
             ->find($id);
         if (!$data)
             $data = [];
@@ -155,6 +160,7 @@ class ProjectController extends Controller
             ->with('category')
             ->with('duration')
             ->ongoing()
+            ->freelancers()
             ->get()
             : Proposal::with('projects')
             ->where('freelancer_id', $user->id)
@@ -198,7 +204,10 @@ class ProjectController extends Controller
             ->where('freelancer_id', $user->id)
             ->completed()
             ->get();
-        return $this->response->collectionResponse($request, $data);
+        $compact['data'] = $data;
+        $request['noRedirect'] = true;
+        $compact['projectCounts'] = $this->getProjectsCount($request);
+        return $this->response->collectionResponse($request, $data, true, 'site/client/project/completedProject', $compact);
     }
 
     public function getProjectProposals(Request $request, $id)
@@ -207,13 +216,12 @@ class ProjectController extends Controller
         $project = Project::where('client_id', Auth::user()->id)
             ->with('category')
             ->with('duration')
-            ->with([
-                'proposals' => function ($query) {
-                    $query->whereHas('freelancer');
-                },
-                'proposals.freelancer',
-            ])
+            ->freelancers()
             ->find($id);
         return $this->response->collectionResponse($request, $project, true, "site.client.project.assignedProject", $project);
+    }
+    public function getProjectDuration(Request $request)
+    {
+        return $this->response->collectionResponse($request, ProjectDuration::all());
     }
 }

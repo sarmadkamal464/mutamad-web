@@ -20,7 +20,6 @@
 @section('content')
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
-
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
             <div class="row">
@@ -53,7 +52,6 @@
                                                 </div>
                                                 <div class="wt-rightarea">
                                                     <div class="wt-btnarea">
-                                                        <span> Project Complete</span>
                                                         <a href="{{ url('/project/' . $item->id) }}" class="wt-btn">VIEW
                                                             DETAILS</a>
                                                     </div>
@@ -112,7 +110,6 @@
                         </div>
 
                     </aside>
-
                 </div>
             </div>
         </section>
@@ -121,5 +118,4 @@
     <!--Main End-->
 @endsection
 @section('script')
-
 @endsection

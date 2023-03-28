@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Policies\ClientPolicy;
 use App\Models\Project;
 use App\Models\Proposal;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -161,7 +162,7 @@ class ClientController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'project_id' => 'required',
-            'proposal_id' => 'required'
+            'proposal_id' => 'required',
         ]);
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
@@ -172,8 +173,7 @@ class ClientController extends Controller
         if (!$project) {
             return $this->response->errorResponse($request, 'No Open Project Found for Details', 403);
         }
-        $proposal = Proposal::where('project_id', $request->project_id)
-            ->find($request->proposal_id);
+        $proposal = Proposal::where('project_id', $request->project_id)->find($request->proposal_id);
         if (!$proposal) {
             return $this->response->errorResponse($request, 'No proposal found for this project', 403);
         }
@@ -186,37 +186,35 @@ class ClientController extends Controller
         $project->update([
             'status' => 'ongoing',
         ]);
-        return $this->response->successResponse($request, 'Project Assigned to ' . $freelancer->name . 'successfully');
+        $message = "Project Assigned to $freelancer->name successfully";
+        return $this->response->successResponse($request, $message, true, 'ongoing-projects');
     }
 
     public function markProjectAsDone(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'project_id' => 'required',
-            'freelancer_id' => 'required',
+            'proposal_id' => 'required',
+            'comment' => 'required',
+            'rating' => 'required|numeric|between:0,5.0',
         ]);
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
-        $project = Project::open()
+        $project = Project::ongoing()
             ->where('client_id', Auth::user()->id)
             ->find($request->project_id);
         if (!$project) {
-            return $this->response->errorResponse($request, 'No Open Project Found for Details', 403);
-        }
-        $freelancer = User::find($request->freelancer_id);
-        if (!$freelancer->isFreelancer()) {
-            return $this->response->errorResponse($request, 'Requested User is not a freelancer', 403);
+            return $this->response->errorResponse($request, 'No Ongoing Project Found for Details', 403);
         }
         $proposal = Proposal::where('project_id', $request->project_id)
-            ->where('freelancer_id', $request->freelancer_id)
-            ->proposal()
             ->ongoing()
-            ->latest()
-            ->first();
+            ->find($request->proposal_id);
+
         if (!$proposal) {
-            return $this->response->errorResponse($request, 'No active freelancer record found for this project', 403);
+            return $this->response->errorResponse($request, 'No active freelancer ongoing project  record found for this project', 403);
         }
+        $freelancer = User::find($proposal->freelancer_id);
         $otherProposals = Proposal::where('project_id', $request->project_id)
             ->where('freelancer_id', '!=', $request->freelancer_id)
             ->update([
@@ -232,6 +230,16 @@ class ClientController extends Controller
         $project->update([
             'status' => 'completed',
         ]);
-        return $this->response->collectionResponse($request, $proposal);
+        $review = new Review([
+            'freelancer_id' => $freelancer->id,
+            'client_id' => Auth::user()->id,
+            'project_id' => $request->project_id,
+            'for' => 'freelancer',
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+        $review->save();
+        $message = 'Project marked as completed successfully';
+        return $this->response->successResponse($request, $message, true, 'completed-projects');
     }
 }

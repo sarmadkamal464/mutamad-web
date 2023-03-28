@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\DateFormatTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Proposal extends Model
 {
-    use HasFactory;
+    use HasFactory, DateFormatTrait;
 
     protected $fillable = ['project_id', 'freelancer_id', 'description', 'amount', 'proposal_type', 'status', 'status_change_by_user', 'status_change_by_user_id'];
 

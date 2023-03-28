@@ -14,7 +14,26 @@
 <link rel="stylesheet" href="{{ asset('css/transitions.css') }}">
 <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('js/jquery-toast/dist/css/jquery-toasts.min.css') }}">
 <style>
+    .toastify.warning {
+        color: #fff !important;
+        background-color: red !important;
+    }
+
+    .toastify.success {
+        color: #fff !important;
+        background-color: lightgreen !important;
+    }
+
+    button.wt-btnarea {
+        color: white !important;
+    }
+
+    a.wt-btnarea {
+        color: white !important;
+    }
+
     body {
         background: #f7f7f7;
         min-height: 100vh;

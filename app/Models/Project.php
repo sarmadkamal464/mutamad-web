@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\DateFormatTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use App\Traits\FilterTrait;
 
 class Project extends Model
 {
-    use SoftDeletes, FilterTrait;
+    use SoftDeletes, FilterTrait, DateFormatTrait;
 
     use HasFactory;
     protected $duration;
@@ -46,6 +47,15 @@ class Project extends Model
         return $query->where('status', 'cancelled');
     }
 
+    public function scopeFreelancers(Builder $query)
+    {
+        return $query->with([
+            'proposals' => function ($sub) {
+                $sub->whereHas('freelancer');
+            },
+            'proposals.freelancer',
+        ]);
+    }
     public function clients(): BelongsTo
     {
         return $this->belongsTo(User::class, 'client_id');
