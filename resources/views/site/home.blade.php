@@ -54,7 +54,11 @@
                                                 <label for="wt-jobs">Projects</label>
                                             </span>
                                         </div>
-                                        <a class="wt-searchbtn white"><i class="lnr lnr-magnifier"></i></a>
+                                        <a class="wt-searchbtn white" onclick=togglePage()><i
+                                                class="lnr lnr-magnifier"></i></a>
+
+
+
                                     </div>
                                 </div>
                             </fieldset>
@@ -304,6 +308,15 @@
                 }
             }
         });
+        //Search freelancer Or projects button
+        const togglePage = () => {
+            const searchType = document.querySelector('input[name=\'searchtype\']:checked').value;
+            if (searchType === 'freelancer') {
+                window.location.href = '{{ url('/freelancers?limit=4&offset=0 ') }}';
+            } else if (searchType === 'project') {
+                window.location.href = '{{ url('/projects') }}';
+            }
+        };
     </script>
 
 

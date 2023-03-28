@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
-        @media (max-width: 820px) {
+        .wt-profilephotocontent {
+
+            padding: 0px;
+        }
+
+        .form-group-label label input {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
             .wt-wrapper .wt-main {
 
                 padding: 20px 5px !important;
@@ -21,7 +30,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                            padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -31,128 +40,110 @@
 @section('content')
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
-
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
+
             <div class="row padding">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-xl-8 float-left ">
                     <div class="wt-dashboardbox">
                         <div class="wt-dashboardboxtitle">
                             <h2>Post Job</h2>
+                            @include('site.shared.message')
                         </div>
+
                         <div class="wt-dashboardboxcontent">
                             <div class="wt-jobdescription wt-tabsinfo">
                                 <div class="wt-tabscontenttitle">
                                     <h2>Job Description</h2>
                                 </div>
-                                <form class="wt-formtheme wt-userform wt-userformvtwo">
+
+                                <form class="wt-formtheme wt-userform wt-userform" method="POST"
+                                    action="{{ url('clientProject') }}" enctype="multipart/form-data">
+                                    @csrf
                                     <fieldset>
                                         <div class="form-group form-group">
-                                            <label class="form-label" for="password">Add your project title*</label>
-                                            <input id="password" type="password" name="password" class="form-control"
+                                            <label class="form-label" for="tile">Add your project title*</label>
+                                            <input type="text" name="title" class="form-control"
                                                 placeholder="Add your project title" required>
                                         </div>
                                         <div class="form-group form-group">
-                                            <label class="form-label" for="password">Add budget*</label>
-                                            <input id="password" type="password" name="password" class="form-control"
+                                            <label class="form-label" for="budget">Add budget*</label>
+                                            <input type="text" name="budget" class="form-control"
                                                 placeholder="Add budget" required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="country">Project category*</label>
+                                            <label class="form-label" for="category_id">Project category*</label>
                                             <span class="wt-select">
-                                                <select id="country" name="country" required>
-
+                                                <select name="category_id" required>
+                                                    <option disabled selected value="">Select category</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </span>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="country">Project duration*</label>
+                                            <label class="form-label" for="duration_id">Project duration*</label>
                                             <span class="wt-select">
-                                                <select id="country" name="country" required>
-
+                                                <select id="duration" name="duration_id" required>
+                                                    @foreach ($durations as $duration)
+                                                        <option value="{{ $duration['id'] }}">
+                                                            {{ $duration['title'] }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </span>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="country">Country*</label>
+                                            <label class="form-label" for="country">Country<span
+                                                    class="label-required"><span class="label-required">
+                                                        *</span></label>
                                             <span class="wt-select">
                                                 <select id="country" name="country" required>
-
+                                                    <option disabled selected value="">Select country</option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country['name'] }}">{{ $country['name'] }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </span>
                                         </div>
                                     </fieldset>
-                                </form>
                             </div>
                             <div class="wt-jobdetails wt-tabsinfo">
                                 <div class="wt-tabscontenttitle">
                                     <h2>Job Details</h2>
                                 </div>
-                                <form class="wt-formtheme wt-userform wt-userformvtwo">
-                                    <fieldset>
-                                        <div class="form-group">
-                                            <textarea id="wt-tinymceeditor" class="wt-tinymceeditor" placeholder="Add Job Detail Here"></textarea>
-                                        </div>
-                                    </fieldset>
-                                </form>
+                                <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Job Detail Here"></textarea>
                             </div>
                             <div class="wt-attachmentsholder">
-                                <div class="wt-tabscontenttitle">
-                                    <h2>Upload Attachments (optional)</h2>
-                                    <div class="wt-rightarea">
-                                        <span>Show “Attachments” after hiring</span>
-                                        <div class="wt-on-off float-right">
-                                            <input type="checkbox" id="hide-on" name="contact_form">
-                                            <label for="hide-on"><i></i></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <form class="wt-formtheme wt-formprojectinfo wt-formcategory">
-                                    <fieldset>
+
+                                <div class="wt-profilephoto wt-tabsinfo form-group_half_selectimag ">
+                                    <div class="wt-profilephotocontent">
+
                                         <div class="form-group form-group-label">
                                             <div class="wt-labelgroup">
-                                                <label for="file">
-                                                    <span class="wt-btn">Select Files</span>
-                                                    <input type="file" name="file" id="file">
+                                                <label for="filep" style=" display:flex">
+                                                    <input type="file" id="filep" name="doc">
                                                 </label>
-                                                <span>Drop files here to upload</span>
                                                 <em class="wt-fileuploading">Uploading<i
                                                         class="fa fa-spinner fa-spin"></i></em>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <ul class="wt-attachfile">
-                                                <li class="wt-uploading">
-                                                    <span class="uploadprogressbar"></span>
-                                                    <span>Wireframe Document.doc</span>
-                                                    <em>File size: 512 kb<a href="javascript:void(0);"
-                                                            class="lnr lnr-cross"></a></em>
-                                                </li>
-                                                <li>
-                                                    <span class="uploadprogressbar"></span>
-                                                    <span>Requirments.pdf</span>
-                                                    <em>File size: 110 kb<a href="javascript:void(0);"
-                                                            class="lnr lnr-cross"></a></em>
-                                                </li>
-                                                <li class="wt-uploaded">
-                                                    <span class="uploadprogressbar"></span>
-                                                    <span>Company Intro.docx</span>
-                                                    <em>File size: 224 kb<a href="javascript:void(0);"
-                                                            class="lnr lnr-cross"></a></em>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </fieldset>
-                                </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="wt-updatall">
-                        <i class="ti-announcement"></i>
-                        <span>Post job by just clicking on “Post Job Now” button.</span>
-                        <a class="wt-btn" href="javascript:void(0);">Post Job Now</a>
+                        <div class="wt-updatall">
+                            <i class="ti-announcement"></i>
+                            <span>Post job by just clicking on “Post Job Now” button.</span>
+                            <button type="submit" class="wt-btn s">Post Job Now</button>
+                        </div>
                     </div>
                 </div>
+                </form>
+            </div>
             </div>
         </section>
         <!--Register Form End-->

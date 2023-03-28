@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wt-description {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .wt-wrapper .wt-main {
             padding-left: 0px !important;
         }
@@ -21,9 +27,6 @@
     </style>
 @endsection
 @section('content')
-    <!--Inner Home Banner Start-->
-    @include('site.shared.topbanner')
-    <!--Inner Home End-->
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
         <div class="wt-main-section wt-haslayout">
@@ -40,25 +43,59 @@
                                 <aside id="wt-sidebar" class="wt-sidebar wt-usersidebar">
                                     <div class="wt-widget wt-effectiveholder">
                                         <div class="wt-widgettitle">
-                                            <h2>Categories</h2>
+                                            <h2>Freelancers</h2>
                                         </div>
                                         <div class="wt-widgetcontent">
                                             <form class="wt-formtheme wt-formsearch">
                                                 <fieldset>
                                                     <div class="form-group">
-                                                        <input type="text" name="Search" class="form-control"
-                                                            placeholder="Search Category">
-                                                        <a href="javascrip:void(0);" class="wt-searchgbtn"><i
-                                                                class="lnr lnr-magnifier"></i></a>
+                                                        <input type="text" name="search" id="search-input"
+                                                            class="form-control" placeholder="Search by name">
+                                                        <a id="search" href="javascrip:void(0);" class="wt-searchgbtn"
+                                                            onclick=generateUrl()><i class="lnr lnr-magnifier"
+                                                                onclick=generateUrl()></i></a>
                                                     </div>
                                                 </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="wt-widget wt-effectiveholder">
+                                        <div class="wt-widgettitle">
+                                            <h2>Filter by Country</h2>
+                                        </div>
+                                        <div class="wt-widgetcontent">
+                                            <form class="wt-formtheme wt-formsearch">
+                                                <div class="form-group">
+
+                                                    <span class="wt-select">
+                                                        <select id="country" name="country" required>
+                                                            <option disabled selected value="">Select country</option>
+                                                            @foreach ($countries as $country)
+                                                                <option value="{{ $country['name'] }}">
+                                                                    {{ $country['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="wt-widget wt-effectiveholder">
+                                        <div class="wt-widgettitle">
+                                            <h2>Filter by Skills</h2>
+                                        </div>
+                                        <div class="wt-widgetcontent">
+                                            <form class="wt-formtheme wt-formsearch">
                                                 <fieldset>
                                                     <div class="wt-checkboxholder wt-verticalscrollbar">
                                                         @foreach ($categories as $category)
                                                             <span class="wt-checkbox">
-                                                                <input id="wordpress" type="checkbox" name="category"
+                                                                <input id="{{ $category->slug }}" type="checkbox"
+                                                                    name="{{ $category->slug }}"
                                                                     value="{{ $category->slug }}">
-                                                                <label for="wordpress"> {{ $category->name }}</label>
+                                                                <label for="{{ $category->slug }}">
+                                                                    {{ $category->name }}</label>
                                                             </span>
                                                         @endforeach
                                                     </div>
@@ -70,7 +107,8 @@
                                         <div class="wt-widgetcontent">
                                             <div class="wt-applyfilters">
                                                 <span>Click “Apply Filter” to apply latest<br> changes made by you.</span>
-                                                <a href="javascript:void(0);" class="wt-btn">Apply Filters</a>
+                                                <a id='applyfilters' href="javascript:void(0);" class="wt-btn">Apply
+                                                    Filters</a>
                                             </div>
                                         </div>
                                     </div>
@@ -78,90 +116,50 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-8 float-left">
                                 <div class="wt-userlistingholder wt-userlisting wt-haslayout">
-                                    <div class="wt-userlistingtitle">
-                                        <span>01 - 48 of 57143 results for <em>"Logo Design"</em></span>
-                                    </div>
                                     <div class="wt-filterholder">
                                         <ul class="wt-filtertag">
                                             <li class="wt-filtertagclear">
-                                                <a href="javascrip:void(0)"><i class="fa fa-times"></i> <span>Clear All
-                                                        Filter</span></a>
+                                                <a href="javascript:void(0)" id="clear-all-filters">
+                                                    <i class="fa fa-times"></i> <span>Clear All Filters</span>
+                                                </a>
                                             </li>
-                                            <li class="alert alert-dismissable fade in">
-                                                <a href="javascrip:void(0)"><i class="fa fa-times close"
-                                                        data-dismiss="alert" aria-label="close"></i> <span>Graphic
-                                                        Design</span></a>
-                                            </li>
-                                            <li class="alert alert-dismissable fade in">
-                                                <a href="javascrip:void(0)"><i class="fa fa-times close"
-                                                        data-dismiss="alert" aria-label="close"></i> <span>Any Hourly
-                                                        Rate</span></a>
-                                            </li>
-                                            <li class="alert alert-dismissable fade in">
-                                                <a href="javascrip:void(0)"><i class="fa fa-times close"
-                                                        data-dismiss="alert" aria-label="close"></i> <span>Any Freelancer
-                                                        Type</span></a>
-                                            </li>
-                                            <li class="alert alert-dismissable fade in">
-                                                <a href="javascrip:void(0)"><i class="fa fa-times close"
-                                                        data-dismiss="alert" aria-label="close"></i>
-                                                    <span>Chinese</span></a>
-                                            </li>
-                                            <li class="alert alert-dismissable fade in">
-                                                <a href="javascrip:void(0)"><i class="fa fa-times close"
-                                                        data-dismiss="alert" aria-label="close"></i>
-                                                    <span>English</span></a>
-                                            </li>
+
                                         </ul>
                                     </div>
-                                    <div class="wt-userlistinghold wt-featured">
-                                        <span class="wt-featuredtag"><img src="{{ asset('images/featured.png') }}"
-                                                alt="img description" data-tipso="Plus Member"
-                                                class="template-content tipso_style"></span>
-                                        <figure class="wt-userlistingimg">
-                                            <img src="{{ asset('images/user/userlisting/img-01.jpg') }}"
-                                                alt="image description">
-                                        </figure>
-                                        <div class="wt-userlistingcontent">
-                                            <div class="wt-contenthead">
-                                                <div class="wt-title">
-                                                    <a href="usersingle.html"><i class="fa fa-check-circle"></i> Alfredo
-                                                        Bossard
-                                                    </a>
-                                                    <h2>Classifieds Posting, Data Entry, Typing</h2>
+                                    @foreach ($freelancers as $freelancer)
+                                        <div class="wt-userlistinghold wt-featured">
+                                            <span class="wt-featuredtag"><img src="{{ asset('images/featured.png') }}"
+                                                    alt="img description" data-tipso="Plus Member"
+                                                    class="template-content tipso_style"></span>
+                                            <figure class="wt-userlistingimg">
+                                                <img src="{{ asset('images/user/userlisting/img-01.jpg') }}"
+                                                    alt="image description">
+                                            </figure>
+                                            <div class="wt-userlistingcontent">
+                                                <div class="wt-contenthead">
+                                                    <div class="wt-title">
+                                                        <a href="{{ url('/freelancerDetails/' . $freelancer->id) }}"><i
+                                                                class="fa fa-check-circle"></i>
+                                                            {{ $freelancer->name }}
+                                                        </a>
+                                                        <h2> ${{ $freelancer->earning }}</h2>
+                                                    </div>
                                                 </div>
-
+                                            </div>
+                                            <div class="wt-description">
+                                                <p>{{ $freelancer->bio }}</p>
                                             </div>
 
                                         </div>
-                                        <div class="wt-description">
-                                            <p>Consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliquaenim ad minim veniamac quis nostrud exercitation ullamco
-                                                laboris...</p>
-                                        </div>
-                                        <div class="wt-tag wt-widgettag">
-                                            <a href="javascript:void(0);">PHP</a>
-                                            <a href="javascript:void(0);">HTML</a>
-                                            <a href="javascript:void(0);">JavaScript</a>
-                                            <a href="javascript:void(0);">WordPress</a>
-                                            <a href="javascript:void(0);">Team Management</a>
-                                            <a href="javascript:void(0);">JQuery</a>
-                                            <a href="javascript:void(0);">...</a>
-                                        </div>
-                                    </div>
-
+                                    @endforeach
                                     <nav class="wt-pagination">
                                         <ul>
-                                            <li class="wt-prevpage"><a href="javascrip:void(0);"><i
-                                                        class="lnr lnr-chevron-left"></i></a></li>
-                                            <li><a href="javascrip:void(0);">1</a></li>
-                                            <li><a href="javascrip:void(0);">2</a></li>
-                                            <li><a href="javascrip:void(0);">3</a></li>
-                                            <li><a href="javascrip:void(0);">4</a></li>
-                                            <li><a href="javascrip:void(0);">...</a></li>
-                                            <li><a href="javascrip:void(0);">50</a></li>
-                                            <li class="wt-nextpage"><a href="javascrip:void(0);"><i
-                                                        class="lnr lnr-chevron-right"></i></a></li>
+                                            <li><a href="#" id="prev"><i class="lnr lnr-chevron-left"></i></a>
+                                                Next
+                                            </li>
+                                            <li><a href="#" id="next"><i class="lnr lnr-chevron-right"></i></a>
+                                                <span> Previous<span>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -177,4 +175,153 @@
 @endsection
 @section('script')
     <script src="{{ asset('js/jquery.hoverdir.js') }}"></script>
+    <script>
+        let limit = 4;
+        const urlParams = new URLSearchParams(window.location.search);
+        let offset = parseInt(urlParams.get('offset')) || 0;
+        const category = urlParams.get('category');
+        const country = urlParams.get('country');
+        const search = urlParams.get('search');
+
+        function generateUrl() {
+            let url = {{ url(`/freelancers?limit=${limit}&offset=${offset}`) }};
+            if (category) {
+                url += `&category=${category}`;
+            }
+            if (country) {
+                url += `&country=${country}`;
+            }
+            return url;
+        }
+
+        function generateUrlForClearAll() {
+            return {{ url(`/freelancers?limit=${limit}`) }};
+        }
+
+        function generateUrlForSearch(name) {
+            return {{ url(`/freelancers?limit=${limit}&search=${name}`) }};
+        }
+
+        function generateUrlForFilter(checkedCategories, country, search) {
+            let url = {{ url(`/freelancers?limit=${limit}`) }};
+            if (checkedCategories.length > 0) {
+                url += `&category=${checkedCategories.join(',')}`;
+            }
+            if (country) {
+                url += `&country=${country}`;
+            }
+            if (search) {
+                url += `&search=${search}`;
+            }
+            return url;
+        }
+
+        function filter(e) {
+
+            e.preventDefault();
+            let country = $('#country').val();
+            let search = $('#search-input').val();
+            const checkedCategories = $('.wt-checkboxholder input:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if (checkedCategories.length > 0 || country || search) {
+                window.location.href = generateUrlForFilter(checkedCategories, country, search);
+            } else {
+                window.location.href = generateUrlForClearAll();
+            }
+        }
+        $('#search').click(function(e) {
+            e.preventDefault();
+            const name = $('#search-input').val();
+            if (name !== "") {
+                window.location.href = generateUrlForSearch(name);
+            }
+        });
+        $('#applyfilters').click(filter);
+
+        $('#prev').click(function(e) {
+            e.preventDefault();
+            if (offset > 0) {
+                offset--;
+                window.location.href = generateUrl();
+            }
+        });
+
+        $('#next').click(function(e) {
+            e.preventDefault();
+            offset++;
+            window.location.href = generateUrl();
+        });
+
+        $('#search-input').val(search);
+        $('#country').val(country);
+
+        let activeFilters = `<li class="wt-filtertagclear">
+        <a href="javascript:void(0)" id="clear-all-filters">
+            <i class="fa fa-times"></i> <span>Clear All Filters</span>
+        </a>
+    </li>`;
+        if (category) {
+            const categories = category.split(',');
+
+            categories.forEach(function(category) {
+                activeFilters += `<li class="alert alert-dismissable fade in">
+            <a href="javascript:void(0)">
+                <i class="fa fa-times close" data-dismiss="alert" aria-label="close"></i>
+                <span>${category}</span>
+            </a>
+        </li>`;
+            });
+            $('.wt-filtertag').html(activeFilters);
+            $('.wt-checkboxholder input').each(function() {
+                if (categories.includes($(this).val())) {
+                    $(this).prop('checked', true);
+                }
+            });
+        }
+        if (country) {
+            activeFilters += `<li class="alert alert-dismissable fade in">
+            <a href="javascript:void(0)">
+                <i class="fa fa-times close" data-dismiss="alert" aria-label="close"></i>
+                <span>${country}</span>
+            </a>
+        </li>`;
+            $('.wt-filtertag').html(activeFilters);
+        }
+        if (search) {
+            activeFilters += `<li class="alert alert-dismissable fade in">
+            <a href="javascript:void(0)">
+                <i class="fa fa-times close" data-dismiss="alert" aria-label="close"></i>
+                <span>${search}</span>
+            </a>
+        </li>`;
+            $('.wt-filtertag').html(activeFilters);
+        }
+
+        // Clear all filter tags and reset checkboxes
+        $('.wt-filtertagclear').on('click', function(e) {
+            $('.wt-filtertag').empty();
+            $('.wt-checkboxholder input').prop('checked', false);
+            $('#country').val("");
+            $('#search-input').val("");
+            window.location.href = generateUrlForClearAll();
+        });
+
+        // Remove a specific filter tag
+        $('.wt-filtertag li ').on('click', function(e) {
+            const value = $(this).find('span').text();
+            if (value === $('#country').val()) {
+                $('#country').val("");
+            }
+            if (value === $('#search-input').val()) {
+                $('#search-input').val("");
+            } else {
+                $('.wt-checkboxholder input').filter(function() {
+                    return $(this).val() === value;
+                }).prop('checked', false);
+            }
+            $(this).remove();
+            filter(e);
+        });
+    </script>
 @endsection
