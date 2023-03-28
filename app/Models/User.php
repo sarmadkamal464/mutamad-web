@@ -11,17 +11,19 @@ use App\Traits\FilterTrait;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Arr;
+use App\Traits\DateFormatTrait;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, FilterTrait;
+    use HasApiTokens, HasFactory, DateFormatTrait, Notifiable, FilterTrait;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'username', 'role', 'category_id', 'resetToken', 'country', 'bio', 'phone', 'agreed_terms_of_conditions', 'wallet', 'wallet_balance', 'profile_image', 'is_active', 'deactivate_reason'];
+    protected $fillable = ['name', 'email', 'password', 'username', 'role', 'category_id', 'resetToken', 'country', 'bio', 'phone', 'agreed_terms_of_conditions', 'wallet', 'wallet_balance', 'profile_image', 'is_active', 'deactivate_reason', 'earning'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,6 +46,10 @@ class User extends Authenticatable
         return $this->role == 'freelancer' ? true : false;
     }
 
+    protected function scopeActive(Builder $query)
+    {
+        return $query->where('is_active', 1);
+    }
     public function scopeFreelancer(Builder $query)
     {
         return $query->where('role', 'freelancer');
@@ -88,5 +94,25 @@ class User extends Authenticatable
     public function getCountryAttribute($value)
     {
         return ucfirst($value);
+    }
+
+    public function getWalletBalanceAttribute($value)
+    {
+        return '$' . $value;
+    }
+
+    public function getEarningAttribute($value)
+    {
+        if ($value >= 1000000) {
+            return '$' . number_format(round($value / 1000000, 1), 1) . 'm+';
+        } elseif ($value >= 1000) {
+            return '$' . number_format(round($value / 1000, 1), 1) . 'k+';
+        } elseif ($value >= 100) {
+            return '$' . number_format($value, 0) . '+';
+        } elseif ($value >= 10) {
+            return '$' . number_format($value, 0);
+        } else {
+            return '$' . $value;
+        }
     }
 }

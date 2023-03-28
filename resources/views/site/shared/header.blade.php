@@ -33,15 +33,15 @@
                      @auth
                          <div class="wt-userlogedin">
                              <figure class="wt-userimg">
-                                 @if (Session::has('profile_image') && Session::get('profile_image') != null)
-                                     <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $user->profile_image) }}"
+                                 @if (Auth::user()->profile_image && Auth::user()->profile_image != null)
+                                     <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . Auth::user()->profile_image) }}"
                                          alt="image description">
                                  @else
-                                     <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
+                                     <img src="{{ asset('images/user-avatar.png') }}" alt="image description">
                                  @endif
                              </figure>
                              <div class="wt-username">
-                                 <h3>{{ Session::get('name') }}</h3>
+                                 <h3>{{ Auth::user()->name }}</h3>
                                  <span></span>
                              </div>
                              <nav class="wt-usernav">
@@ -50,6 +50,16 @@
                                          <a href="{{ url('profile') }}">
                                              <span>My Profile</span>
                                          </a>
+                                     </li>
+                                     <li class="menu-item-has-children">
+                                         <a href="{{ url('/get-all-projects') }}">
+                                             <span>All Projects</span>
+                                         </a>
+                                         <ul class="sub-menu">
+                                             <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
+                                             <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
+                                             <li><a href="{{ url('/ongoing-projects') }}">Ongoing Single</a></li>
+                                         </ul>
                                      </li>
                                      <li>
                                          <a href="{{ url('logout') }}">

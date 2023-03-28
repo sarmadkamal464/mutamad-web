@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FreelancerController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -13,22 +14,27 @@ Hybrid Application Authenticated Routes File which is available both in web and 
 Route::post('deactivate-account', [UserController::class, 'deactivateAccount']);
 Route::get('/my-profile', [UserController::class, 'myProfile']);
 Route::get('/get-user/{id}', [UserController::class, 'getUser']);
-Route::get('ongoing-projects', [ProjectController::class, 'ongoingProject']);
-Route::get('completed-projects', [ProjectController::class, 'completedProject']);
+Route::get('ongoing-projects', [ProjectController::class, 'ongoingProject'])->name('ongoing-projects');
+Route::get('completed-projects', [ProjectController::class, 'completedProject'])->name('completed-projects');
 Route::get('get-projects', [ProjectController::class, 'getProjects']);
-Route::resources([
-    'project' => ProjectController::class,
-]);
+Route::post('/update-profile', [UserController::class, 'updateProfile']);
+Route::get('get-projects-count', [ProjectController::class, 'getProjectsCount']);
+
+// Route::resources([
+//     'project' => ProjectController::class,
+// ]);
 //Route for client
 Route::middleware('auth.client')->group(function () {
+    Route::get('project/{id}', [ProjectController::class, 'getProjectDetails']);
     Route::get('search-freelancer', [FreelancerController::class, 'searchFreelancer']);
     Route::resources([
         'clientProject' => ClientController::class,
     ]);
-    Route::post('/update-profile', [UserController::class, 'updateProfile']);
+    Route::get('open-projects', [ProjectController::class, 'openProject']);
     Route::get('/get-project-proposals/{id}', [ProjectController::class, 'getProjectProposals']);
     Route::get('/get-project-proposals-freelancer/{id}', [ProjectController::class, 'getProjectProposalsFreelancers']);
     Route::post('/invite-freelancer-to-project', [ClientController::class, 'inviteFreelancerToProject']);
+    Route::get('/invite-freelancer-to-project', [HomeController::class, 'inviteFreelancer']);
     Route::post('/assign-freelancer-to-project', [ClientController::class, 'assignFreelancerToProject']);
     Route::post('/mark-project-as-done', [ClientController::class, 'markProjectAsDone']);
 });
@@ -38,4 +44,5 @@ Route::middleware('auth.freelancer')->group(function () {
     Route::resources([
         'freelancerProject' => FreelancerController::class,
     ]);
+    Route::post('sendProposal', [FreelancerController::class, 'sendProposal']);
 });
