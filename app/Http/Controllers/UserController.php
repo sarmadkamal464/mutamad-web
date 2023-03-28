@@ -55,8 +55,6 @@ class UserController extends Controller
         if ($request->device_type != 'web') {
             return $this->response->collectionResponse($request, $user);
         }
-        Session::put('name', $user->name);
-        Session::put('profile_image', $user->profile_image);
         return $this->response->successResponse($request, 'Record Updated Successfully');
     }
 }

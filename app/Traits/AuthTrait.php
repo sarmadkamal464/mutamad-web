@@ -31,9 +31,7 @@ trait AuthTrait
         $user = Auth::user();
         $token = '';
         if ($request->device_type == 'web') {
-            Session::put('name', $user->name);
             Session::put('role', $user->role);
-            Session::put('profile_image', $user->profile_image);
             Session::flash('message', 'Logged In Successfully');
             return redirect()->route('home');
         } else {
