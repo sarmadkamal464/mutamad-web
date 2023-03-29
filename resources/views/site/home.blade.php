@@ -213,7 +213,7 @@
         const togglePage = () => {
             const searchType = document.querySelector('input[name=\'searchtype\']:checked').value;
             if (searchType === 'freelancer') {
-                window.location.href = '/search-freelancer?limit=4&offset=0&search=' + $('#searchField').val()
+                window.location.href = 'search-freelancer?limit=4&offset=0&search=' + $('#searchField').val()
                 $('#searchField').val();
             } else if (searchType === 'project') {
                 return;

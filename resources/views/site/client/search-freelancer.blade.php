@@ -210,7 +210,7 @@
         const search = urlParams.get('search');
 
         function generateUrl() {
-            let url = `/search-freelancer?limit=${limit}&offset=${offset}`;
+            let url = `search-freelancer?limit=${limit}&offset=${offset}`;
             if (category) {
                 url += `&category=${category}`;
             }
@@ -221,15 +221,15 @@
         }
 
         function generateUrlForClearAll() {
-            return `/search-freelancer?limit=${limit}`;
+            return `search-freelancer?limit=${limit}`;
         }
 
         function generateUrlForSearch(name) {
-            return `/search-freelancer?limit=${limit}&search=${name}`;
+            return `search-freelancer?limit=${limit}&search=${name}`;
         }
 
         function generateUrlForFilter(checkedCategories, country, search) {
-            let url = `/search-freelancer?limit=${limit}`;
+            let url = `search-freelancer?limit=${limit}`;
             if (checkedCategories.length > 0) {
                 url += `&category=${checkedCategories.join(',')}`;
             }
