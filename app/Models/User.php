@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Traits\FilterTrait;
 use App\Models\Category;
+use App\Traits\CountryTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
@@ -16,7 +17,7 @@ use App\Traits\DateFormatTrait;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, DateFormatTrait, Notifiable, FilterTrait;
+    use HasApiTokens, HasFactory, DateFormatTrait, Notifiable, FilterTrait, CountryTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -84,16 +85,6 @@ class User extends Authenticatable
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
-    }
-
-    public function setCountryAttribute($value)
-    {
-        $this->attributes['country'] = strtolower($value);
-    }
-
-    public function getCountryAttribute($value)
-    {
-        return ucfirst($value);
     }
 
     public function getWalletBalanceAttribute($value)

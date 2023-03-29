@@ -109,8 +109,8 @@
                                                     <span class="wt-select">
                                                         <select id="country" name="country" required>
                                                             @foreach ($countries as $country)
-                                                                <option value="{{ $country['name'] }}"
-                                                                    {{ $country['name'] == $user->country ? 'selected' : '' }}>
+                                                                <option value="{{ $country['code'] }}"
+                                                                    {{ $country['code'] == $user->country['code'] ? 'selected' : '' }}>
                                                                     {{ $country['name'] }}
                                                                 </option>
                                                             @endforeach
