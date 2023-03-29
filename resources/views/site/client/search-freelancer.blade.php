@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
-        .wt-description {
+        .wt-description p {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
