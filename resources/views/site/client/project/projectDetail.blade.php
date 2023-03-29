@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                        padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -74,6 +74,23 @@
                                     @elseif($status == 'ongoing')
                                         <div class="wt-btnarea color-white"><a data-toggle="modal"
                                                 data-target="#reviewermodal" class="wt-btn">Mark as done</a>
+                                        </div>
+                                        <div class="wt-hireduserstatus">
+                                            <ul class="wt-hireduserimgs">
+                                                @if (!is_null($proposals[0]['freelancer']['profile_image']))
+                                                    <li>
+                                                        <figure><img
+                                                                src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $proposals[0]['freelancer']['profile_image']) }}"
+                                                                class="mCS_img_loaded"></figure>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <figure><img src="{{ asset('images/user-avatar.png') }}"
+                                                                class="mCS_img_loaded"></figure>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                            <p>{{ $proposals[0]['freelancer']['name'] }}</p>
                                         </div>
                                         {{-- Modal for closing project --}}
                                         <div class="modal fade wt-offerpopup" tabindex="-1" role="dialog"
@@ -138,8 +155,25 @@
                                         </div>
                                     @else
                                         <div class="wt-btnarea">
-                                            <p style="color: red;">Project
-                                                Closed</p>
+                                            <div class="wt-hireduserstatus">
+                                                <ul class="wt-hireduserimgs">
+                                                    @if (!is_null($proposals[0]['freelancer']['profile_image']))
+                                                        <li>
+                                                            <figure><img
+                                                                    src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $proposals[0]['freelancer']['profile_image']) }}"
+                                                                    class="mCS_img_loaded"></figure>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <figure><img src="{{ asset('images/user-avatar.png') }}"
+                                                                    class="mCS_img_loaded"></figure>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                                <p>{{ $proposals[0]['freelancer']['name'] }}</p>
+                                                <p style="color: red;">Project
+                                                    Closed</p>
+                                            </div>
                                         </div>
                                     @endif
                                 @endif
@@ -163,8 +197,8 @@
                                         @if ($document != null)
                                             <li>
                                                 <span>Document</span>
-                                                <em>File size: 512 kb<a
-                                                        href="{{ url(config('app.storage_url') . 'document/' . $document) }}"><i
+                                                <em>File size: 512 kb<a target="__blank"
+                                                        href="{{ url(config('app.storage_url') . 'documents/' . $document) }}"><i
                                                             class="lnr lnr-download">{{ $document }}</i></a></em>
                                             </li>
                                         @endif

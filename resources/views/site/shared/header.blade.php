@@ -20,9 +20,15 @@
                                      <a href="{{ url('/hows-it-work') }}">How's it work</a>
                                  </li>
                                  @auth
-                                     {{-- <li class="nav-item">
+                                     @if (Auth::user()->role == 'freelancer')
+                                         {{-- <li class="nav-item">
                                          <a>Browse job</a>
                                      </li> --}}
+                                     @elseif(Auth::user()->role == 'client')
+                                         <li class="nav-item">
+                                             <a href="{{ url('/search-freelancer?limit=4') }}">Browse Freelancers</a>
+                                         </li>
+                                     @endif
                                  @endauth
                                  <li class="nav-item">
                                      <a href="{{ url('/about-us') }}">About Us</a>
@@ -51,6 +57,13 @@
                                              <span>My Profile</span>
                                          </a>
                                      </li>
+                                     @if (Auth::user()->role == 'client')
+                                         <li>
+                                             <a href="{{ url('post-project') }}">
+                                                 <span>Post Project</span>
+                                             </a>
+                                         </li>
+                                     @endif
                                      <li class="menu-item-has-children">
                                          <a href="javascript:void(0)">
                                              <span>All Projects</span>

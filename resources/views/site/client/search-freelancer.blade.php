@@ -51,9 +51,9 @@
                                                     <div class="form-group">
                                                         <input type="text" name="search" id="search-input"
                                                             class="form-control" placeholder="Search by name">
-                                                        <a id="search" href="javascrip:void(0);" class="wt-searchgbtn"
-                                                            onclick=generateUrl()><i class="lnr lnr-magnifier"
-                                                                onclick=generateUrl()></i></a>
+                                                        <a id="search" href="javascrip:void(0);"
+                                                            class="applyfilters wt-searchgbtn"><i
+                                                                class="lnr lnr-magnifier"></i></a>
                                                     </div>
                                                 </fieldset>
                                             </form>
@@ -71,7 +71,7 @@
                                                         <select id="country" name="country" required>
                                                             <option disabled selected value="">Select country</option>
                                                             @foreach ($countries as $country)
-                                                                <option value="{{ $country['name'] }}">
+                                                                <option value="{{ $country['code'] }}">
                                                                     {{ $country['name'] }}
                                                                 </option>
                                                             @endforeach
@@ -107,7 +107,8 @@
                                         <div class="wt-widgetcontent">
                                             <div class="wt-applyfilters">
                                                 <span>Click “Apply Filter” to apply latest<br> changes made by you.</span>
-                                                <a id='applyfilters' href="javascript:void(0);" class="wt-btn">Apply
+                                                <a id='applyfilters' href="javascript:void(0);"
+                                                    class="applyfilters wt-btn">Apply
                                                     Filters</a>
                                             </div>
                                         </div>
@@ -126,23 +127,37 @@
 
                                         </ul>
                                     </div>
+                                    @if (count($freelancers) == 0)
+                                        <div class="wt-userlistinghold wt-featured">
+                                            <div class="wt-userlistingcontent">
+                                                <div class="wt-contenthead">
+                                                    <div class="wt-title">
+                                                        No Freelancer Found with given filters
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                     @foreach ($freelancers as $freelancer)
                                         <div class="wt-userlistinghold wt-featured">
-                                            <span class="wt-featuredtag"><img src="{{ asset('images/featured.png') }}"
-                                                    alt="img description" data-tipso="Plus Member"
-                                                    class="template-content tipso_style"></span>
                                             <figure class="wt-userlistingimg">
-                                                <img src="{{ asset('images/user/userlisting/img-01.jpg') }}"
-                                                    alt="image description">
+                                                @if ($freelancer->profile_image != null)
+                                                    <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $freelancer->profile_image) }}"
+                                                        class="profile-image-avatar" style="width: 150px;" />
+                                                @else
+                                                    <img src="{{ asset('images/user-avatar.png') }}"
+                                                        class="profile-image-avatar" style="width: 150px;" />
+                                                @endif
                                             </figure>
                                             <div class="wt-userlistingcontent">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        <a href="{{ url('/freelancerDetails/' . $freelancer->id) }}"><i
+                                                        <a href="{{ url('/freelancer/' . $freelancer->username) }}"><i
                                                                 class="fa fa-check-circle"></i>
                                                             {{ $freelancer->name }}
                                                         </a>
-                                                        <h2> ${{ $freelancer->earning }}</h2>
+                                                        <h2>{{ $freelancer->earning }}</h2>
+                                                        <span>Member Since: {{ $freelancer->created_at }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,7 +177,17 @@
                                             </li>
                                         </ul>
                                     </nav>
+
                                 </div>
+                                {{-- <nav class="wt-pagination wt-savepagination">
+                                    <ul>
+                                        <li class="wt-prevpage"><a href="javascrip:void(0);"><i
+                                                    class="lnr lnr-chevron-left"></i>Prev &nbsp;&nbsp;</a></li>
+
+                                        <li class="wt-nextpage"><a href="javascrip:void(0);">&nbsp;&nbsp;Next &nbsp;<i
+                                                    class="lnr lnr-chevron-right"></i></a></li>
+                                    </ul>
+                                </nav> --}}
                             </div>
                         </div>
                     </div>
@@ -177,6 +202,7 @@
     <script src="{{ asset('js/jquery.hoverdir.js') }}"></script>
     <script>
         let limit = 4;
+        var freelancerCount = {{ count($freelancers) }}
         const urlParams = new URLSearchParams(window.location.search);
         let offset = parseInt(urlParams.get('offset')) || 0;
         const category = urlParams.get('category');
@@ -184,7 +210,7 @@
         const search = urlParams.get('search');
 
         function generateUrl() {
-            let url = {{ url(`/freelancers?limit=${limit}&offset=${offset}`) }};
+            let url = `/search-freelancer?limit=${limit}&offset=${offset}`;
             if (category) {
                 url += `&category=${category}`;
             }
@@ -195,15 +221,15 @@
         }
 
         function generateUrlForClearAll() {
-            return {{ url(`/freelancers?limit=${limit}`) }};
+            return `/search-freelancer?limit=${limit}`;
         }
 
         function generateUrlForSearch(name) {
-            return {{ url(`/freelancers?limit=${limit}&search=${name}`) }};
+            return `/search-freelancer?limit=${limit}&search=${name}`;
         }
 
         function generateUrlForFilter(checkedCategories, country, search) {
-            let url = {{ url(`/freelancers?limit=${limit}`) }};
+            let url = `/search-freelancer?limit=${limit}`;
             if (checkedCategories.length > 0) {
                 url += `&category=${checkedCategories.join(',')}`;
             }
@@ -217,7 +243,6 @@
         }
 
         function filter(e) {
-
             e.preventDefault();
             let country = $('#country').val();
             let search = $('#search-input').val();
@@ -237,19 +262,21 @@
                 window.location.href = generateUrlForSearch(name);
             }
         });
-        $('#applyfilters').click(filter);
+        $('.applyfilters').click(filter);
 
         $('#prev').click(function(e) {
             e.preventDefault();
             if (offset > 0) {
-                offset--;
+                offset -= limit;
                 window.location.href = generateUrl();
             }
         });
 
         $('#next').click(function(e) {
             e.preventDefault();
-            offset++;
+            if (freelancerCount <= 3)
+                return;
+            offset += limit;
             window.location.href = generateUrl();
         });
 

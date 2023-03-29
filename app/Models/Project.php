@@ -56,6 +56,27 @@ class Project extends Model
             'proposals.freelancer',
         ]);
     }
+
+    public function scopeHiredFreelancer(Builder $query)
+    {
+        return $query->with([
+            'proposals' => function ($sub) {
+                $sub->whereHas('freelancer')->where('status', 'ongoing');
+            },
+            'proposals.freelancer',
+        ]);
+    }
+
+    public function scopeJobDoneByFreelancer(Builder $query)
+    {
+        return $query->with([
+            'proposals' => function ($sub) {
+                $sub->whereHas('freelancer')->where('status', 'completed');
+            },
+            'proposals.freelancer',
+        ]);
+    }
+
     public function clients(): BelongsTo
     {
         return $this->belongsTo(User::class, 'client_id');

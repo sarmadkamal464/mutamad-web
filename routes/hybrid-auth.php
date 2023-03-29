@@ -26,11 +26,11 @@ Route::get('get-projects-count', [ProjectController::class, 'getProjectsCount'])
 //Route for client
 Route::middleware('auth.client')->group(function () {
     Route::get('project/{id}', [ProjectController::class, 'getProjectDetails']);
-    Route::get('search-freelancer', [FreelancerController::class, 'searchFreelancer']);
+    Route::get('search-freelancer', [ClientController::class, 'searchFreelancer']);
     Route::resources([
         'clientProject' => ClientController::class,
     ]);
-    Route::get('open-projects', [ProjectController::class, 'openProject']);
+    Route::get('open-projects', [ProjectController::class, 'openProject'])->name('open-projects');
     Route::get('/get-project-proposals/{id}', [ProjectController::class, 'getProjectProposals']);
     Route::get('/get-project-proposals-freelancer/{id}', [ProjectController::class, 'getProjectProposalsFreelancers']);
     Route::post('/invite-freelancer-to-project', [ClientController::class, 'inviteFreelancerToProject']);

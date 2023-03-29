@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Policies\ClientPolicy;
@@ -20,26 +22,6 @@ class ClientController extends Controller
     {
         $this->response = $response;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -73,49 +55,19 @@ class ClientController extends Controller
         $request['client_id'] = Auth::user()->id;
         $project = new Project($request->except('_token', 'doc'));
         $project->save();
-        return $this->response->collectionResponse($request, $project);
+        return $this->response->successResponse($request, 'Project Posted Successfully', true, 'open-projects');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function searchFreelancer(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\user  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-    }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+        $freelancer = User::active()
+            ->freelancer()
+            ->filter($request->all())
+            ->get();
+        $data['freelancers'] = $freelancer;
+        $data['countries'] = Country::all();
+        $data['categories'] = Category::all();
+        return $this->response->collectionResponse($request, $freelancer, true, 'site/client/search-freelancer', $data);
     }
 
     public function inviteFreelancerToProject(Request $request)
@@ -128,19 +80,23 @@ class ClientController extends Controller
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
-        $project = Project::find($request->project_id);
+        $project = Project::open()->find($request->project_id);
         if (!$project) {
-            return $this->response->errorResponse($request, 'No Project Found', 403);
+            return $this->response->errorResponse($request, 'No Open Project Found', 403);
         }
         if ($project->client_id != Auth::user()->id) {
             return $this->response->errorResponse($request, 'You cannot invite anyone for this project', 403);
         }
-        if ($project->status != 'open') {
-            return $this->response->errorResponse($request, 'This project is not open to invite anyone', 403);
-        }
         $freelancer = User::find($request->freelancer_id);
         if (!$freelancer->isFreelancer()) {
             return $this->response->errorResponse($request, 'Requested User is not a freelancer', 403);
+        }
+
+        $proposal = Proposal::where('freelancer_id', $request->freelancer_id)
+            ->where('project_id', $request->project_id)
+            ->first();
+        if ($proposal) {
+            return $this->response->errorResponse($request, "You already send offer to $freelancer->name for this project ", 403);
         }
         $invitation = new Proposal([
             'project_id' => $request->project_id,
@@ -153,7 +109,8 @@ class ClientController extends Controller
             'proposal_type' => 'invitation',
         ]);
         if ($invitation->save()) {
-            return $this->response->collectionResponse($request, $invitation);
+            $message = "Offer send to $freelancer->name successfully";
+            return $this->response->successResponse($request, $message, true, 'open-projects');
         }
         return $this->response->errorResponse($request, 'Something went wrongs', 403);
     }

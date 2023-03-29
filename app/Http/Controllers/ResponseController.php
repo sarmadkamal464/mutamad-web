@@ -17,7 +17,7 @@ class ResponseController extends Controller
      */
     public function successResponse($request, $message, $success = true, $route = null, $compact = [])
     {
-        if ($request->device_type != "web")
+        if ($request->device_type != "web" || $request->has('ajax'))
             return response()->json(['message' => $message, 'success' => $success], 200);
         Session::flash('message', $message);
         if (!is_null($route))
@@ -35,7 +35,7 @@ class ResponseController extends Controller
      */
     public function collectionResponse($request, $resources, $success = true, $route = null, $compact = [])
     {
-        if ($request->device_type != "web")
+        if ($request->device_type != "web" || $request->has('ajax'))
             return response()->json(['data' => $resources, 'success' => $success], 200);
         else if (is_null($route) && $request->has('noRedirect'))
             return $resources;
@@ -65,7 +65,7 @@ class ResponseController extends Controller
      */
     public function errorResponse($request, $message,  $status, $success = false)
     {
-        if ($request->device_type != "web")
+        if ($request->device_type != "web" || $request->has('ajax'))
             return response()->json(['errors' => $message, 'success' => $success], $status);
         return redirect()->back()->withErrors($message);
     }
@@ -83,6 +83,6 @@ class ResponseController extends Controller
         foreach ($errors as $key => $error) {
             $errors[$key] = implode(" ", $error);
         }
-        return ($request->device_type != "web") ? response()->json(['errors' => $errors], 400) :  redirect()->back()->withErrors($validator->errors());
+        return ($request->device_type != "web" || $request->has('ajax')) ? response()->json(['errors' => $errors], 400) :  redirect()->back()->withErrors($validator->errors());
     }
 }

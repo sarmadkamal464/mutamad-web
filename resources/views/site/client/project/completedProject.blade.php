@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        <nav class="wt-pagination wt-savepagination">
+                        {{-- <nav class="wt-pagination wt-savepagination">
                             <ul>
                                 <li class="wt-prevpage"><a href="javascrip:void(0);"><i
                                             class="lnr lnr-chevron-left"></i>Prev &nbsp;&nbsp;</a></li>
@@ -81,7 +81,7 @@
                                 <li class="wt-nextpage"><a href="javascrip:void(0);">&nbsp;&nbsp;Next &nbsp;<i
                                             class="lnr lnr-chevron-right"></i></a></li>
                             </ul>
-                        </nav>
+                        </nav> --}}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
