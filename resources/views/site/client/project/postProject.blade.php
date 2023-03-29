@@ -30,7 +30,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -68,7 +68,7 @@
                                         </div>
                                         <div class="form-group form-group">
                                             <label class="form-label" for="budget">Add budget*</label>
-                                            <input type="text" name="budget" class="form-control"
+                                            <input type="number" name="budget" class="form-control"
                                                 placeholder="Add budget" required>
                                         </div>
                                         <div class="form-group">
@@ -95,27 +95,13 @@
                                                 </select>
                                             </span>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="country">Country<span
-                                                    class="label-required"><span class="label-required">
-                                                        *</span></label>
-                                            <span class="wt-select">
-                                                <select id="country" name="country" required>
-                                                    <option disabled selected value="">Select country</option>
-                                                    @foreach ($countries as $country)
-                                                        <option value="{{ $country['name'] }}">{{ $country['name'] }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </span>
-                                        </div>
                                     </fieldset>
                             </div>
                             <div class="wt-jobdetails wt-tabsinfo">
                                 <div class="wt-tabscontenttitle">
                                     <h2>Job Details</h2>
                                 </div>
-                                <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Job Detail Here"></textarea>
+                                <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Job Detail Here" required></textarea>
                             </div>
                             <div class="wt-attachmentsholder">
 

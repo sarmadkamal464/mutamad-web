@@ -6,19 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\Project;
+use App\Models\ProjectDuration;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     protected $project;
-    function __construct(ProjectController $project)
+    protected $user;
+    function __construct(ProjectController $project, UserController $user)
     {
         $this->project = $project;
+        $this->user = $user;
     }
     public function index()
     {
-        return view('site.home');
+        return view('site.home', ['categories' => Category::all()]);
     }
 
     public function about()
@@ -26,9 +29,12 @@ class HomeController extends Controller
         return view('site.about');
     }
 
-    public function freelancer()
+    public function freelancer(Request $request, $slug)
     {
-        return view('site.freelancer',['categories' => Category::all()]);
+        $freelancer = User::active()
+            ->where('username', $slug)
+            ->first();
+        return view('site.client.freelancerDetails', ['freelancer' => $freelancer]);
     }
     public function ongoingProject()
     {
@@ -38,13 +44,13 @@ class HomeController extends Controller
     {
         return view('site.completedProject');
     }
-    public function assignedProject ()
+    public function assignedProject()
     {
         return view('site.assignedProject ');
     }
-    public function postProject ()
+    public function postProject()
     {
-        return view('site.postProject ');
+        return view('site.client.project.postProject', ['categories' => Category::all(), 'durations' => ProjectDuration::all()]);
     }
 
     public function privacyPolicy()

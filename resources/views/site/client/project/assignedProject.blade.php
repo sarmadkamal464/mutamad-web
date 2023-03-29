@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                         </div>
-                        <nav class="wt-pagination wt-savepagination">
+                        {{-- <nav class="wt-pagination wt-savepagination">
                             <ul>
                                 <li class="wt-prevpage"><a href="javascrip:void(0);"><i
                                             class="lnr lnr-chevron-left"></i></a></li>
@@ -159,7 +159,7 @@
                                 <li class="wt-nextpage"><a href="javascrip:void(0);"><i
                                             class="lnr lnr-chevron-right"></i></a></li>
                             </ul>
-                        </nav>
+                        </nav> --}}
                     </div>
                 </div>
 

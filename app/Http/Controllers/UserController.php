@@ -29,7 +29,8 @@ class UserController extends Controller
 
     public function getUser(Request $request, $id)
     {
-        return $this->response->collectionResponse($request, User::active()->find($id));
+        $user = User::active()->find($id);
+        return $this->response->collectionResponse($request, ($user) ? $user : []);
     }
 
     public function updateProfile(Request $request)

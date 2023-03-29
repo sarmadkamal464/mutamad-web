@@ -93,19 +93,6 @@ class FreelancerController extends Controller
         //
     }
 
-    public function searchFreelancer(Request $request)
-    {
-        return $this->response->collectionResponse(
-            $request,
-            User::active()
-                ->freelancer()
-                ->filter($request->all())
-                ->get(),
-            true,
-            'freelancers',
-        );
-    }
-
     public function sendProposal(Request $request)
     {
         $validator = Validator::make($request->all(), ['project_id' => 'required', 'description' => 'required']);
