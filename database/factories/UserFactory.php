@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -14,6 +16,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $country = Country::pluck('code')->toArray();
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
@@ -21,7 +24,7 @@ class UserFactory extends Factory
             'password' => bcrypt('12345678'),
             'profile_image' => null,
             'phone' => $this->faker->phoneNumber,
-            'country' => $this->faker->country,
+            'country' => Arr::random($country),
             'bio' => $this->faker->paragraph,
             'experience' => $this->faker->sentence,
             'role' => $this->faker->randomElement(['client', 'freelancer']),
