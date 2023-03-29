@@ -7,8 +7,27 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wt-dashboardbox {
+            max-width: 1140px
+        }
+
+        .center {
+            display: flex;
+            justify-content: center
+        }
+
+        .wt-accordiontitle p {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .wt-proposaldetails {
+            width: 100%;
+        }
+
         .wt-main {
-            padding: 121px 40px 20px 310px;
+            padding: 121px 40px 20px 40px;
         }
     </style>
 @endsection
@@ -18,7 +37,7 @@
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="center col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="wt-dashboardbox">
                         <div class="wt-dashboardboxtitle">
                             <h2>Assing Proposal</h2>
@@ -69,6 +88,7 @@
                                 <div class="wt-tabscontenttitle">
                                     <h2>Received Proposals</h2>
                                 </div>
+
                                 <div class="wt-managejobcontent">
                                     @foreach ($proposals as $proposal)
                                         <div class="wt-userlistinghold wt-featured wt-proposalitem">
@@ -93,7 +113,9 @@
                                                 </div>
                                                 <div class="wt-accordiontitle collapsed" data-toggle="collapse"
                                                     data-target="#proposal{{ $proposal['id'] }}" aria-expanded="false">
-                                                    <span>{{ $proposal['description'] }}</span>
+                                                    <span>
+                                                        <p>{{ $proposal['description'] }}</p>
+                                                    </span>
                                                 </div>
                                                 <div class="wt-accordiondetails collapse"
                                                     id="proposal{{ $proposal['id'] }}">

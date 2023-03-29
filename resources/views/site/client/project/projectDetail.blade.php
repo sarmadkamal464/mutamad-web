@@ -21,10 +21,21 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                        padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
+        }
+
+        .wt-attachfile li em i {
+            width: 100%;
+            font-size: 13px;
+            color: #55acee;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            vertical-align: middle;
+            padding-bottom: 6px;
         }
     </style>
 @endsection
@@ -126,8 +137,9 @@
                                             </div>
                                         </div>
                                     @else
-                                        <div class="wt-btnarea"><button class="wt-btn" disabled=true>Project
-                                                Closed</button>
+                                        <div class="wt-btnarea">
+                                            <p style="color: red;">Project
+                                                Closed</p>
                                         </div>
                                     @endif
                                 @endif

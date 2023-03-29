@@ -18,6 +18,7 @@
  <script>
      // controlling the bottom footer position
      function positionFooter() {
+
          var docHeight = $(window).height();
          var footerHeight = $('#wt-footer').height();
          var footerTop = $('#wt-footer').position().top + footerHeight;

@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <style>
+        .center {
+            justify-content: center;
+            display: flex;
+        }
+
+        .wt-haslayout .wt-dbsectionspace {
+            max-width: 1400px;
+        }
+
         main {
             margin-top: 5%;
         }
@@ -33,7 +42,7 @@
         <!--Register Form Start-->
         <section class="wt-haslayout">
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 ">
+                <div class="center col-xs-12 col-sm-12 col-md-12 ">
                     <div class="wt-haslayout wt-dbsectionspace">
                         <div class="wt-dashboardbox wt-dashboardtabsholder">
                             <div class="wt-dashboardboxtitle">
@@ -56,7 +65,7 @@
                                 <div class="wt-personalskillshold tab-pane fade active show" id="wt-profile">
                                     <div class="wt-yourdetails wt-tabsinfo">
                                         <div class="wt-tabscontenttitle">
-                                            <h2>Updating your Profile</h2>
+                                            <h2>Update your Profile</h2>
                                         </div>
                                         <form class="wt-formtheme wt-userform" method="POST"
                                             action="{{ url('update-profile') }}" enctype="multipart/form-data">
@@ -213,6 +222,11 @@
                 }
                 reader.readAsDataURL(file);
             }
+        });
+        $(document).ready(function() {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                positionFooter();
+            });
         });
     </script>
 @endsection

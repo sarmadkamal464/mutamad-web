@@ -15,6 +15,17 @@
             width: inherit !important;
             font-weight: bold !important;
         }
+        .wt-dashboardboxcontent {
+            padding: 30px 0px;
+        }
+
+        @media (max-width: 767px) {
+
+            .wt-dashboardboxcontent,
+            .wt-collapseexp {
+                padding: 30px 10px;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -75,18 +86,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                     <aside id="wt-sidebar" class="wt-sidebar wt-dashboardsave">
-                        <div class="wt-proposalsr">
-                            <div class="wt-proposalsrcontent">
-                                <figure>
-                                    <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
-                                </figure>
-                                <div class="wt-title">
-                                    <h3>{{ $projectCounts['ongoing'] }}</h3>
-                                    <span>Ongoing Projects</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="wt-proposalsr">
+                        <a href="{{ url('/open-projects') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>
                                     <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
@@ -96,8 +96,20 @@
                                     <span>Open Projects</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="wt-proposalsr">
+                        </a>
+                        <a href="{{ url('/ongoing-projects') }}" class="wt-proposalsr">
+                            <div class="wt-proposalsrcontent">
+                                <figure>
+                                    <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
+                                </figure>
+                                <div class="wt-title">
+                                    <h3>{{ $projectCounts['ongoing'] }}</h3>
+                                    <span>Ongoing Projects</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="{{ url('/completed-projects') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent wt-componyfolow">
                                 <figure>
                                     <img src="{{ asset('images/thumbnail/img-16.png') }}" alt="image">
@@ -107,7 +119,7 @@
                                     <span>Completed Projects</span>
                                 </div>
                             </div>
-                        </div>
+                        </a>
 
                     </aside>
                 </div>

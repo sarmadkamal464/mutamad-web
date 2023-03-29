@@ -16,6 +16,10 @@
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('js/jquery-toast/dist/css/jquery-toasts.min.css') }}">
 <style>
+    .wt-username h3 {
+        line-height: initial;
+    }
+
     .toastify.warning {
         color: #fff !important;
         background-color: red !important;

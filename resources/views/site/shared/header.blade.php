@@ -52,13 +52,13 @@
                                          </a>
                                      </li>
                                      <li class="menu-item-has-children">
-                                         <a href="{{ url('/get-all-projects') }}">
+                                         <a href="javascript:void(0)">
                                              <span>All Projects</span>
                                          </a>
                                          <ul class="sub-menu">
-                                             <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
                                              <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
-                                             <li><a href="{{ url('/ongoing-projects') }}">Ongoing Single</a></li>
+                                             <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a></li>
+                                             <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
                                          </ul>
                                      </li>
                                      <li>
