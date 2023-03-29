@@ -20,6 +20,27 @@
             padding: 30px 0px;
         }
 
+        .wt-managejobcontent {
+            padding: 0 30px;
+        }
+
+        .wt-contenthead .wt-title h2 {
+            margin: 0 0 10px;
+            line-height: 15px;
+        }
+
+        .wt-rightarea {
+            float: right;
+        }
+
+        @media (max-width: 1681px) {
+
+            .wt-userlistingvtwo .wt-userlistingcontent .wt-rightarea .wt-btnarea,
+            .wt-userlistingvtwo .wt-userlistingcontentvtwo .wt-rightarea .wt-btnarea {
+                padding: 0 0 30px;
+            }
+        }
+
         @media (max-width: 767px) {
 
             .wt-dashboardboxcontent,

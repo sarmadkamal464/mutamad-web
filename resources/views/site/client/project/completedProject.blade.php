@@ -15,6 +15,28 @@
             width: inherit !important;
             font-weight: bold !important;
         }
+
+        .wt-contenthead .wt-title h2 {
+            margin: 0 0 10px;
+            line-height: 15px;
+        }
+
+        .wt-rightarea {
+            float: right;
+        }
+
+        .wt-managejobcontent {
+            padding: 0 30px;
+        }
+
+        @media (max-width: 1681px) {
+
+            .wt-userlistingvtwo .wt-userlistingcontent .wt-rightarea .wt-btnarea,
+            .wt-userlistingvtwo .wt-userlistingcontentvtwo .wt-rightarea .wt-btnarea {
+                padding: 0 0 30px;
+            }
+        }
+
         .wt-dashboardboxcontent {
             padding: 30px 0px;
         }
