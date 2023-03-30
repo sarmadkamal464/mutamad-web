@@ -3942,11 +3942,12 @@ body.wt-login .wt-userlogedin {
 }
 
 .wt-accordiontitle {
-    float: left;
+/* dev kc */
+    /* float: left;
     width: 100%;
     cursor: pointer;
     padding: 10px 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; */
 }
 
 .wt-accordiontitle span {

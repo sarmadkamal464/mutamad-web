@@ -110,25 +110,26 @@
                                             <div class="wt-proposaldetails">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        <a>{{ $proposal['freelancer']['name'] }}</a>
+                                                        <a
+                                                            href="{{ url('freelancer') . '/' . $proposal['freelancer']['username'] }}">{{ $proposal['freelancer']['name'] }}</a>
                                                     </div>
                                                 </div>
-                                                <div class="wt-proposalfeedback">
-                                                    <span
-                                                        class="wt-starcontent">Earnings:&nbsp;<i>{{ $proposal['freelancer']['earning'] }}</i></span>
-                                                </div>
+                                                {{-- <div class="wt-proposalfeedback">
+                                                    <p class="wt-starcontent">
+                                                        Earnings:&nbsp;<i>{{ $proposal['freelancer']['earning'] }}</i></p>
+                                                </div> --}}
                                                 <div class="wt-accordiontitle collapsed" data-toggle="collapse"
                                                     data-target="#proposal{{ $proposal['id'] }}" aria-expanded="false">
                                                     <span>
-                                                        <p>{{ $proposal['description'] }}</p>
-                                                    </span><a href="javascript:void(0);" class="wt-btn wt-msgbtn"><i
-                                                            class="lnr lnr-chevron-down"></i> &nbsp; Message</a>
+                                                        {{-- <p>{{ $proposal['description'] }}</p> --}}
+                                                    </span>
+                                                    <span style="font-size: 14px;">Cover Letter </span><i
+                                                        class="lnr lnr-chevron-down"></i></a>
                                                 </div>
                                                 <div class="wt-accordiondetails collapse"
                                                     id="proposal{{ $proposal['id'] }}">
                                                     <div class="wt-title">
 
-                                                        <h3>Cover Letter:</h3>
                                                     </div>
                                                     <div class="wt-description">
                                                         <p>{{ $proposal['description'] }}</p>
