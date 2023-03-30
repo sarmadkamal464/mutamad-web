@@ -18,6 +18,28 @@
 {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 
 <style>
+    .wt-dashboardboxtitle h2 {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+
+    }
+
+    .wt-tabscontenttitle h2 {
+        font-weight: 800 !important;
+        font-size: 18px !important;
+    }
+
+    label {
+        color: #323232;
+        font-weight: 600;
+    }
+
+    body,
+    .wt-starcontent {
+        color: #323232 !important;
+
+    }
+
     .wt-username h3 {
         line-height: initial;
     }
@@ -82,15 +104,7 @@
         border-color: #ddd;
     }
 
-    .toastify.warning {
-        color: #fff !important;
-        background-color: red !important;
-    }
 
-    .toastify.success {
-        color: #fff !important;
-        background-color: lightgreen !important;
-    }
 
     button.wt-btnarea {
         color: white !important;

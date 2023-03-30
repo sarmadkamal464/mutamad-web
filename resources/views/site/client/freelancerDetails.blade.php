@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wt-profilecounter {
+            align-items: center;
+            width: 100%;
+            display: flex;
+        }
+
         .wt-titlewithselect .form-group {
 
             min-width: 135px;

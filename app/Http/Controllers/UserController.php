@@ -30,21 +30,26 @@ class UserController extends Controller
     public function getUser(Request $request, $id)
     {
         $user = User::active()->find($id);
-        return $this->response->collectionResponse($request, ($user) ? $user : []);
+        return $this->response->collectionResponse($request, $user ? $user : []);
     }
 
     public function updateProfile(Request $request)
     {
         $userAttr = ['name', 'country', 'bio', 'phone'];
         $documentName = null;
+        $validator = Validator::make($request->all(), ['name' => 'required|string|max:25']);
+        if ($validator->fails()) {
+            return $this->response->validationErrorResponse($request, $validator);
+        }
         if ($request->has('image') && $request->image != null) {
             $customMessages = [
                 'required' => 'The :attribute field is required.',
                 'dimensions' => 'Image dimension should be less than 300 x 300',
             ];
             $validator = Validator::make($request->all(), ['image' => 'image|mimes:jpeg,png,jpg|max:2048|dimensions:max_width=300,max_height=300'], $customMessages);
-            if ($validator->fails())
+            if ($validator->fails()) {
                 return $this->response->validationErrorResponse($request, $validator);
+            }
             $document = $request->file('image');
             $documentName = 'user-id-' . Auth::user()->id . '-' . time() . '.' . $document->getClientOriginalExtension();
             $document->storeAs('public/user-profile-pictures', $documentName);

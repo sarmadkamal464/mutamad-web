@@ -48,9 +48,9 @@ trait AuthTrait
     public function signup(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|regex:/^[\pL\s\-]+$/u',
-            'username' => 'required|string|max:255|unique:users,username|alpha_dash',
-            'email' => 'required|email|unique:users|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
+            'name' => 'required|string|max:25|regex:/^[\pL\s\-]+$/u',
+            'username' => 'required|string|max:25|unique:users,username|alpha_dash',
+            'email' => 'required|email|unique:users|max:30|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'password' => 'required|string|confirmed|min:8',
             'role' => 'required',
             'country' => 'required',

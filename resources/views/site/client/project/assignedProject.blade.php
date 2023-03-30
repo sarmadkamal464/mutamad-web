@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wt-msgbtn {
+            padding: 0 26px;
+            line-height: 36px;
+            background: #0583ce;
+        }
+
         .wt-dashboardbox {
             max-width: 1140px
         }
@@ -115,7 +121,8 @@
                                                     data-target="#proposal{{ $proposal['id'] }}" aria-expanded="false">
                                                     <span>
                                                         <p>{{ $proposal['description'] }}</p>
-                                                    </span>
+                                                    </span><a href="javascript:void(0);" class="wt-btn wt-msgbtn"><i
+                                                            class="lnr lnr-chevron-down"></i> &nbsp; Message</a>
                                                 </div>
                                                 <div class="wt-accordiondetails collapse"
                                                     id="proposal{{ $proposal['id'] }}">

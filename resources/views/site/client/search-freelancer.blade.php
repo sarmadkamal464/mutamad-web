@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wt-userlistinghold {
+            background-color: #fff;
+        }
+
+        .wt-contenthead .wt-title a {
+            font-size: 21px
+        }
+
         .wt-description p {
+            font-size: 18px !important;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -170,10 +179,10 @@
                                     <nav class="wt-pagination">
                                         <ul>
                                             <li><a href="#" id="prev"><i class="lnr lnr-chevron-left"></i></a>
-                                                Next
+                                                Previous
                                             </li>
                                             <li><a href="#" id="next"><i class="lnr lnr-chevron-right"></i></a>
-                                                <span> Previous<span>
+                                                <span> Next<span>
                                             </li>
                                         </ul>
                                     </nav>

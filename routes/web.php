@@ -21,7 +21,6 @@ Route::get('/freelancer/{slug}', [HomeController::class, 'freelancer']);
 Route::get('/ongoingProject', [HomeController::class, 'ongoingProject']);
 Route::get('/completedProject', [HomeController::class, 'completedProject']);
 Route::get('/assignedProject', [HomeController::class, 'assignedProject']);
-Route::get('/post-project', [HomeController::class, 'postProject']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/hows-it-work', [HomeController::class, 'howsItWork']);
 Route::any('password/reset', [UserController::class, 'resetPassword']);

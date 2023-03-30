@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                        padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -37,6 +37,12 @@
             vertical-align: middle;
             padding-bottom: 6px;
         }
+
+        .wt-userlisting-breadcrumb li span,
+        .wt-userlisting-breadcrumb li a {
+            color: #323232;
+            line-height: 1.6;
+        }
     </style>
 @endsection
 @section('content')
@@ -51,7 +57,7 @@
                             <div class="wt-proposalholder">
                                 <div class="wt-proposalhead">
                                     <h2>{{ $title }}</h2>
-                                    <ul class="wt-userlisting-breadcrumb wt-userlisting-breadcrumbvtwo">
+                                    {{-- <ul class="wt-userlisting-breadcrumb wt-userlisting-breadcrumbvtwo">
                                         <li><span><i class="fa fa-dollar-sign"></i><i class="fa fa-dollar-sign"></i><i
                                                     class="fa fa-dollar-sign"></i> Budget: {{ $budget }}</span></li>
 
@@ -60,6 +66,15 @@
                                         <li><span><i class="far fa-folder"></i> Project Category:
                                                 {{ $category['name'] }}</span></li>
                                         <li><span><i class="far fa-clock"></i> Duration: {{ $duration['title'] }}</span>
+                                        </li>
+                                    </ul> --}}
+                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
+                                        <li><span class="wt-dashboraddoller"><i class="fa fa-dollar-sign"></i>
+                                                Budget: {{ $budget }}</span></li>
+                                        <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
+                                                Duration: {{ $duration['title'] }}</span></li>
+                                        <li><span class="wt-clicksavefolder"><i class="far fa-folder"></i> &nbsp; Category:
+                                                {{ $category['name'] }}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -200,6 +215,10 @@
                                                 <em>File size: 512 kb<a target="__blank"
                                                         href="{{ url(config('app.storage_url') . 'documents/' . $document) }}"><i
                                                             class="lnr lnr-download">{{ $document }}</i></a></em>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <span>No Attachment</span>
                                             </li>
                                         @endif
                                     </ul>

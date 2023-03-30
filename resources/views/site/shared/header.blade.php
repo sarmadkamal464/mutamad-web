@@ -47,7 +47,7 @@
                                  @endif
                              </figure>
                              <div class="wt-username">
-                                 <h3>{{ Auth::user()->name }}</h3>
+                                 <h3>{{ Auth::user()->short_name }}</h3>
                                  <span></span>
                              </div>
                              <nav class="wt-usernav">

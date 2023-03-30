@@ -29,6 +29,12 @@
             padding: 0 30px;
         }
 
+        .wt-userlisting-breadcrumb li span,
+        .wt-userlisting-breadcrumb li a {
+            color: #323232;
+            line-height: 1.6;
+        }
+
         @media (max-width: 1681px) {
 
             .wt-userlistingvtwo .wt-userlistingcontent .wt-rightarea .wt-btnarea,

@@ -24,6 +24,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $appends=['short_name'];
     protected $fillable = ['name', 'email', 'password', 'username', 'role', 'category_id', 'resetToken', 'country', 'bio', 'phone', 'agreed_terms_of_conditions', 'wallet', 'wallet_balance', 'profile_image', 'is_active', 'deactivate_reason', 'earning'];
 
     /**
@@ -105,5 +106,14 @@ class User extends Authenticatable
         } else {
             return '$' . $value;
         }
+    }
+
+    public function getShortNameAttribute()
+    {
+        $value = $this->name;
+        $name = explode(" ",$value);
+        if(count($name) >= 2)
+            return $name[0] . ' ' . $name[1];
+        return $value;
     }
 }

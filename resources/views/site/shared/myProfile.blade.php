@@ -6,11 +6,6 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <style>
-        .center {
-            justify-content: center;
-            display: flex;
-        }
-
         .wt-haslayout .wt-dbsectionspace {
             max-width: 1400px;
         }
@@ -33,12 +28,19 @@
             /* by dev */
             width: 100% !important;
         }
+
+        .center {
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+            justify-content: center;
+            display: flex;
+        }
     </style>
 @endsection
 
 @section('content')
     <!--Main Start-->
-    <main id="wt-main" class="wt-main wt-haslayout">
+    <main id="wt-main" class="center wt-main wt-haslayout">
         <!--Register Form Start-->
         <section class="wt-haslayout">
             <div class="row">
