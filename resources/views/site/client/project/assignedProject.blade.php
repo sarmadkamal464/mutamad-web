@@ -127,7 +127,7 @@
                                                 <div class="wt-accordiondetails collapse"
                                                     id="proposal{{ $proposal['id'] }}">
                                                     <div class="wt-title">
-                                                        <i class="far fa-envelope"></i>
+
                                                         <h3>Cover Letter:</h3>
                                                     </div>
                                                     <div class="wt-description">
