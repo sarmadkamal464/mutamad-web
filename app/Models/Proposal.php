@@ -50,6 +50,6 @@ class Proposal extends Model
 
     public function freelancer()
     {
-        return $this->belongsTo(User::class, 'freelancer_id');
+        return $this->belongsTo(User::class, 'freelancer_id')->where('is_active',1);
     }
 }

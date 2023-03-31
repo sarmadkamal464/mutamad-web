@@ -61,6 +61,7 @@ class ClientController extends Controller
     public function searchFreelancer(Request $request)
     {
         $freelancer = User::active()
+            ->with('category')
             ->freelancer()
             ->filter($request->all())
             ->get();
@@ -128,7 +129,7 @@ class ClientController extends Controller
             ->where('client_id', Auth::user()->id)
             ->find($request->project_id);
         if (!$project) {
-            return $this->response->errorResponse($request, 'No Open Project Found for Details', 403);
+            return $this->response->errorResponse($request, 'This project is not open to assigned', 403);
         }
         $proposal = Proposal::where('project_id', $request->project_id)->find($request->proposal_id);
         if (!$proposal) {

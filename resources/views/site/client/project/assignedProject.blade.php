@@ -145,7 +145,13 @@
                                                             value="{{ $proposal['project_id'] }}">
                                                         <input type="hidden" name="proposal_id"
                                                             value="{{ $proposal['id'] }}">
-                                                        <button type="submit" class="wt-btn color-white ">Hire Now</button>
+                                                        @if ($proposal['status'] != 'pending')
+                                                            <button type="button" class="wt-btn color-white ">Hired
+                                                            </button>
+                                                        @else
+                                                            <button type="submit" class="wt-btn color-white ">Hire
+                                                                Now</button>
+                                                        @endif
                                                     </form>
                                                 </div>
                                             </div>

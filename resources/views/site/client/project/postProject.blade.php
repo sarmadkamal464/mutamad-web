@@ -30,7 +30,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -62,17 +62,22 @@
                                     @csrf
                                     <fieldset>
                                         <div class="form-group form-group">
-                                            <label class="form-label" for="tile">Add your project title*</label>
+                                            <label class="form-label" for="tile">Add your project title<span
+                                                    class="label-required">
+                                                    *</span></label>
                                             <input type="text" name="title" class="form-control"
                                                 placeholder="Add your project title" required>
                                         </div>
                                         <div class="form-group form-group">
-                                            <label class="form-label" for="budget">Add budget*</label>
+                                            <label class="form-label" for="budget">Add budget<span class="label-required">
+                                                    *</span></label>
                                             <input type="number" name="budget" class="form-control"
                                                 placeholder="Add budget" required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="category_id">Project category*</label>
+                                            <label class="form-label" for="category_id">Project category<span
+                                                    class="label-required">
+                                                    *</span></label>
                                             <span class="wt-select">
                                                 <select name="category_id" required>
                                                     <option disabled selected value="">Select category</option>
@@ -84,7 +89,9 @@
                                             </span>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="duration_id">Project duration*</label>
+                                            <label class="form-label" for="duration_id">Project duration<span
+                                                    class="label-required">
+                                                    *</span></label>
                                             <span class="wt-select">
                                                 <select id="duration" name="duration_id" required>
                                                     @foreach ($durations as $duration)

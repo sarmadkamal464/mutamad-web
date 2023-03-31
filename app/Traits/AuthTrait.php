@@ -168,6 +168,8 @@ trait AuthTrait
             return $this->response->validationErrorResponse($request, $validator);
         }
         $user = User::find(Auth::user()->id);
+        if($request->deactivate_reason == "Others")
+            $request['deactivate_reason'] =$request->other;
         $user->update(['deactivate_reason' => $request->deactivate_reason, 'is_active' => 0]);
         $request->device_type == 'web'
             ? Session::flush()

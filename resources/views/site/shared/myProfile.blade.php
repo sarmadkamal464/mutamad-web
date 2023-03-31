@@ -143,22 +143,21 @@
                                         <div class="wt-tabscontenttitle">
                                             <h2>Deactivate Account</h2>
                                         </div>
-                                        <form class="wt-formtheme wt-userform" action="{{ url('deactivate-account') }}"
-                                            method="POST">
+                                        <form id='deactivate_form' class="wt-formtheme wt-userform"
+                                            action="{{ url('deactivate-account') }}" method="POST">
                                             @csrf
                                             <fieldset>
                                                 <h5>Choose reason</h5>
                                                 <div class="form-group form-group-half">
                                                     <span class="wt-select">
                                                         <select name="deactivate_reason" id="deactivate_reason" required>
-                                                            <option>Why you want to leave</option>
-                                                            <option value="Just Need A Break">Just Need A Break</option>
-                                                            <option value="$('#other').val()">Other</option>
+                                                            <option value="" disabled selected>Why you want to leave
+                                                            </option>
                                                         </select>
                                                     </span>
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea name="other" id="other" class="form-control" placeholder="Enter description"></textarea>
+                                                    <textarea name="other" name="other" id="other" class="form-control" placeholder="Enter description"></textarea>
                                                 </div>
                                                 <div class="form-group form-group-half wt-btnarea">
                                                     <button class="wt-btn wt-btn-sm ">Deactivate Now</button>
@@ -181,6 +180,39 @@
     <script>
         $(document).ready(function() {
             // Get the drop area and input element
+            var reasons = [{
+                    id: 0,
+                    value: "Not interested anymore"
+                },
+                {
+                    id: 1,
+                    value: "Switching to a different platform or service"
+                },
+                {
+                    id: 2,
+                    value: "Difficulty navigating or using the platform"
+                },
+                {
+                    id: 3,
+                    value: "Limiting social media use for mental health reasons"
+                },
+                {
+                    id: 4,
+                    value: "Taking a break from social media or the internet in general"
+                },
+                {
+                    id: 5,
+                    value: "Others"
+                },
+            ]
+            var html = '';
+            $.each(reasons, function(id, data) {
+                html +=
+                    `<option value="${data['value']}">${data['value']}</option>`
+            });
+
+
+            $('#deactivate_reason').append(html);
             var dropArea = $('.wt-labelgroup');
             var input = $('#filep');
             // Prevent default drag behaviors
