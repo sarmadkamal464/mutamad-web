@@ -81,12 +81,13 @@
                                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                                         <li><span class="wt-dashboraddoller"><i
                                                                     class="fa fa-dollar-sign"></i>
-                                                                Project Category:{{ $item->category->name }}</span></li>
+                                                                &nbsp; Project Category:{{ $item->category->name }}</span>
+                                                        </li>
 
                                                         <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                                Duration: {{ $item->duration->title }}</span></li>
+                                                                &nbsp; Duration: {{ $item->duration->title }}</span></li>
                                                         <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
-                                                                    class="far fa-folder"></i> Budget:
+                                                                    class="far fa-folder"></i> &nbsp; Budget:
                                                                 {{ $item->budget }}</a></li>
                                                     </ul>
                                                 </div>

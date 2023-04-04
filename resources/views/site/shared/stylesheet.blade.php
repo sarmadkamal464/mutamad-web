@@ -18,6 +18,11 @@
 {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 
 <style>
+    .wt-contenthead .wt-title h2 {
+        margin: 0px !important;
+        line-height: 28px !important;
+    }
+
     .wt-dashboardboxtitle h2 {
         font-size: 20px !important;
         font-weight: 600 !important;

@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -70,10 +70,11 @@
                                     </ul> --}}
                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                         <li><span class="wt-dashboraddoller"><i class="fa fa-dollar-sign"></i>
-                                                Budget: {{ $budget }}</span></li>
+                                                &nbsp; Budget: &nbsp; {{ $budget }}</span></li>
                                         <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                Duration: {{ $duration['title'] }}</span></li>
+                                                &nbsp; Duration: &nbsp; {{ $duration['title'] }}</span></li>
                                         <li><span class="wt-clicksavefolder"><i class="far fa-folder"></i> &nbsp; Category:
+                                                &nbsp;
                                                 {{ $category['name'] }}</span>
                                         </li>
                                     </ul>

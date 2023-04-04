@@ -57,13 +57,13 @@
                                         </div>
                                         <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                             <li><span class="wt-dashboraddoller"><i class="fa fa-dollar-sign"></i>
-                                                    Project
-                                                    Category:{{ $category['name'] }}</span></li>
+                                                    &nbsp; Project
+                                                    Category: &nbsp;{{ $category['name'] }}</span></li>
 
                                             <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                    Duration: {{ $duration['title'] }}</span></li>
+                                                    &nbsp; Duration: &nbsp; {{ $duration['title'] }}</span></li>
                                             <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
-                                                        class="far fa-folder"></i> Budget:
+                                                        class="far fa-folder"></i> &nbsp; Budget: &nbsp;
                                                     {{ $budget }}</a></li>
                                         </ul>
                                     </div>
