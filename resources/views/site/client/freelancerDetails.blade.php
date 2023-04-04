@@ -114,8 +114,10 @@
             <div class="wt-modalcontent modal-content">
                 <div class="wt-popuptitle">
                     <h2>Send a Project Offer</h2>
-                    <a href="javascript%3bvoid(0)%3b.html" class="wt-closebtn close"><i class="fa fa-close"
-                            data-dismiss="modal" aria-label="Close"></i></a>
+                    <a href="javascript%3bvoid(0)%3b.html" class="wt-closebtn close"><i
+                            style="
+                        color: black;" class="fa fa-close" data-dismiss="modal"
+                            aria-label="Close"></i></a>
                 </div>
                 <div class="modal-body">
                     <form action="{{ url('/invite-freelancer-to-project') }}" method="POST"

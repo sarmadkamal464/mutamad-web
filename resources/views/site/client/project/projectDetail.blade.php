@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -91,7 +91,7 @@
                                         <div class="wt-btnarea color-white"><a data-toggle="modal"
                                                 data-target="#reviewermodal" class="wt-btn">Mark as done</a>
                                         </div>
-                                        <div class="wt-hireduserstatus">
+                                        {{-- <div class="wt-hireduserstatus">
                                             <ul class="wt-hireduserimgs">
                                                 @if (!is_null($proposals[0]['freelancer']['profile_image']))
                                                     <li>
@@ -107,7 +107,7 @@
                                                 @endif
                                             </ul>
                                             <p>{{ $proposals[0]['freelancer']['name'] }}</p>
-                                        </div>
+                                        </div> --}}
                                         {{-- Modal for closing project --}}
                                         <div class="modal fade wt-offerpopup" tabindex="-1" role="dialog"
                                             id="reviewermodal" style="padding-right: 17px;">
@@ -219,7 +219,10 @@
                                             </li>
                                         @else
                                             <li>
-                                                <span>No Attachment</span>
+                                                <span
+                                                    style="
+                                                color: grey;">No
+                                                    Attachment</span>
                                             </li>
                                         @endif
                                     </ul>

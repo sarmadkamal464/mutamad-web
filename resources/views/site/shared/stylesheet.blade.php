@@ -18,6 +18,14 @@
 {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 
 <style>
+    .wt-hireduserimgs::after {
+        background: none !important;
+    }
+
+    .wt-hireduserimgs::before {
+        background: none !important;
+    }
+
     .wt-contenthead .wt-title h2 {
         margin: 0px !important;
         line-height: 28px !important;
