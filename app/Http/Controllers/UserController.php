@@ -3,145 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Http\Controllers\ResponseController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
-use App\Mail\SendMail;
-use Illuminate\Support\Str;
-use App\Models\Country;
-use Illuminate\Validation\Rule;
+use App\Traits\AuthTrait;
+use App\Traits\SocialTrait;
 
 class UserController extends Controller
 {
+    use SocialTrait, AuthTrait;
     protected $response;
 
     public function __construct(ResponseController $response)
     {
         $this->response = $response;
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function login(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return $this->response->validationErrorResponse($request, $validator);
-        }
-        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        if (!auth()->attempt([$fieldType => $request->email, 'password' => $request->password])) {
-            return $this->response->errorResponse($request, 'Invalid credentials', 403);
-        }
-        $user = Auth::user();
-        $token = '';
-        if ($request->device_type == 'web') {
-            Session::put('name', $user->name);
-            Session::put('role', $user->role);
-            Session::flash('message', 'Logged In Successfully');
-            return redirect()->route('home');
-        } else {
-            $token = $user->createToken('MyApp')->accessToken;
-        }
-        $data = User::with('category')->findOrFail($user->id);
-        return $this->response->collectionResponse($request, ['token' => $token, 'user' => $data]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function signup(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|regex:/^[\pL\s\-]+$/u',
-            'username' => 'required|string|max:255|unique:users,username|alpha_dash',
-            'email' => 'required|email|unique:users|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
-            'password' => 'required|string|confirmed|min:8',
-            'role' => 'required',
-            'country' => 'required',
-            'category' => Rule::requiredIf(function () use ($request) {
-                return $request->input('role') === 'freelancer';
-            }),
-        ]);
-        if ($validator->fails()) {
-            return $this->response->validationErrorResponse($request, $validator);
-        }
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'username' => $request->username,
-            'country' => $request->country,
-            'role' => strtolower($request->role),
-            'category_id' => $request->input('role') === 'freelancer' ? $request->category : null,
-        ]);
-        $user->save();
-        $token = '';
-        if ($request->device_type == 'web') {
-            Session::put('username', $request->username);
-            Session::put('email', $request->email);
-            Session::put('role', $request->role);
-            Session::put('name', $request->name);
-            Session::flash('message', 'Your Account is Created Successfully');
-            auth()->attempt(['email' => $request->email, 'password' => $request->password]);
-            return redirect()->route('home');
-        } else {
-            $token = $user->createToken('MyApp')->accessToken;
-        }
-        return $this->response->collectionResponse($request, ['token' => $token, 'user' => $user]);
-    }
-
-    public function requestResetPassword(Request $request)
-    {
-        $rules = [
-            'email' => 'required|email|exists:users',
-        ];
-        $customMessages = [
-            'required' => 'The :attribute field is required.',
-            'exists' => 'Email is not registered in our system',
-        ];
-        $validator = Validator::make($request->all(), $rules, $customMessages);
-        if ($validator->fails()) {
-            return $this->response->validationErrorResponse($request, $validator);
-        }
-        $user = User::where('email', $request->email)->first();
-        $token = Str::random(60);
-        $hashToken = Hash::make($token);
-        $user->update([
-            'resetToken' => $hashToken,
-        ]);
-        $mail = new SendMail('Request for change password', $user->name, $hashToken, 'emails.resetPassword');
-        Mail::to($request->email)->queue($mail);
-        return $this->response->successResponse($request, 'Email Sent Successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        $request->device_type == 'web'
-            ? Session::flush()
-            : $request
-            ->user()
-            ->token()
-            ->delete();
-        return $this->response->successResponse($request, 'User Logout Successfully');
     }
 
     public function myProfile(Request $request)
@@ -150,112 +27,40 @@ class UserController extends Controller
         return $this->response->collectionResponse($request, $user);
     }
 
-    public function resetPassword(Request $request)
-    {
-        if ($request->has('token')) {
-            $user = User::where('resetToken', $request->input('token'))->first();
-            if ($user) {
-                return view('site.auth.changePassword', ['token' => $request->input('token')]);
-            }
-        }
-        return redirect()
-            ->route('login')
-            ->withErrors('Password Reset link is expired');
-    }
-
-    public function changePassword(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'password' => 'required|confirmed|min:8',
-        ]);
-        if ($validator->fails()) {
-            return $this->response->validationErrorResponse($request, $validator);
-        }
-        if ($request->has('resetToken')) {
-            $user = User::where('resetToken', $request->resetToken)->first();
-            if ($user) {
-                $user->update(['resetToken' => null, 'password' => bcrypt($request->password)]);
-                Session::flash('message', 'Account Password Changed Successfully');
-                return view('site.auth.login');
-            }
-        }
-        return redirect()
-            ->route('login')
-            ->withErrors('Password Reset link is expired');
-    }
-
-    public function redirectToGoogle()
-    {
-        return Socialite::driver('google')
-            ->stateless()
-            ->redirect();
-    }
-
-    public function redirectToFacebook()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-
-    public function redirectToLinkedIn()
-    {
-        return Socialite::driver('linkedin')
-            ->stateless()
-            ->redirect();
-    }
-
-    public function handleGoogleCallback()
-    {
-        $user = Socialite::driver('google')
-            ->stateless()
-            ->user();
-        $name = $user->getName();
-        $email = $user->getEmail();
-        return redirect()->route('signup', ['name' => $name, 'email' => $email]);
-    }
-
-    public function handleFacebookCallback()
-    {
-        $user = Socialite::driver('facebook')->user();
-        $name = $user->getName();
-        $email = $user->getEmail();
-        return redirect()->route('signup', ['name' => $name, 'email' => $email]);
-    }
-
-    public function handleLinkedInCallback()
-    {
-        $user = Socialite::driver('linkedin')
-            ->stateless()
-            ->user();
-        $name = $user->name;
-        $email = $user->email;
-        return redirect()->route('signup', ['name' => $name, 'email' => $email]);
-    }
-
     public function getUser(Request $request, $id)
     {
-        return $this->response->collectionResponse($request, User::find($id));
+        $user = User::active()->find($id);
+        return $this->response->collectionResponse($request, $user ? $user : []);
     }
 
-    public function deactivateAccount(Request $request)
+    public function updateProfile(Request $request)
     {
-        $rules = [
-            'deactivate_reason' => 'required',
-        ];
-        $customMessages = [
-            'required' => 'Please Enter the Deactivation Reason',
-        ];
-        $validator = Validator::make($request->all(), $rules, $customMessages);
+        $userAttr = ['name', 'country', 'bio', 'phone'];
+        $documentName = null;
+        $validator = Validator::make($request->all(), ['name' => 'required|string|max:25']);
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
+        if ($request->has('image') && $request->image != null) {
+            $customMessages = [
+                'required' => 'The :attribute field is required.',
+                'dimensions' => 'Image dimension should be less than 300 x 300',
+            ];
+            $validator = Validator::make($request->all(), ['image' => 'image|mimes:jpeg,png,jpg|max:2048|dimensions:max_width=300,max_height=300'], $customMessages);
+            if ($validator->fails()) {
+                return $this->response->validationErrorResponse($request, $validator);
+            }
+            $document = $request->file('image');
+            $documentName = 'user-id-' . Auth::user()->id . '-' . time() . '.' . $document->getClientOriginalExtension();
+            $document->storeAs('public/user-profile-pictures', $documentName);
+            $userAttr = ['name', 'country', 'bio', 'phone', 'profile_image'];
+        }
+        $request['profile_image'] = $documentName;
         $user = User::find(Auth::user()->id);
-        $user->update(['deactivate_reason' => $request->deactivate_reason, 'is_active' => 0]);
-        $request->device_type == 'web'
-            ? Session::flush()
-            : $request
-            ->user()
-            ->token()
-            ->delete();
-        return $this->response->successResponse($request, 'Your account is deactivated successfully');
+        $user->update($request->only($userAttr));
+        if ($request->device_type != 'web') {
+            return $this->response->collectionResponse($request, $user);
+        }
+        return $this->response->successResponse($request, 'Record Updated Successfully');
     }
 }

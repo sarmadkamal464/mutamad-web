@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SettingController extends Controller
 {
+    protected $response;
+
+    function __construct(ResponseController $response)
+    {
+        $this->response = $response;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +88,22 @@ class SettingController extends Controller
     public function destroy(Setting $setting)
     {
         //
+    }
+
+    public function ImageValidation(Request $request)
+    {
+        $rules = [
+            'image' => 'required|mimes:jpeg,png,jpg|max:2048|dimensions:min_width=300,min_height=300',
+        ];
+        $customMessages = [
+            'required' => 'The :attribute field is required.',
+            'exists' => 'Email is not registered in our system',
+            'dimension' => 'Image Size Should be less than 300 x 300'
+        ];
+        $validator = Validator::make($request->all(), $rules, $customMessages);
+        if ($validator->fails()) {
+            return $this->response->validationErrorResponse($request, $validator);
+        }
+        return $this->response->successResponse($request, "Image is Valid");
     }
 }

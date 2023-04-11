@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\DateFormatTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,11 +15,12 @@ use App\Traits\FilterTrait;
 
 class Project extends Model
 {
-    use SoftDeletes, FilterTrait;
+    use SoftDeletes, FilterTrait, DateFormatTrait;
 
     use HasFactory;
     protected $duration;
     protected $fillable = ['category_id', 'title', 'description', 'budget', 'duration_id', 'client_id', 'document', 'status'];
+    // Is assign or invite able if it's open
 
     public function scopeInvitation(Builder $query)
     {
@@ -45,14 +47,49 @@ class Project extends Model
         return $query->where('status', 'cancelled');
     }
 
+    public function scopeFreelancers(Builder $query)
+    {
+        return $query->with([
+            'proposals' => function ($sub) {
+                $sub->whereHas('freelancer');
+            },
+            'proposals.freelancer',
+        ]);
+    }
+
+    public function scopeHiredFreelancer(Builder $query)
+    {
+        return $query->with([
+            'proposals' => function ($sub) {
+                $sub->whereHas('freelancer')->where('status', 'ongoing');
+            },
+            'proposals.freelancer',
+        ]);
+    }
+
+    public function scopeJobDoneByFreelancer(Builder $query)
+    {
+        return $query->with([
+            'proposals' => function ($sub) {
+                $sub->whereHas('freelancer')->where('status', 'completed');
+            },
+            'proposals.freelancer',
+        ]);
+    }
+
     public function clients(): BelongsTo
     {
         return $this->belongsTo(User::class, 'client_id');
     }
 
-    public function duration(): HasOne
+    public function duration(): BelongsTo
     {
-        return $this->hasOne(ProjectDuration::class, 'duration_id');
+        return $this->belongsTo(ProjectDuration::class, 'duration_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function invitations()
@@ -63,5 +100,9 @@ class Project extends Model
     public function proposals()
     {
         return $this->hasMany(Proposal::class, 'project_id')->where('proposal_type', 'proposal');
+    }
+    public function getBudgetAttribute($value)
+    {
+        return '$' . $value;
     }
 }

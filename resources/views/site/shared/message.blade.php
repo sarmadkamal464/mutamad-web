@@ -1,4 +1,5 @@
-@if ($errors->any())
+{{-- toast overtake it --}}
+{{-- @if ($errors->any())
     <div class="container">
         <div class="alert alert-danger">
             <ul>
@@ -13,4 +14,4 @@
     <div class="alert alert-success">
         {{ session('message') }}
     </div>
-@endif
+@endif --}}

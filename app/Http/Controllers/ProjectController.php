@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectDuration;
 use App\Models\Proposal;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,11 +100,55 @@ class ProjectController extends Controller
         $user = User::find(Auth::user()->id);
         $data = !$user->isFreelancer()
             ? Project::where('client_id', $user->id)
-            ->where('client_id', $user->id)
+            ->with('category')
+            ->with('duration')
+            ->freelancers()
+            ->filter($request->only('limit', 'offset', 'status'))
             ->get()
             : Proposal::with('projects')
             ->where('freelancer_id', $user->id)
+            ->filter($request->only('limit', 'offset', 'status'))
             ->get();
+        return $this->response->collectionResponse($request, $data);
+    }
+
+    public function getProjectDetails(Request $request, $id)
+    {
+        $data = Project::where('client_id', Auth::user()->id)
+            ->with('category')
+            ->with('duration')
+            ->freelancers()
+            ->find($id);
+        if (!$data)
+            $data = [];
+        return $this->response->collectionResponse($request, $data, true, 'site/client/project/projectDetail', $data);
+    }
+
+    public function getProjectsCount(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $data = [];
+        if (!$user->isFreelancer()) {
+            $data['open'] = Project::where('client_id', $user->id)
+                ->open()
+                ->count();
+            $data['completed'] = Project::where('client_id', $user->id)
+                ->completed()
+                ->count();
+            $data['ongoing'] = Project::where('client_id', $user->id)
+                ->ongoing()
+                ->count();
+        } else {
+            $data['ongoing'] = Proposal::where('freelancer_id', $user->id)
+                ->ongoing()
+                ->count();
+            $data['completed'] = Proposal::where('freelancer_id', $user->id)
+                ->completed()
+                ->count();
+            $data['requested'] = Proposal::where('freelancer_id', $user->id)
+                ->requested()
+                ->count();
+        }
         return $this->response->collectionResponse($request, $data);
     }
 
@@ -112,13 +157,38 @@ class ProjectController extends Controller
         $user = User::find(Auth::user()->id);
         $data = !$user->isFreelancer()
             ? Project::where('client_id', $user->id)
+            ->with('category')
+            ->with('duration')
             ->ongoing()
+            ->hiredFreelancer()
             ->get()
             : Proposal::with('projects')
             ->where('freelancer_id', $user->id)
             ->ongoing()
             ->get();
-        return $this->response->collectionResponse($request, $data);
+        $compact['data'] = $data;
+        $request['noRedirect'] = true;
+        $compact['projectCounts'] = $this->getProjectsCount($request);
+        return $this->response->collectionResponse($request, $data, true, 'site/client/project/ongoingProject', $compact);
+    }
+
+    public function openProject(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $data = !$user->isFreelancer()
+            ? Project::where('client_id', $user->id)
+            ->with('category')
+            ->with('duration')
+            ->open()
+            ->get()
+            : Proposal::with('projects')
+            ->where('freelancer_id', $user->id)
+            ->open()
+            ->get();
+        $compact['data'] = $data;
+        $request['noRedirect'] = true;
+        $compact['projectCounts'] = $this->getProjectsCount($request);
+        return $this->response->collectionResponse($request, $data, true, 'site/client/project/openProject', $compact);
     }
 
     public function completedProject(Request $request)
@@ -126,32 +196,33 @@ class ProjectController extends Controller
         $user = User::find(Auth::user()->id);
         $data = !$user->isFreelancer()
             ? Project::where('client_id', $user->id)
+            ->with('category')
+            ->with('duration')
             ->completed()
+            ->jobDoneByFreelancer()
             ->get()
             : Proposal::with('projects')
             ->where('freelancer_id', $user->id)
             ->completed()
             ->get();
-        return $this->response->collectionResponse($request, $data);
+        $compact['data'] = $data;
+        $request['noRedirect'] = true;
+        $compact['projectCounts'] = $this->getProjectsCount($request);
+        return $this->response->collectionResponse($request, $data, true, 'site/client/project/completedProject', $compact);
     }
 
     public function getProjectProposals(Request $request, $id)
     {
+        $request['noRedirect'] = true;
         $project = Project::where('client_id', Auth::user()->id)
-            ->with('proposals')
+            ->with('category')
+            ->with('duration')
+            ->freelancers()
             ->find($id);
-        return $this->response->collectionResponse($request, $project->proposals);
+        return $this->response->collectionResponse($request, $project, true, "site.client.project.assignedProject", $project);
     }
-
-    public function getProjectProposalsFreelancers(Request $request, $id)
+    public function getProjectDuration(Request $request)
     {
-        return $this->response->collectionResponse(
-            $request,
-            User::with('proposals')
-                ->whereHas('proposals', function ($query) use ($id) {
-                    $query->where('project_id', $id)->proposal();
-                })
-                ->get(),
-        );
+        return $this->response->collectionResponse($request, ProjectDuration::all());
     }
 }

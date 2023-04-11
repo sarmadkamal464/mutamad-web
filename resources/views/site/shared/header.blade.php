@@ -20,9 +20,15 @@
                                      <a href="{{ url('/hows-it-work') }}">How's it work</a>
                                  </li>
                                  @auth
-                                     {{-- <li class="nav-item">
+                                     @if (Auth::user()->role == 'freelancer')
+                                         {{-- <li class="nav-item">
                                          <a>Browse job</a>
                                      </li> --}}
+                                     @elseif(Auth::user()->role == 'client')
+                                         <li class="nav-item">
+                                             <a href="{{ url('/search-freelancer?limit=4') }}">Browse Freelancers</a>
+                                         </li>
+                                     @endif
                                  @endauth
                                  <li class="nav-item">
                                      <a href="{{ url('/about-us') }}">About Us</a>
@@ -33,10 +39,15 @@
                      @auth
                          <div class="wt-userlogedin">
                              <figure class="wt-userimg">
-                                 <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
+                                 @if (Auth::user()->profile_image && Auth::user()->profile_image != null)
+                                     <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . Auth::user()->profile_image) }}"
+                                         alt="image description">
+                                 @else
+                                     <img src="{{ asset('images/user-avatar.png') }}" alt="image description">
+                                 @endif
                              </figure>
                              <div class="wt-username">
-                                 <h3>{{ Session::get('name') }}</h3>
+                                 <h3>{{ Auth::user()->short_name }}</h3>
                                  <span></span>
                              </div>
                              <nav class="wt-usernav">
@@ -45,6 +56,23 @@
                                          <a href="{{ url('profile') }}">
                                              <span>My Profile</span>
                                          </a>
+                                     </li>
+                                     @if (Auth::user()->role == 'client')
+                                         <li>
+                                             <a href="{{ url('post-project') }}">
+                                                 <span>Post Project</span>
+                                             </a>
+                                         </li>
+                                     @endif
+                                     <li class="menu-item-has-children">
+                                         <a href="javascript:void(0)">
+                                             <span>All Projects</span>
+                                         </a>
+                                         <ul class="sub-menu">
+                                             <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
+                                             <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a></li>
+                                             <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
+                                         </ul>
                                      </li>
                                      <li>
                                          <a href="{{ url('logout') }}">

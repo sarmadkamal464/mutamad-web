@@ -83,7 +83,7 @@
                                                     <select id="country" name="country" required>
                                                         <option disabled selected value="">Select country</option>
                                                         @foreach ($countries as $country)
-                                                            <option value="{{ $country['name'] }}">{{ $country['name'] }}
+                                                            <option value="{{ $country['code'] }}">{{ $country['name'] }}
                                                             </option>
                                                         @endforeach
                                                     </select>

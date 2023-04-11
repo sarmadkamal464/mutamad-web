@@ -14,12 +14,128 @@
 <link rel="stylesheet" href="{{ asset('css/transitions.css') }}">
 <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 <script src="{{ asset('js/vendor/modernizr-2.8.3-respond-1.4.2.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('js/jquery-toast/dist/css/jquery-toasts.min.css') }}">
+{{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+
 <style>
+    .wt-hireduserimgs::after {
+        background: none !important;
+    }
+
+    .wt-hireduserimgs::before {
+        background: none !important;
+    }
+
+    .wt-contenthead .wt-title h2 {
+        margin: 0px !important;
+        line-height: 28px !important;
+    }
+
+    .wt-dashboardboxtitle h2 {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+
+    }
+
+    .wt-tabscontenttitle h2 {
+        font-weight: 800 !important;
+        font-size: 18px !important;
+    }
+
+    label {
+        color: #323232;
+        font-weight: 600;
+    }
+
+    body,
+    .wt-starcontent {
+        color: #323232 !important;
+
+    }
+
+    .wt-username h3 {
+        line-height: initial;
+    }
+
+    .paginator-div {
+        margin-top: 5%;
+    }
+
+    nav a svg,
+    nav span svg {
+        width: 0.9em;
+        height: 0.9em;
+    }
+
+    /* Decrease the size of the arrows in the disabled link */
+    nav span[aria-disabled="true"] svg {
+        width: 0.7em;
+        height: 0.7em;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination>li {
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    .pagination>li>a {
+        display: block;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: all .3s ease-in-out;
+    }
+
+    .pagination>li>a:hover {
+        background-color: #eee;
+    }
+
+    .pagination>.active>a,
+    .pagination>.active>a:focus,
+    .pagination>.active>a:hover {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+
+    .pagination>.disabled>a,
+    .pagination>.disabled>a:focus,
+    .pagination>.disabled>a:hover {
+        color: #ccc;
+        pointer-events: none;
+        background-color: #fff;
+        border-color: #ddd;
+    }
+
+
+
+    button.wt-btnarea {
+        color: white !important;
+    }
+
+    a.wt-btnarea {
+        color: white !important;
+    }
+
     body {
         background: #f7f7f7;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+    }
+
+    .color-white {
+        color: white !important;
     }
 
     .label-required {

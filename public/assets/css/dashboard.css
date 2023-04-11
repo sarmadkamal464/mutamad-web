@@ -942,7 +942,7 @@ body {
 }
 
 .wt-dashboardtabs {
-	width: 30%;
+	width: 20%;
 	float: left;
 }
 
@@ -997,7 +997,7 @@ body {
 
 .wt-tabscontent {
 	float: left;
-	width: 70%;
+	width: 80%;
 	padding: 30px;
 	background: #fff;
 	border-left: 1px solid #f2f2f2;

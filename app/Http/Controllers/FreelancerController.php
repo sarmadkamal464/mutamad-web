@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\Proposal;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Policies\FreelancerPolicy;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class FreelancerController extends Controller
 {
@@ -89,8 +93,24 @@ class FreelancerController extends Controller
         //
     }
 
-    public function searchFreelancer(Request $request)
+    public function sendProposal(Request $request)
     {
-        return $this->response->collectionResponse($request, User::filter($request->all())->get());
+        $validator = Validator::make($request->all(), ['project_id' => 'required', 'description' => 'required']);
+        if ($validator->fails()) {
+            return $this->response->validationErrorResponse($request, $validator);
+        }
+        $project = Project::find($request->project_id);
+        $proposal = new Proposal([
+            'project_id' => $request->project_id,
+            'freelancer_id' => Auth::user()->id,
+            'description' => $request->description,
+            'amount' => $project->amount,
+            'proposal_type' => 'proposal',
+            'status' => 'pending',
+            'status_change_by_user' => 'freelancer',
+            'status_change_by_user_id' => Auth::user()->id,
+        ]);
+        $proposal->save();
+        return $this->response->successResponse($request, 'Proposal is submitted successfull');
     }
 }
