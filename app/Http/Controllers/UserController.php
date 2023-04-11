@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $userAttr = ['name', 'country', 'bio', 'phone'];
+        $userAttr = ['name', 'country', 'bio', 'phone', 'experience'];
         $documentName = null;
         $validator = Validator::make($request->all(), ['name' => 'required|string|max:25']);
         if ($validator->fails()) {
@@ -53,7 +53,7 @@ class UserController extends Controller
             $document = $request->file('image');
             $documentName = 'user-id-' . Auth::user()->id . '-' . time() . '.' . $document->getClientOriginalExtension();
             $document->storeAs('public/user-profile-pictures', $documentName);
-            $userAttr = ['name', 'country', 'bio', 'phone', 'profile_image'];
+            $userAttr = ['name', 'country', 'bio', 'phone', 'profile_image', 'experience'];
         }
         $request['profile_image'] = $documentName;
         $user = User::find(Auth::user()->id);
