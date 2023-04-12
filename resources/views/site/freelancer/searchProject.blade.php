@@ -15,10 +15,6 @@
             font-size: 21px
         }
 
-        .wt-pagination ul li span {
-            line-height: 40px;
-        }
-
         .wt-description p {
             font-size: 18px !important;
             overflow: hidden;
@@ -30,11 +26,58 @@
             padding-left: 0px !important;
         }
 
+        .wt-btn {
+
+            padding: 0 20px;
+            line-height: 36px;
+        }
+
+        .wt-managejobcontent {
+            padding: 0 30px;
+        }
+
+        .wt-contenthead .wt-title h2 {
+            margin: 0 0 10px;
+            line-height: 15px;
+        }
+
+        .wt-rightarea {
+            float: right;
+        }
+
+        .wt-pagination ul li span {
+            line-height: 40px;
+        }
+
+        .wt-userlisting-breadcrumb li span,
+        .wt-userlisting-breadcrumb li a {
+            color: #323232;
+            line-height: 1.6;
+        }
+
+        .wt-btnarea {
+            padding: 36px 0;
+        }
+
+        @media (max-width: 1200px) {
+            .wt-btnarea {
+                padding: 0px;
+            }
+        }
+
+        @media (max-width: 1199px) {
+            .wt-userlisting .wt-userlistingcontent {
+
+                text-align: start !important;
+            }
+        }
+
         @media (max-width: 820px) {
             .wt-btn {
 
                 padding: 0 20px;
             }
+
 
         }
     </style>
@@ -56,7 +99,7 @@
                                 <aside id="wt-sidebar" class="wt-sidebar wt-usersidebar">
                                     <div class="wt-widget wt-effectiveholder">
                                         <div class="wt-widgettitle">
-                                            <h2>Freelancers</h2>
+                                            <h2>Projects</h2>
                                         </div>
                                         <div class="wt-widgetcontent">
                                             <form class="wt-formtheme wt-formsearch">
@@ -153,7 +196,34 @@
                                     @endif
                                     @foreach ($freelancers as $freelancer)
                                         <div class="wt-userlistinghold wt-featured">
-                                            <figure class="wt-userlistingimg">
+                                            <div class="wt-userlistingcontent wt-userlistingcontentvtwo">
+                                                <div class="wt-contenthead">
+                                                    <div class="wt-title">
+                                                        <h2>{{ $freelancer->name }}</h2>
+                                                    </div>
+                                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
+                                                        <li><span class="wt-dashboraddoller"><i
+                                                                    class="fa fa-dollar-sign"></i>
+                                                                &nbsp; Project Category:{{ $freelancer->name }}</span>
+                                                        </li>
+
+                                                        <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
+                                                                &nbsp; Duration: {{ $freelancer->created_at }}</span></li>
+                                                        <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
+                                                                    class="far fa-folder"></i> &nbsp; Budget:
+                                                                {{ $freelancer->earning }}</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="wt-rightarea">
+                                                    <div class="wt-btnarea">
+                                                        <a href="{{ url('/freelancer/' . $freelancer->username) }}"
+                                                            class="wt-btn pd">VIEW
+                                                            DETAILS</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {{-- <figure class="wt-userlistingimg">
                                                 @if ($freelancer->profile_image != null)
                                                     <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $freelancer->profile_image) }}"
                                                         class="profile-image-avatar" style="width: 150px;" />
@@ -176,12 +246,13 @@
                                             </div>
                                             <div class="wt-description">
                                                 <p>{{ $freelancer->bio }}</p>
-                                            </div>
+                                            </div> --}}
 
                                         </div>
                                     @endforeach
                                     <nav class="wt-pagination">
                                         <ul>
+
                                             <li><a href="#" id="prev"><i class="lnr lnr-chevron-left"></i></a>
                                                 <span> Previous</span>
                                             </li>
