@@ -39,20 +39,49 @@
                                         placeholder="I’m looking for">
                                     <div class="wt-formoptions">
                                         <div class="wt-dropdown">
-                                            <span>In: <em class="selected-search-type">Freelancers </em><i
-                                                    id="lnr-chevron-down" class="lnr lnr-chevron-down"></i></span>
+                                            <span>In: <em class="selected-search-type">
+                                                    @auth
+                                                        @if (Auth::user()->role == 'client')
+                                                            Freelancers
+                                                        @elseif (Auth::user()->role == 'freelancer')
+                                                            Projects
+                                                        @endif
+                                                    @endauth
+                                                    @guest
+                                                        Freelancers
+                                                    @endguest
+                                                </em><i id="lnr-chevron-down" class="lnr lnr-chevron-down"></i></span>
                                         </div>
                                         <div class="wt-radioholder">
-                                            <span class="wt-radio">
-                                                <input id="wt-freelancers" data-title="Freelancers" type="radio"
-                                                    name="searchtype" value="freelancer" checked>
-                                                <label for="wt-freelancers">Freelancers</label>
-                                            </span>
-                                            <span class="wt-radio">
-                                                <input id="wt-jobs" data-title="Projects" type="radio" name="searchtype"
-                                                    value="project">
-                                                <label for="wt-jobs">Projects</label>
-                                            </span>
+                                            @auth
+                                                @if (Auth::user()->role == 'freelancer')
+                                                    <span class="wt-radio">
+                                                        <input id="wt-jobs" data-title="Projects" type="radio"
+                                                            name="searchtype" value="project">
+                                                        <label for="wt-jobs">Projects</label>
+                                                    </span>
+                                                @elseif(Auth::user()->role == 'client')
+                                                    <span class="wt-radio">
+                                                        <input id="wt-freelancers" data-title="Freelancers" type="radio"
+                                                            name="searchtype" value="freelancer" checked>
+                                                        <label for="wt-freelancers">Freelancers</label>
+                                                    </span>
+                                                @endif
+                                            @endauth
+                                            @guest
+                                                <span class="wt-radio">
+                                                    <input id="wt-freelancers" data-title="Freelancers" type="radio"
+                                                        name="searchtype" value="freelancer" checked>
+                                                    <label for="wt-freelancers">Freelancers</label>
+                                                </span>
+
+                                                <span class="wt-radio">
+                                                    <input id="wt-jobs" data-title="Projects" type="radio" name="searchtype"
+                                                        value="project">
+                                                    <label for="wt-jobs">Projects</label>
+                                                </span>
+                                            @endguest
+
                                         </div>
                                         <a class="wt-searchbtn white" onclick=togglePage()><i
                                                 class="lnr lnr-magnifier"></i></a>

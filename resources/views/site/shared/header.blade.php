@@ -21,9 +21,9 @@
                                  </li>
                                  @auth
                                      @if (Auth::user()->role == 'freelancer')
-                                         {{-- <li class="nav-item">
-                                         <a>Browse job</a>
-                                     </li> --}}
+                                         <li class="nav-item">
+                                             <a href="{{ url('/search-freelancer?limit=4') }}">Browse job</a>
+                                         </li>
                                      @elseif(Auth::user()->role == 'client')
                                          <li class="nav-item">
                                              <a href="{{ url('/search-freelancer?limit=4') }}">Browse Freelancers</a>
@@ -63,17 +63,18 @@
                                                  <span>Post Project</span>
                                              </a>
                                          </li>
+
+                                         <li class="menu-item-has-children">
+                                             <a href="javascript:void(0)">
+                                                 <span>All Projects</span>
+                                             </a>
+                                             <ul class="sub-menu">
+                                                 <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
+                                                 <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a></li>
+                                                 <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
+                                             </ul>
+                                         </li>
                                      @endif
-                                     <li class="menu-item-has-children">
-                                         <a href="javascript:void(0)">
-                                             <span>All Projects</span>
-                                         </a>
-                                         <ul class="sub-menu">
-                                             <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
-                                             <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a></li>
-                                             <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
-                                         </ul>
-                                     </li>
                                      <li>
                                          <a href="{{ url('logout') }}">
                                              <span>Log out</span>
