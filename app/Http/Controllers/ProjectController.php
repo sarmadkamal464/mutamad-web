@@ -225,4 +225,15 @@ class ProjectController extends Controller
     {
         return $this->response->collectionResponse($request, ProjectDuration::all());
     }
+
+    public function getAllJobs(Request $request)
+    {
+        $data = Project::where('status', 'open')
+        ->with('category')
+        ->with('duration')
+        ->with('clients')
+        ->filter($request->only('limit', 'offset'))
+        ->get();
+        return $this->response->collectionResponse($request, $data);
+    }
 }

@@ -19,6 +19,7 @@ Route::get('completed-projects', [ProjectController::class, 'completedProject'])
 Route::get('get-projects', [ProjectController::class, 'getProjects']);
 Route::post('/update-profile', [UserController::class, 'updateProfile']);
 Route::get('get-projects-count', [ProjectController::class, 'getProjectsCount']);
+Route::get('get-all-jobs', [ProjectController::class, 'getAllJobs']);
 
 // Route::resources([
 //     'project' => ProjectController::class,
