@@ -108,7 +108,6 @@ class ProjectController extends Controller
             : Proposal::where('status', $request->status)
             ->where('freelancer_id', $user->id)
             ->with('project')
-            ->with('clients')
             ->skip((int)$request->offset)
             ->take((int)$request->limit)
             ->get();
@@ -117,10 +116,16 @@ class ProjectController extends Controller
 
     public function getProjectDetails(Request $request, $id)
     {
-        $data = Project::where('client_id', Auth::user()->id)
+        $user = User::find(Auth::user()->id);
+        $data = !$user->isFreelancer()
+        ? Project::where('client_id', Auth::user()->id)
             ->with('category')
             ->with('duration')
             ->freelancers()
+            ->find($id)
+            : Project::with('category')
+            ->with('duration')
+            ->with('clients')
             ->find($id);
         if (!$data)
             $data = [];
