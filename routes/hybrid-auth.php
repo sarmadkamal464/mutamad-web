@@ -47,5 +47,5 @@ Route::middleware('auth.freelancer')->group(function () {
         'freelancerProject' => FreelancerController::class,
     ]);
     Route::post('sendProposal', [FreelancerController::class, 'sendProposal']);
-    Route::get('project/{id}', [ProjectController::class, 'getProjectDetails']);
+    Route::get('single-project/{id}', [ProjectController::class, 'getProjectDetails']);
 });
