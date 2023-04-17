@@ -22,7 +22,7 @@
                                  @auth
                                      @if (Auth::user()->role == 'freelancer')
                                          <li class="nav-item">
-                                             <a href="{{ url('/search-freelancer?limit=4') }}">Browse job</a>
+                                             <a href="{{ url('/search-project?limit=4') }}">Browse Projects</a>
                                          </li>
                                      @elseif(Auth::user()->role == 'client')
                                          <li class="nav-item">
@@ -72,6 +72,17 @@
                                                  <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
                                                  <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a></li>
                                                  <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
+                                             </ul>
+                                         </li>
+                                     @elseif (Auth::user()->role == 'freelancer')
+                                         <li class="menu-item-has-children">
+                                             <a href="javascript:void(0)">
+                                                 <span>All Projects</span>
+                                             </a>
+                                             <ul class="sub-menu">
+                                                 <li><a href="{{ url('/open-jobs') }}">All Project</a></li>
+                                                 <li><a href="{{ url('/ongoing-jobs') }}">Ongoing Projects</a></li>
+                                                 <li><a href="{{ url('/completed-jobs') }}">Completed Projects</a></li>
                                              </ul>
                                          </li>
                                      @endif

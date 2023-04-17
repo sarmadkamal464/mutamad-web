@@ -48,4 +48,6 @@ Route::middleware('auth.freelancer')->group(function () {
     ]);
     Route::post('sendProposal', [FreelancerController::class, 'sendProposal']);
     Route::get('single-project/{id}', [ProjectController::class, 'getProjectDetails']);
+    Route::get('search-project', [FreelancerController::class, 'searchProject']);
+
 });
