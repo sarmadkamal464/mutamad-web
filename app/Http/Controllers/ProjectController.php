@@ -240,7 +240,7 @@ class ProjectController extends Controller
         ->with('category')
         ->with('duration')
         ->with('clients')
-        ->filter($request->only('limit', 'offset'))
+        ->filter($request->all())
         ->get();
         return $this->response->collectionResponse($request, $data);
     }
