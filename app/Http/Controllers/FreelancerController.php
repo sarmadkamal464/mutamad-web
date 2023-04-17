@@ -99,18 +99,23 @@ class FreelancerController extends Controller
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
-        $project = Project::find($request->project_id);
-        $proposal = new Proposal([
-            'project_id' => $request->project_id,
-            'freelancer_id' => Auth::user()->id,
-            'description' => $request->description,
-            'amount' => $project->amount,
-            'proposal_type' => 'proposal',
-            'status' => 'pending',
-            'status_change_by_user' => 'freelancer',
-            'status_change_by_user_id' => Auth::user()->id,
-        ]);
-        $proposal->save();
-        return $this->response->successResponse($request, 'Proposal is submitted successfull');
+        $checkProposalSub = Proposal::where('project_id', $request->project_id)->where('freelancer_id', Auth::user()->id)->get();
+        if (empty($checkProposalSub->toArray())) {
+            $project = Project::find($request->project_id);
+            $proposal = new Proposal([
+                'project_id' => $request->project_id,
+                'freelancer_id' => Auth::user()->id,
+                'description' => $request->description,
+                'amount' => $project->budget,
+                'proposal_type' => 'proposal',
+                'status' => 'pending',
+                'status_change_by_user' => 'freelancer',
+                'status_change_by_user_id' => Auth::user()->id,
+            ]);
+            $proposal->save();
+            return $this->response->successResponse($request, 'Proposal is submitted successfull');
+        } else {
+            return $this->response->errorResponse($request, 'Already Proposal Submitted', 202);
+        }
     }
 }
