@@ -9,7 +9,8 @@ use App\Models\User;
 use App\Policies\FreelancerPolicy;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\Category;
+use App\Models\Country;
 class FreelancerController extends Controller
 {
     protected $response;
@@ -112,5 +113,20 @@ class FreelancerController extends Controller
         ]);
         $proposal->save();
         return $this->response->successResponse($request, 'Proposal is submitted successfull');
+    }
+
+    public function searchProject(Request $request)
+    {
+        $projects = Project::where('status', 'open')
+                    ->with('category')
+                    ->with('duration')
+                    ->with('clients')
+                    ->filter($request->only('limit', 'offset'))
+                    ->get();
+        $data['projects'] = $projects;
+        $data['countries'] = Country::all();
+        $data['categories'] = Category::all();
+        // dd($projects->toArray(), $data)->toArray();
+        return $this->response->collectionResponse($request, $projects, true, 'site/freelancer/searchProject', $data);
     }
 }

@@ -183,7 +183,7 @@
 
                                         </ul>
                                     </div>
-                                    @if (count($freelancers) == 0)
+                                    @if (count($projects) == 0)
                                         <div class="wt-userlistinghold wt-featured">
                                             <div class="wt-userlistingcontent">
                                                 <div class="wt-contenthead">
@@ -194,29 +194,31 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @foreach ($freelancers as $freelancer)
+                                    @foreach ($projects as $project)
                                         <div class="wt-userlistinghold wt-featured">
                                             <div class="wt-userlistingcontent wt-userlistingcontentvtwo">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        <h2>{{ $freelancer->name }}</h2>
+                                                        <h2>{{ $project->title }}</h2>
                                                     </div>
                                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                                         <li><span class="wt-dashboraddoller"><i
                                                                     class="fa fa-dollar-sign"></i>
-                                                                &nbsp; Project Category:{{ $freelancer->name }}</span>
+                                                                &nbsp; Project
+                                                                Category:{{ $project->category->name }}</span>
                                                         </li>
 
                                                         <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                                &nbsp; Duration: {{ $freelancer->created_at }}</span></li>
+                                                                &nbsp; Duration: {{ $project->duration->title }}</span>
+                                                        </li>
                                                         <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
                                                                     class="far fa-folder"></i> &nbsp; Budget:
-                                                                {{ $freelancer->earning }}</a></li>
+                                                                {{ $project->budget }}</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="wt-rightarea">
                                                     <div class="wt-btnarea">
-                                                        <a href="{{ url('/freelancer/' . $freelancer->username) }}"
+                                                        <a href="{{ url('/single-project/' . $project->id) }}"
                                                             class="wt-btn pd">VIEW
                                                             DETAILS</a>
                                                     </div>
@@ -224,8 +226,8 @@
                                             </div>
 
                                             {{-- <figure class="wt-userlistingimg">
-                                                @if ($freelancer->profile_image != null)
-                                                    <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $freelancer->profile_image) }}"
+                                                @if ($project->profile_image != null)
+                                                    <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $project->profile_image) }}"
                                                         class="profile-image-avatar" style="width: 150px;" />
                                                 @else
                                                     <img src="{{ asset('images/user-avatar.png') }}"
@@ -235,17 +237,17 @@
                                             <div class="wt-userlistingcontent">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        <a href="{{ url('/freelancer/' . $freelancer->username) }}"><i
+                                                        <a href="{{ url('/freelancer/' . $project->username) }}"><i
                                                                 class="fa fa-check-circle"></i>
-                                                            {{ $freelancer->name }}
+                                                            {{ $project->name }}
                                                         </a>
-                                                        <h2>{{ $freelancer->earning }}</h2>
-                                                        <span>Member Since: {{ $freelancer->created_at }}</span>
+                                                        <h2>{{ $project->earning }}</h2>
+                                                        <span>Member Since: {{ $project->created_at }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="wt-description">
-                                                <p>{{ $freelancer->bio }}</p>
+                                                <p>{{ $project->bio }}</p>
                                             </div> --}}
 
                                         </div>
@@ -286,7 +288,7 @@
     <script src="{{ asset('js/jquery.hoverdir.js') }}"></script>
     <script>
         let limit = 4;
-        var freelancerCount = {{ count($freelancers) }}
+        var freelancerCount = {{ count($projects) }}
         const urlParams = new URLSearchParams(window.location.search);
         let offset = parseInt(urlParams.get('offset')) || 0;
         const category = urlParams.get('category');
