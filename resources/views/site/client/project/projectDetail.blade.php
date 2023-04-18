@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -50,6 +50,7 @@
     <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
         <div class="wt-haslayout wt-main-section">
             <!-- User Listing Start-->
+
             <div class="container">
                 <div class="row">
                     <div id="wt-twocolumns" class="wt-twocolumns wt-haslayout">
@@ -57,17 +58,7 @@
                             <div class="wt-proposalholder">
                                 <div class="wt-proposalhead">
                                     <h2>{{ $title }}</h2>
-                                    {{-- <ul class="wt-userlisting-breadcrumb wt-userlisting-breadcrumbvtwo">
-                                        <li><span><i class="fa fa-dollar-sign"></i><i class="fa fa-dollar-sign"></i><i
-                                                    class="fa fa-dollar-sign"></i> Budget: {{ $budget }}</span></li>
 
-                                        <li><span><i class="far fa-folder"></i> Project Status: {{ $status }}</span>
-                                        </li>
-                                        <li><span><i class="far fa-folder"></i> Project Category:
-                                                {{ $category['name'] }}</span></li>
-                                        <li><span><i class="far fa-clock"></i> Duration: {{ $duration['title'] }}</span>
-                                        </li>
-                                    </ul> --}}
                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                         <li><span class="wt-dashboraddoller"><i class="fa fa-dollar-sign"></i>
                                                 &nbsp; Budget: &nbsp; {{ $budget }}</span></li>
@@ -80,22 +71,29 @@
                                     </ul>
                                 </div>
                                 @if (Auth::user()->role == 'freelancer')
-                                    <form method="POST" action="{{ url('sendProposal') }}">
-                                        @csrf
-                                        {{-- <div class="wt-btnarea"><a type="submit" class="wt-btn"></a>
-                                        </div> --}}
-                                        <div class="wt-jobdetails wt-tabsinfo">
-                                            <div class="wt-tabscontenttitle">
-                                                <h2>Add Commit</h2>
-                                            </div>
 
-                                            <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Special comment to employer"
-                                                required></textarea>
-                                            <input type="hidden" name="project_id" value="{{ $id }}">
-                                            <button type="submit" class="wt-btn">Send
-                                                Proposal</button>
-                                    </form>
+
+                                    @if (url()->current() == url('single-project2/' . $id))
+                                        <div class="wt-btnarea color-white">
+                                        </div>
+                                    @else
+                                        <form method="POST" action="{{ url('sendProposal') }}">
+                                            @csrf
+                                            <div class="wt-btnarea"><a type="submit" class="wt-btn"></a>
+                                            </div>
+                                            <div class="wt-jobdetails wt-tabsinfo">
+                                                <div class="wt-tabscontenttitle">
+                                                    <h2>Add Commit</h2>
+                                                </div>
+
+                                                <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Special comment to employer"
+                                                    required></textarea>
+                                                <input type="hidden" name="project_id" value="{{ $id }}">
+                                                <button type="submit" class="wt-btn">Send
+                                                    Proposal</button>
+                                        </form>
                             </div>
+                            @endif
                         @else
                             @if ($status == 'open')
                                 <div class="wt-btnarea"><a href="{{ url('get-project-proposals/' . $id) }}"
@@ -105,23 +103,7 @@
                                 <div class="wt-btnarea color-white"><a data-toggle="modal" data-target="#reviewermodal"
                                         class="wt-btn">Mark as done</a>
                                 </div>
-                                {{-- <div class="wt-hireduserstatus">
-                                            <ul class="wt-hireduserimgs">
-                                                @if (!is_null($proposals[0]['freelancer']['profile_image']))
-                                                    <li>
-                                                        <figure><img
-                                                                src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $proposals[0]['freelancer']['profile_image']) }}"
-                                                                class="mCS_img_loaded"></figure>
-                                                    </li>
-                                                @else
-                                                    <li>
-                                                        <figure><img src="{{ asset('images/user-avatar.png') }}"
-                                                                class="mCS_img_loaded"></figure>
-                                                    </li>
-                                                @endif
-                                            </ul>
-                                            <p>{{ $proposals[0]['freelancer']['name'] }}</p>
-                                        </div> --}}
+
                                 {{-- Modal for closing project --}}
                                 <div class="modal fade wt-offerpopup" tabindex="-1" role="dialog" id="reviewermodal"
                                     style="padding-right: 17px;">
