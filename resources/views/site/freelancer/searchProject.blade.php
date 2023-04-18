@@ -200,6 +200,7 @@
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
                                                         <h2>{{ $project->title }}</h2>
+
                                                     </div>
                                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                                         <li><span class="wt-dashboraddoller"><i
