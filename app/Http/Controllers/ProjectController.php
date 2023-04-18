@@ -256,4 +256,14 @@ class ProjectController extends Controller
         ->get();
         return $this->response->collectionResponse($request, $data);
     }
+
+    public function getClientProjectInvitation(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $data = Proposal::with('project')
+            ->where('freelancer_id', $user->id)
+            ->where('proposal_type', 'invitation')
+            ->get();
+        return $this->response->collectionResponse($request, $data);
+    }
 }
