@@ -128,7 +128,7 @@ class FreelancerController extends Controller
                     ->with('category')
                     ->with('duration')
                     ->with('clients')
-                    ->filter($request->only('limit', 'offset'))
+                    ->filter($request->all())
                     ->get();
         $data['projects'] = $projects;
         $data['countries'] = Country::all();
