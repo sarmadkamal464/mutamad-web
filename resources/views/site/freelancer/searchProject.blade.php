@@ -200,6 +200,7 @@
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
                                                         <h2>{{ $project->title }}</h2>
+
                                                     </div>
                                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                                         <li><span class="wt-dashboraddoller"><i
@@ -296,7 +297,7 @@
         const search = urlParams.get('search');
 
         function generateUrl() {
-            let url = `search-freelancer?limit=${limit}&offset=${offset}`;
+            let url = `search-project?limit=${limit}&offset=${offset}`;
             if (category) {
                 url += `&category=${category}`;
             }
@@ -307,15 +308,15 @@
         }
 
         function generateUrlForClearAll() {
-            return `search-freelancer?limit=${limit}`;
+            return `search-project?limit=${limit}`;
         }
 
         function generateUrlForSearch(name) {
-            return `search-freelancer?limit=${limit}&search=${name}`;
+            return `search-project?limit=${limit}&search=${name}`;
         }
 
         function generateUrlForFilter(checkedCategories, country, search) {
-            let url = `search-freelancer?limit=${limit}`;
+            let url = `search-project?limit=${limit}`;
             if (checkedCategories.length > 0) {
                 url += `&category=${checkedCategories.join(',')}`;
             }

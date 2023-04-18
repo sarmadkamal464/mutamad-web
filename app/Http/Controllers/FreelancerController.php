@@ -100,6 +100,7 @@ class FreelancerController extends Controller
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
+
         $checkProposalSub = Proposal::where('project_id', $request->project_id)->where('freelancer_id', Auth::user()->id)->get();
         if (empty($checkProposalSub->toArray())) {
             $project = Project::find($request->project_id);
@@ -118,6 +119,7 @@ class FreelancerController extends Controller
         } else {
             return $this->response->errorResponse($request, 'Already Proposal Submitted', 202);
         }
+
     }
 
     public function searchProject(Request $request)
