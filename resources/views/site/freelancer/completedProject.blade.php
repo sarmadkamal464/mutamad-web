@@ -118,16 +118,16 @@
                         </nav> --}}
                     </div>
                 </div>
-                {{-- <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                     <aside id="wt-sidebar" class="wt-sidebar wt-dashboardsave">
-                        <a href="{{ url('/open-projects') }}" class="wt-proposalsr">
+                        <a href="javascript:void(0)" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>
                                     <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
                                 </figure>
                                 <div class="wt-title">
-                                    <h3>{{ $projectCounts['open'] }}</h3>
-                                    <span>Open Projects</span>
+                                    <h3>{{ $projectCounts['requested'] }}</h3>
+                                    <span>Requested Projects</span>
                                 </div>
                             </div>
                         </a>
@@ -156,7 +156,7 @@
                         </a>
 
                     </aside>
-                </div> --}}
+                </div>
             </div>
         </section>
         <!--Register Form End-->
