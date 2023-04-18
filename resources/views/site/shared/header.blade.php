@@ -80,9 +80,10 @@
                                                  <span>All Projects</span>
                                              </a>
                                              <ul class="sub-menu">
-                                                 <li><a href="{{ url('/open-jobs') }}">All Project</a></li>
-                                                 <li><a href="{{ url('/ongoing-jobs') }}">Ongoing Projects</a></li>
-                                                 <li><a href="{{ url('/completed-jobs') }}">Completed Projects</a></li>
+                                                 {{-- <li><a href="{{ url('/fe-open-projects') }}">All Project</a></li> --}}
+                                                 <li><a href="{{ url('/fe-ongoing-projects') }}">Ongoing Projects</a></li>
+                                                 <li><a href="{{ url('/fe-completed-projects') }}">Completed Projects</a>
+                                                 </li>
                                              </ul>
                                          </li>
                                      @endif

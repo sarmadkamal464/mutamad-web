@@ -57,7 +57,7 @@
                                                 @if (Auth::user()->role == 'freelancer')
                                                     <span class="wt-radio">
                                                         <input id="wt-jobs" data-title="Projects" type="radio"
-                                                            name="searchtype" value="project">
+                                                            name="searchtype" value="project" checked>
                                                         <label for="wt-jobs">Projects</label>
                                                     </span>
                                                 @elseif(Auth::user()->role == 'client')
@@ -242,12 +242,14 @@
         const togglePage = () => {
             const searchType = document.querySelector('input[name=\'searchtype\']:checked').value;
             if (searchType === 'freelancer') {
-                window.location.href = 'search-freelancer?limit=4&offset=0&search=' + $('#searchField').val()
+                window.location.href =
+                    `{{ url('search-freelancer?limit=4&offset=0&search=') }}${$('#searchField').val()}`;
                 $('#searchField').val();
             } else if (searchType === 'project') {
-                return;
-                window.location.href = '{{ url('/projects') }}';
+                window.location.href =
+                    `{{ url('/search-project?limit=4&offset=0&search=') }}${$('#searchField').val()}`;
             }
+
         };
     </script>
 

@@ -100,6 +100,12 @@ class FreelancerController extends Controller
         if ($validator->fails()) {
             return $this->response->validationErrorResponse($request, $validator);
         }
+        $existingProposal = Proposal::where('project_id', $request->project_id)
+        ->where('freelancer_id', Auth::user()->id)
+        ->first();
+if ($existingProposal) {
+    return $this->response->errorResponse($request, 'Proposal is already submitted', 422);
+}
         $project = Project::find($request->project_id);
         $proposal = new Proposal([
             'project_id' => $request->project_id,

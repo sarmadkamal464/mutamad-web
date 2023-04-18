@@ -122,13 +122,16 @@ class ProjectController extends Controller
             ->with('category')
             ->with('duration')
             ->freelancers()
+           
             ->find($id)
             : Project::with('category')
             ->with('duration')
             ->with('clients')
             ->find($id);
+        
         if (!$data)
             $data = [];
+         
         return $this->response->collectionResponse($request, $data, true, 'site/client/project/projectDetail', $data);
     }
 
@@ -170,14 +173,15 @@ class ProjectController extends Controller
             ->ongoing()
             ->hiredFreelancer()
             ->get()
-            : Proposal::with('projects')
+            : Proposal::with('project')
             ->where('freelancer_id', $user->id)
             ->ongoing()
             ->get();
         $compact['data'] = $data;
         $request['noRedirect'] = true;
         $compact['projectCounts'] = $this->getProjectsCount($request);
-        return $this->response->collectionResponse($request, $data, true, 'site/client/project/ongoingProject', $compact);
+        $viewPage = (!$user->isFreelancer()) ? 'site/client/project/ongoingProject' : 'site/freelancer/ongoingProject';
+        return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
     }
 
     public function openProject(Request $request)
@@ -196,7 +200,8 @@ class ProjectController extends Controller
         $compact['data'] = $data;
         $request['noRedirect'] = true;
         $compact['projectCounts'] = $this->getProjectsCount($request);
-        return $this->response->collectionResponse($request, $data, true, 'site/client/project/openProject', $compact);
+        $viewPage = (!$user->isFreelancer()) ? 'site/client/project/openProject' : 'site/freelancer/openProject';
+        return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
     }
 
     public function completedProject(Request $request)
@@ -209,14 +214,15 @@ class ProjectController extends Controller
             ->completed()
             ->jobDoneByFreelancer()
             ->get()
-            : Proposal::with('projects')
+            : Proposal::with('project') //projects
             ->where('freelancer_id', $user->id)
             ->completed()
             ->get();
         $compact['data'] = $data;
         $request['noRedirect'] = true;
         $compact['projectCounts'] = $this->getProjectsCount($request);
-        return $this->response->collectionResponse($request, $data, true, 'site/client/project/completedProject', $compact);
+        $viewPage = (!$user->isFreelancer()) ? 'site/client/project/completedProject' : 'site/freelancer/completedProject';
+        return $this->response->collectionResponse($request, $data, true,  $viewPage, $compact);
     }
 
     public function getProjectProposals(Request $request, $id)
