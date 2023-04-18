@@ -101,6 +101,7 @@ class FreelancerController extends Controller
             return $this->response->validationErrorResponse($request, $validator);
         }
 
+
         $checkProposalSub = Proposal::where('project_id', $request->project_id)->where('freelancer_id', Auth::user()->id)->get();
         if (empty($checkProposalSub->toArray())) {
             $project = Project::find($request->project_id);
@@ -121,6 +122,8 @@ class FreelancerController extends Controller
         }
 
     }
+
+
 
     public function searchProject(Request $request)
     {
