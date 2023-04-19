@@ -256,4 +256,64 @@ class ProjectController extends Controller
         ->get();
         return $this->response->collectionResponse($request, $data);
     }
+    
+public function pendingProject(Request $request)
+{
+    $user = User::find(Auth::user()->id);
+
+    $limit = $request->input('limit', 4);
+    $offset = $request->input('offset', 0);
+    $status = $request->input('status');
+
+    $data = !$user->isFreelancer()
+        ? Project::where('client_id', $user->id)
+            ->with('category')
+            ->with('duration')
+            ->freelancers()
+            ->filter(compact('limit', 'offset', 'status'))
+            ->get()
+        : ($status == null 
+            ? Proposal::where('freelancer_id', $user->id)
+                ->with('project')
+            
+                ->get()
+            : Proposal::where('status', $status)
+                ->where('freelancer_id', $user->id)
+                ->with('project')
+                ->get());
+                $compact['data'] = $data;
+                $request['noRedirect'] = true;
+                $compact['projectCounts'] = $this->getProjectsCount($request);
+                $viewPage = 'site/freelancer/pendingProject';
+                
+                return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
+}
+
+  
+
+public function getInvitationProjects(Request $request)
+{
+    $user = User::find(Auth::user()->id);
+
+
+    $data = !$user->isFreelancer()
+    ? Project::where('client_id', $user->id)
+        ->with('category')
+        ->with('duration')
+        ->freelancers()
+        ->get()
+    :Proposal::where('freelancer_id', $user->id)
+                    // ->where('status', 'pending')
+                    ->where('proposal_type', 'invitation')
+                    ->with('project')
+                    ->get();
+
+    $compact['data'] = $data;
+    $request['noRedirect'] = true;
+    $compact['projectCounts'] = $this->getProjectsCount($request);
+    $viewPage = 'site.freelancer.invitationProjects';
+                    
+    return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
+}
+
 }

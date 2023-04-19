@@ -22,11 +22,11 @@
                                  @auth
                                      @if (Auth::user()->role == 'freelancer')
                                          <li class="nav-item">
-                                             <a href="{{ url('/search-project?limit=4') }}">Browse Projects</a>
+                                             <a href="{{ url('/search-project') }}">Browse Projects</a>
                                          </li>
                                      @elseif(Auth::user()->role == 'client')
                                          <li class="nav-item">
-                                             <a href="{{ url('/search-freelancer?limit=4') }}">Browse Freelancers</a>
+                                             <a href="{{ url('/search-freelancer') }}">Browse Freelancers</a>
                                          </li>
                                      @endif
                                  @endauth
@@ -70,8 +70,10 @@
                                              </a>
                                              <ul class="sub-menu">
                                                  <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
-                                                 <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a></li>
-                                                 <li><a href="{{ url('/completed-projects') }}">Completed Projects</a></li>
+                                                 <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a>
+                                                 </li>
+                                                 <li><a href="{{ url('/completed-projects') }}">Completed
+                                                         Projects</a></li>
                                              </ul>
                                          </li>
                                      @elseif (Auth::user()->role == 'freelancer')
@@ -80,9 +82,14 @@
                                                  <span>All Projects</span>
                                              </a>
                                              <ul class="sub-menu">
-                                                 {{-- <li><a href="{{ url('/fe-open-projects') }}">All Project</a></li> --}}
-                                                 <li><a href="{{ url('/fe-ongoing-projects') }}">Ongoing Projects</a></li>
-                                                 <li><a href="{{ url('/fe-completed-projects') }}">Completed Projects</a>
+                                                 <li><a href="{{ url('/pending-projects') }}">Requested Project</a>
+                                                 </li>
+                                                 <li><a href="{{ url('invitation-projects') }}">Invited Project</a>
+                                                 </li>
+                                                 <li><a href="{{ url('/fe-ongoing-projects') }}">Ongoing
+                                                         Projects</a></li>
+                                                 <li><a href="{{ url('/fe-completed-projects') }}">Completed
+                                                         Projects</a>
                                                  </li>
                                              </ul>
                                          </li>

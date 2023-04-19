@@ -11,10 +11,8 @@
             padding: 121px 40px 20px 310px;
         }
 
-        .wt-pagination ul li a {
-            width: inherit !important;
-            font-weight: bold !important;
-        }
+
+
 
         .wt-dashboardboxcontent {
             padding: 30px 0px;
@@ -70,6 +68,17 @@
                         <div class="wt-dashboardboxcontent wt-jobdetailsholder">
                             <div class="wt-completejobholder">
                                 <div class="wt-managejobcontent">
+                                    @if ($projectCounts['ongoing'] == 0)
+                                        <div class="wt-userlistinghold wt-featured">
+                                            <div class="wt-userlistingcontent">
+                                                <div class="wt-contenthead">
+                                                    <div class="wt-title">
+                                                        No Ongoing Project Found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                     @foreach ($data as $item)
                                         <div class="wt-userlistinghold wt-featured wt-userlistingvtwo">
                                             <div class="wt-userlistingcontent wt-userlistingcontentvtwo">
@@ -105,6 +114,7 @@
                                     @endforeach
                                 </div>
                             </div>
+
                         </div>
                         {{-- <nav class="wt-pagination wt-savepagination">
                             <ul>
@@ -119,7 +129,18 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                     <aside id="wt-sidebar" class="wt-sidebar wt-dashboardsave">
-                        <a href="javascript:void(0)" class="wt-proposalsr">
+                        <a href="{{ url('/invitation-projects') }}" class="wt-proposalsr">
+                            <div class="wt-proposalsrcontent">
+                                <figure>
+                                    <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
+                                </figure>
+                                <div class="wt-title">
+                                    <h3> &#8659;</h3>
+                                    <span>Invited Projects</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{ url('/pending-projects') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>
                                     <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
@@ -163,4 +184,6 @@
     <!--Main End-->
 @endsection
 @section('script')
+
+
 @endsection

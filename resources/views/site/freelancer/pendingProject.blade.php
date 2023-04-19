@@ -1,5 +1,5 @@
 @extends('site.layout')
-@section('title', 'Completed Project')
+@section('title', 'Ongoing Project')
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
@@ -11,9 +11,15 @@
             padding: 121px 40px 20px 310px;
         }
 
-        .wt-pagination ul li a {
-            width: inherit !important;
-            font-weight: bold !important;
+
+
+
+        .wt-dashboardboxcontent {
+            padding: 30px 0px;
+        }
+
+        .wt-managejobcontent {
+            padding: 0 30px;
         }
 
         .wt-contenthead .wt-title h2 {
@@ -23,10 +29,6 @@
 
         .wt-rightarea {
             float: right;
-        }
-
-        .wt-managejobcontent {
-            padding: 0 30px;
         }
 
         .wt-userlisting-breadcrumb li span,
@@ -41,10 +43,6 @@
             .wt-userlistingvtwo .wt-userlistingcontentvtwo .wt-rightarea .wt-btnarea {
                 padding: 0 0 30px;
             }
-        }
-
-        .wt-dashboardboxcontent {
-            padding: 30px 0px;
         }
 
         @media (max-width: 767px) {
@@ -65,12 +63,22 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-9">
                     <div class="wt-dashboardbox">
                         <div class="wt-dashboardboxtitle">
-                            <h2>Completed Project</h2>
+                            <h2>Pending Project</h2>
                         </div>
-                        {{-- <?php dd($data->toArray()); ?> --}}
                         <div class="wt-dashboardboxcontent wt-jobdetailsholder">
                             <div class="wt-completejobholder">
                                 <div class="wt-managejobcontent">
+                                    @if ($projectCounts['requested'] == 0)
+                                        <div class="wt-userlistinghold wt-featured">
+                                            <div class="wt-userlistingcontent">
+                                                <div class="wt-contenthead">
+                                                    <div class="wt-title">
+                                                        No Pending Project Found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                     @foreach ($data as $item)
                                         <div class="wt-userlistinghold wt-featured wt-userlistingvtwo">
                                             <div class="wt-userlistingcontent wt-userlistingcontentvtwo">
@@ -82,12 +90,12 @@
                                                         {{-- <li><span class="wt-dashboraddoller"><i
                                                                     class="fa fa-dollar-sign"></i>
                                                                 &nbsp; Project Category:
-                                                                &nbsp;{{ $item->project->name }}</span>
+                                                                &nbsp;{{ $item->category->name }}</span>
                                                         </li> --}}
 
                                                         <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                                &nbsp; Duration:
-                                                                &nbsp;{{ $item->project->duration->title }}</span>
+                                                                &nbsp; Duration: &nbsp;
+                                                                {{ $item->project->duration->title }}</span>
                                                         </li>
                                                         <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
                                                                     class="far fa-folder"></i> &nbsp; Budget: &nbsp;
@@ -96,26 +104,22 @@
                                                 </div>
                                                 <div class="wt-rightarea">
                                                     <div class="wt-btnarea">
-                                                        {{-- <a href="{{ url('/single-project2/' . $item->id) }}"
+                                                        <a href="{{ url('/single-project2/' . $item->project->id) }}"
                                                             class="wt-btn">VIEW
-                                                            DETAILS</a> --}}
+                                                            DETAILS</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        {{-- <nav class="wt-pagination wt-savepagination">
-                            <ul>
-                                <li class="wt-prevpage"><a href="javascrip:void(0);"><i
-                                            class="lnr lnr-chevron-left"></i>Prev &nbsp;&nbsp;</a></li>
 
-                                <li class="wt-nextpage"><a href="javascrip:void(0);">&nbsp;&nbsp;Next &nbsp;<i
-                                            class="lnr lnr-chevron-right"></i></a></li>
-                            </ul>
-                        </nav> --}}
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
@@ -175,4 +179,6 @@
     <!--Main End-->
 @endsection
 @section('script')
+
+
 @endsection
