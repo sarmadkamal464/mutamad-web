@@ -305,6 +305,29 @@ public function pendingProject(Request $request)
 
   
 
+public function getInvitationProjects(Request $request)
+{
+    $user = User::find(Auth::user()->id);
 
+
+    $data = !$user->isFreelancer()
+    ? Project::where('client_id', $user->id)
+        ->with('category')
+        ->with('duration')
+        ->freelancers()
+        ->get()
+    :Proposal::where('freelancer_id', $user->id)
+                    // ->where('status', 'pending')
+                    ->where('proposal_type', 'invitation')
+                    ->with('project')
+                    ->get();
+
+    $compact['data'] = $data;
+    $request['noRedirect'] = true;
+    $compact['projectCounts'] = $this->getProjectsCount($request);
+    $viewPage = 'site.freelancer.invitationProjects';
+                    
+    return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
+}
 
 }
