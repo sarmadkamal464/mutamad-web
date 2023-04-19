@@ -264,6 +264,47 @@ class ProjectController extends Controller
             ->where('freelancer_id', $user->id)
             ->where('proposal_type', 'invitation')
             ->get();
-        return $this->response->collectionResponse($request, $data);
+            $compact['data'] = $data;
+              $request['noRedirect'] = true;
+         $compact['projectCounts'] = $this->getProjectsCount($request);
+            return $this->response->collectionResponse($request, $data, true, 'site.freelancer.invitationProjects',$compact);
+      
     }
+    
+public function pendingProject(Request $request)
+{
+    $user = User::find(Auth::user()->id);
+
+    $limit = $request->input('limit', 4);
+    $offset = $request->input('offset', 0);
+    $status = $request->input('status');
+
+    $data = !$user->isFreelancer()
+        ? Project::where('client_id', $user->id)
+            ->with('category')
+            ->with('duration')
+            ->freelancers()
+            ->filter(compact('limit', 'offset', 'status'))
+            ->get()
+        : ($status == null 
+            ? Proposal::where('freelancer_id', $user->id)
+                ->with('project')
+            
+                ->get()
+            : Proposal::where('status', $status)
+                ->where('freelancer_id', $user->id)
+                ->with('project')
+                ->get());
+                $compact['data'] = $data;
+                $request['noRedirect'] = true;
+                $compact['projectCounts'] = $this->getProjectsCount($request);
+                $viewPage = 'site/freelancer/pendingProject';
+                
+                return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
+}
+
+  
+
+
+
 }

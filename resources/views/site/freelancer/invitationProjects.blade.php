@@ -1,5 +1,5 @@
 @extends('site.layout')
-@section('title', 'Open Project')
+@section('title', 'Ongoing Project')
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
@@ -11,10 +11,8 @@
             padding: 121px 40px 20px 310px;
         }
 
-        .wt-pagination ul li a {
-            width: inherit !important;
-            font-weight: bold !important;
-        }
+
+
 
         .wt-dashboardboxcontent {
             padding: 30px 0px;
@@ -59,74 +57,108 @@
 @section('content')
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
-
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-9">
                     <div class="wt-dashboardbox">
                         <div class="wt-dashboardboxtitle">
-                            <h2>Open Project</h2>
+                            <h2>Invitation of Project</h2>
                         </div>
                         <div class="wt-dashboardboxcontent wt-jobdetailsholder">
                             <div class="wt-completejobholder">
                                 <div class="wt-managejobcontent">
+                                    @if ($projectCounts['requested'] == 0)
+                                        <div class="wt-userlistinghold wt-featured">
+                                            <div class="wt-userlistingcontent">
+                                                <div class="wt-contenthead">
+                                                    <div class="wt-title">
+                                                        No Pending Project Found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                     @foreach ($data as $item)
                                         <div class="wt-userlistinghold wt-featured wt-userlistingvtwo">
                                             <div class="wt-userlistingcontent wt-userlistingcontentvtwo">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        <h2>{{ $item->title }}</h2>
+                                                        <h2>{{ $item->project->title }}</h2>
                                                     </div>
                                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
-                                                        <li><span class="wt-dashboraddoller"><i
+                                                        {{-- <li><span class="wt-dashboraddoller"><i
                                                                     class="fa fa-dollar-sign"></i>
-                                                                &nbsp; Project Category:{{ $item->category->name }}</span>
-                                                        </li>
+                                                                &nbsp; Project Category:
+                                                                &nbsp;{{ $item->category->name }}</span>
+                                                        </li> --}}
 
                                                         <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                                &nbsp; Duration: {{ $item->duration->title }}</span></li>
+                                                                &nbsp; Duration: &nbsp;
+                                                                {{ $item->project->duration->title }}</span>
+                                                        </li>
                                                         <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
-                                                                    class="far fa-folder"></i> &nbsp; Budget:
-                                                                {{ $item->budget }}</a></li>
+                                                                    class="far fa-folder"></i> &nbsp; Budget: &nbsp;
+                                                                {{ $item->project->budget }}</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="wt-rightarea">
-                                                    <div class="wt-btnarea">
-                                                        <a href="{{ url('/project/' . $item->id) }}" class="wt-btn">VIEW
-                                                            DETAILS</a>
-                                                    </div>
+                                                    @if (count($data) > 0)
+                                                        <form action="{{ url('fe-assign-freelancer-to-project') }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="project_id"
+                                                                value="{{ $item->project->id }}">
+
+                                                            <input type="hidden" name="proposal_id"
+                                                                value="{{ $item->id }}">
+                                                            <div class="wt-btnarea">
+                                                                {{-- <button class="wt-btn" type="submit">Accept
+                                                                    Project</button> --}}
+                                                            </div>
+                                                        </form>
+                                                    @endif
+
                                                 </div>
+
                                             </div>
                                         </div>
                                     @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        {{-- <nav class="wt-pagination wt-savepagination">
-                            <ul>
-                                <li class="wt-prevpage"><a href="javascrip:void(0);"><i
-                                            class="lnr lnr-chevron-left"></i>Prev &nbsp;&nbsp;</a></li>
 
-                                <li class="wt-nextpage"><a href="javascrip:void(0);">&nbsp;&nbsp;Next &nbsp;<i
-                                            class="lnr lnr-chevron-right"></i></a></li>
-                            </ul>
-                        </nav> --}}
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                     <aside id="wt-sidebar" class="wt-sidebar wt-dashboardsave">
-                        <a href="{{ url('/open-projects') }}" class="wt-proposalsr">
+                        <a href="{{ url('/invitation-projects') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>
                                     <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
                                 </figure>
                                 <div class="wt-title">
-                                    <h3>{{ $projectCounts['open'] }}</h3>
-                                    <span>Open Projects</span>
+                                    <h3> &#8659;</h3>
+                                    <span>Invited Projects</span>
                                 </div>
                             </div>
                         </a>
+                        <a href="{{ url('/pending-projects') }}" class="wt-proposalsr">
+                            <div class="wt-proposalsrcontent">
+                                <figure>
+                                    <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
+                                </figure>
+                                <div class="wt-title">
+                                    <h3>{{ $projectCounts['requested'] }}</h3>
+                                    <span>Requested Projects</span>
+                                </div>
+                            </div>
+                        </a>
+
                         <a href="{{ url('/ongoing-projects') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>
@@ -160,5 +192,29 @@
     <!--Main End-->
 @endsection
 @section('script')
+    <script>
+        // let limit = 4;
+        // const urlParams = new URLSearchParams(window.location.search);
+        // let freelancerCount = {{ count($data) }}
+        // let offset = parseInt(urlParams.get('offset')) || 0;
+        // $('#prev').click(function(e) {
+        //     e.preventDefault();
+        //     if (offset > 0) {
+        //         offset -= limit;
+        //         window.location.href = `pending-projects?limit=${limit}&offset=${offset}`;
+        //     }
+        // });
+
+        // $('#next').click(function(e) {
+        //     e.preventDefault();
+        //     if (freelancerCount <= 3) {
+        //         return;
+        //     }
+        //     freelancerCount -= 4;
+        //     offset += limit;
+        //     window.location.href = `pending-projects?limit=${limit}&offset=${offset}`;
+
+        // });
+    </script>
 
 @endsection
