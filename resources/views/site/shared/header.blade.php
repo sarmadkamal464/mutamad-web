@@ -22,11 +22,11 @@
                                  @auth
                                      @if (Auth::user()->role == 'freelancer')
                                          <li class="nav-item">
-                                             <a href="{{ url('/search-project') }}">Browse Projects</a>
+                                             <a href="{{ url('/search-project?limit=4') }}">Browse Projects</a>
                                          </li>
                                      @elseif(Auth::user()->role == 'client')
                                          <li class="nav-item">
-                                             <a href="{{ url('/search-freelancer') }}">Browse Freelancers</a>
+                                             <a href="{{ url('/search-freelancer?limit=4') }}">Browse Freelancers</a>
                                          </li>
                                      @endif
                                  @endauth
