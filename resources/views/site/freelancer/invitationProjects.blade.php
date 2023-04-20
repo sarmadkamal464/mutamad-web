@@ -52,6 +52,22 @@
                 padding: 30px 10px;
             }
         }
+
+        @media (min-width: 1200px) {
+            .col-xl-3 {
+
+                flex: 0 0 20%;
+                max-width: 20%;
+            }
+        }
+
+        @media (min-width: 1500px) {
+            .col-xl-3 {
+
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -68,12 +84,12 @@
                         <div class="wt-dashboardboxcontent wt-jobdetailsholder">
                             <div class="wt-completejobholder">
                                 <div class="wt-managejobcontent">
-                                    @if ($projectCounts['requested'] == 0)
+                                    @if (count($data) == 0)
                                         <div class="wt-userlistinghold wt-featured">
                                             <div class="wt-userlistingcontent">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        No Pending Project Found
+                                                        No Invited Project Found
                                                     </div>
                                                 </div>
                                             </div>

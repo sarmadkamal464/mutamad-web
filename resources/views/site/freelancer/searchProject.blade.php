@@ -437,5 +437,11 @@
             $(this).remove();
             filter(e);
         });
+        if (freelancerCount > 3) {
+            $('#next').css('background-color', '#0583ce');
+
+        } else {
+            $('#prev').css('background-color', '#0583ce');
+        }
     </script>
 @endsection

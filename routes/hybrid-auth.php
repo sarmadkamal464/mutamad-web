@@ -32,6 +32,7 @@ Route::middleware('auth.client')->group(function () {
         'clientProject' => ClientController::class,
     ]);
     Route::get('/post-project', [HomeController::class, 'postProject']);
+    Route::get('get-project-proposals', [ProjectController::class, 'projectWithProposal'])->name('get-project-proposals');
     Route::get('open-projects', [ProjectController::class, 'openProject'])->name('open-projects');
     Route::get('/get-project-proposals/{id}', [ProjectController::class, 'getProjectProposals']);
     Route::get('/get-project-proposals-freelancer/{id}', [ProjectController::class, 'getProjectProposalsFreelancers']);

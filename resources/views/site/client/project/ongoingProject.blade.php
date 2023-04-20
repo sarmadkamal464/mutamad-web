@@ -54,6 +54,22 @@
                 padding: 30px 10px;
             }
         }
+
+        @media (min-width: 1200px) {
+            .col-xl-3 {
+
+                flex: 0 0 20%;
+                max-width: 20%;
+            }
+        }
+
+        @media (min-width: 1500px) {
+            .col-xl-3 {
+
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -70,6 +86,17 @@
                         <div class="wt-dashboardboxcontent wt-jobdetailsholder">
                             <div class="wt-completejobholder">
                                 <div class="wt-managejobcontent">
+                                    @if ($projectCounts['ongoing'] == 0)
+                                        <div class="wt-userlistinghold wt-featured">
+                                            <div class="wt-userlistingcontent">
+                                                <div class="wt-contenthead">
+                                                    <div class="wt-title">
+                                                        No Ongoing Project Found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                     @foreach ($data as $item)
                                         <div class="wt-userlistinghold wt-featured wt-userlistingvtwo">
                                             <div class="wt-userlistingcontent wt-userlistingcontentvtwo">
@@ -117,6 +144,17 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                     <aside id="wt-sidebar" class="wt-sidebar wt-dashboardsave">
+                        <a href="{{ url('get-project-proposals') }}" class="wt-proposalsr">
+                            <div class="wt-proposalsrcontent">
+                                <figure>
+                                    <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
+                                </figure>
+                                <div class="wt-title">
+                                    <h3> &#8659;</h3>
+                                    <span>Projects With Proposals</span>
+                                </div>
+                            </div>
+                        </a>
                         <a href="{{ url('/open-projects') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>

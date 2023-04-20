@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -89,6 +89,8 @@
                                                 <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Special comment to employer"
                                                     required></textarea>
                                                 <input type="hidden" name="project_id" value="{{ $id }}">
+                                                <input type="hidden" name="_redirect"
+                                                    value="{{ url('/search-project?limit=4') }}">
                                                 <button type="submit" class="wt-btn">Send
                                                     Proposal</button>
                                         </form>

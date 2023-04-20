@@ -287,10 +287,12 @@
 
         $('#next').click(function(e) {
             e.preventDefault();
-            if (freelancerCount <= 3)
+            if (freelancerCount <= 3) {
                 return;
+            }
             offset += limit;
             window.location.href = generateUrl();
+
         });
 
         $('#search-input').val(search);
@@ -363,5 +365,11 @@
             $(this).remove();
             filter(e);
         });
+        if (freelancerCount > 3) {
+            $('#next').css('background-color', '#0583ce');
+
+        } else {
+            $('#prev').css('background-color', '#0583ce');
+        }
     </script>
 @endsection

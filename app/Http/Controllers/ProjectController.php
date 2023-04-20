@@ -209,6 +209,21 @@ class ProjectController extends Controller
         $viewPage = (!$user->isFreelancer()) ? 'site/client/project/openProject' : 'site/freelancer/openProject';
         return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
     }
+    public function projectWithProposal(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $data =Project::where('client_id', $user->id)->has('proposals')
+                ->with('category')
+                ->with('duration')
+                ->open()
+                ->get();
+        $compact['data'] = $data;
+        $request['noRedirect'] = true;
+        $compact['projectCounts'] = $this->getProjectsCount($request);
+       
+        return $this->response->collectionResponse($request, $data, true,'site/client/project/projectWithProposal', $compact);
+    }
+    
 
     public function completedProject(Request $request)
     {
