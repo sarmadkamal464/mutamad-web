@@ -29,6 +29,9 @@ trait AuthTrait
             return $this->response->errorResponse($request, 'Invalid credentials', 403);
         }
         $user = Auth::user();
+        if($user->is_active == 0) {
+            return $this->response->errorResponse($request, 'Your account is deactivated. Please contact on this email: abc@test.com', 403);
+        }
         $token = '';
         if ($request->device_type == 'web') {
             Session::put('role', $user->role);
@@ -168,15 +171,23 @@ trait AuthTrait
             return $this->response->validationErrorResponse($request, $validator);
         }
         $user = User::find(Auth::user()->id);
-        if($request->deactivate_reason == "Others")
+        if($request->deactivate_reason == "Others") {
             $request['deactivate_reason'] =$request->other;
+        }
         $user->update(['deactivate_reason' => $request->deactivate_reason, 'is_active' => 0]);
-        $request->device_type == 'web'
-            ? Session::flush()
-            : $request
-            ->user()
-            ->token()
-            ->delete();
+        // $request->device_type == 'web'
+        //     ? Session::flush()
+        //     : $request
+        //     ->user()
+        //     ->token()
+        //     ->delete();
         return $this->response->successResponse($request, 'Your account is deactivated successfully');
+    }
+
+    public function activateAccount(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->update(['is_active' => 1, 'deactivate_reason'=> NULL]);
+        return $this->response->successResponse($request, 'Account is activated successfully');
     }
 }

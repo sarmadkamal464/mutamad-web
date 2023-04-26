@@ -12,6 +12,7 @@ Hybrid Application Authenticated Routes File which is available both in web and 
 */
 
 Route::post('deactivate-account', [UserController::class, 'deactivateAccount']);
+Route::post('activate-account', [UserController::class, 'activateAccount']);
 Route::get('/my-profile', [UserController::class, 'myProfile']);
 Route::get('/get-user/{id}', [UserController::class, 'getUser']);
 Route::get('ongoing-projects', [ProjectController::class, 'ongoingProject'])->name('ongoing-projects');
