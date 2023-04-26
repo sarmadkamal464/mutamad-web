@@ -41,10 +41,10 @@ trait AuthTrait
             $token = $user->createToken('MyApp')->accessToken;
         }
         $data = User::with('category')->findOrFail($user->id);
-        $data->update([
-            'is_active' => 1,
-            'deactivate_reason' => null
-        ]);
+        // $data->update([
+        //     'is_active' => 1,
+        //     'deactivate_reason' => null
+        // ]);
         return $this->response->collectionResponse($request, ['token' => $token, 'user' => $data]);
     }
 
