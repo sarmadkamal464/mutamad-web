@@ -1,5 +1,5 @@
 @extends('site.layout')
-@section('title', 'Completed Project')
+@section('title', 'Open Project')
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
@@ -16,6 +16,14 @@
             font-weight: bold !important;
         }
 
+        .wt-dashboardboxcontent {
+            padding: 30px 0px;
+        }
+
+        .wt-managejobcontent {
+            padding: 0 30px;
+        }
+
         .wt-contenthead .wt-title h2 {
             margin: 0 0 10px;
             line-height: 15px;
@@ -23,10 +31,6 @@
 
         .wt-rightarea {
             float: right;
-        }
-
-        .wt-managejobcontent {
-            padding: 0 30px;
         }
 
         .wt-userlisting-breadcrumb li span,
@@ -41,10 +45,6 @@
             .wt-userlistingvtwo .wt-userlistingcontentvtwo .wt-rightarea .wt-btnarea {
                 padding: 0 0 30px;
             }
-        }
-
-        .wt-dashboardboxcontent {
-            padding: 30px 0px;
         }
 
         @media (max-width: 767px) {
@@ -75,24 +75,24 @@
 @section('content')
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
+
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-9">
                     <div class="wt-dashboardbox">
                         <div class="wt-dashboardboxtitle">
-                            <h2>Completed Project</h2>
+                            <h2>Project with proposal</h2>
                         </div>
-
                         <div class="wt-dashboardboxcontent wt-jobdetailsholder">
                             <div class="wt-completejobholder">
                                 <div class="wt-managejobcontent">
-                                    @if ($projectCounts['completed'] == 0)
+                                    @if (count($data) == 0)
                                         <div class="wt-userlistinghold wt-featured">
                                             <div class="wt-userlistingcontent">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        No Completed Project Found
+                                                        No Project with proposal Found
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,31 +100,28 @@
                                     @endif
                                     @foreach ($data as $item)
                                         <div class="wt-userlistinghold wt-featured wt-userlistingvtwo">
+
                                             <div class="wt-userlistingcontent wt-userlistingcontentvtwo">
                                                 <div class="wt-contenthead">
                                                     <div class="wt-title">
-                                                        <h2>{{ $item->project->title }}</h2>
+                                                        <h2>{{ $item->title }}</h2>
                                                     </div>
                                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
-                                                        {{-- <li><span class="wt-dashboraddoller"><i
+                                                        <li><span class="wt-dashboraddoller"><i
                                                                     class="fa fa-dollar-sign"></i>
-                                                                &nbsp; Project Category:
-                                                                &nbsp;{{ $item->project->name }}</span>
-                                                        </li> --}}
+                                                                &nbsp; Project Category:{{ $item->category->name }}</span>
+                                                        </li>
 
                                                         <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                                &nbsp; Duration:
-                                                                &nbsp;{{ $item->project->duration->title }}</span>
-                                                        </li>
+                                                                &nbsp; Duration: {{ $item->duration->title }}</span></li>
                                                         <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
-                                                                    class="far fa-folder"></i> &nbsp; Budget: &nbsp;
-                                                                {{ $item->project->budget }}</a></li>
+                                                                    class="far fa-folder"></i> &nbsp; Budget:
+                                                                {{ $item->budget }}</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="wt-rightarea">
                                                     <div class="wt-btnarea">
-                                                        <a href="{{ url('/single-project2/' . $item->project_id) }}"
-                                                            class="wt-btn">VIEW
+                                                        <a href="{{ url('/project/' . $item->id) }}" class="wt-btn">VIEW
                                                             DETAILS</a>
                                                     </div>
                                                 </div>
@@ -147,25 +144,25 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                     <aside id="wt-sidebar" class="wt-sidebar wt-dashboardsave">
-                        <a href="{{ url('/invitation-projects') }}" class="wt-proposalsr">
+                        <a href="{{ url('get-project-proposals') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>
                                     <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
                                 </figure>
                                 <div class="wt-title">
                                     <h3> &#8659;</h3>
-                                    <span>Invited Projects</span>
+                                    <span>Projects With Proposals</span>
                                 </div>
                             </div>
                         </a>
-                        <a href="{{ url('/pending-projects') }}" class="wt-proposalsr">
+                        <a href="{{ url('/open-projects') }}" class="wt-proposalsr">
                             <div class="wt-proposalsrcontent">
                                 <figure>
                                     <img src="{{ asset('images/thumbnail/img-17.png') }}" alt="image">
                                 </figure>
                                 <div class="wt-title">
-                                    <h3>{{ $projectCounts['requested'] }}</h3>
-                                    <span>Requested Projects</span>
+                                    <h3>{{ $projectCounts['open'] }}</h3>
+                                    <span>Open Projects</span>
                                 </div>
                             </div>
                         </a>
@@ -202,4 +199,5 @@
     <!--Main End-->
 @endsection
 @section('script')
+
 @endsection

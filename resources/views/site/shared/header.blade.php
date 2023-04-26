@@ -69,6 +69,8 @@
                                                  <span>All Projects</span>
                                              </a>
                                              <ul class="sub-menu">
+                                                 <li><a href="{{ url('get-project-proposals') }}">Projects With
+                                                         Proposals</a></li>
                                                  <li><a href="{{ url('/open-projects') }}">Open Projects</a></li>
                                                  <li><a href="{{ url('/ongoing-projects') }}">Ongoing Project</a>
                                                  </li>

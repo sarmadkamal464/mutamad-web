@@ -185,7 +185,8 @@
                                             <li><a href="#" id="prev"><i class="lnr lnr-chevron-left"></i></a>
                                                 <span> Previous</span>
                                             </li>
-                                            <li><a href="#" id="next"><i class="lnr lnr-chevron-right"></i></a>
+                                            <li id="next1"><a href="#" id="next"><i
+                                                        class="lnr lnr-chevron-right"></i></a>
                                                 <span> Next</span>
                                             </li>
                                         </ul>
@@ -287,10 +288,12 @@
 
         $('#next').click(function(e) {
             e.preventDefault();
-            if (freelancerCount <= 3)
+            if (freelancerCount <= 3) {
                 return;
+            }
             offset += limit;
             window.location.href = generateUrl();
+
         });
 
         $('#search-input').val(search);
@@ -363,5 +366,12 @@
             $(this).remove();
             filter(e);
         });
+        if (freelancerCount > 3) {
+            $('#next').css('background-color', '#0583ce');
+
+        } else {
+            $('#prev').css('background-color', '#0583ce');
+            $('#next1').css('visibility', 'hidden');
+        }
     </script>
 @endsection

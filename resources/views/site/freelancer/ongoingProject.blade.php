@@ -52,6 +52,22 @@
                 padding: 30px 10px;
             }
         }
+
+        @media (min-width: 1200px) {
+            .col-xl-3 {
+
+                flex: 0 0 20%;
+                max-width: 20%;
+            }
+        }
+
+        @media (min-width: 1500px) {
+            .col-xl-3 {
+
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+        }
     </style>
 @endsection
 @section('content')

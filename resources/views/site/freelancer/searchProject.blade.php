@@ -259,7 +259,8 @@
                                             <li><a href="#" id="prev"><i class="lnr lnr-chevron-left"></i></a>
                                                 <span> Previous</span>
                                             </li>
-                                            <li><a href="#" id="next"><i class="lnr lnr-chevron-right"></i></a>
+                                            <li id="next1"><a href="#" id="next"><i
+                                                        class="lnr lnr-chevron-right"></i></a>
                                                 <span> Next</span>
                                             </li>
                                         </ul>
@@ -437,5 +438,12 @@
             $(this).remove();
             filter(e);
         });
+        if (freelancerCount > 3) {
+            $('#next').css('background-color', '#0583ce');
+
+        } else {
+            $('#prev').css('background-color', '#0583ce');
+            $('#next1').css('visibility', 'hidden');
+        }
     </script>
 @endsection
