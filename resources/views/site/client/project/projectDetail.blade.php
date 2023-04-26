@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -83,7 +83,7 @@
                                             </div>
                                             <div class="wt-jobdetails wt-tabsinfo">
                                                 <div class="wt-tabscontenttitle">
-                                                    <h2>Add Commit</h2>
+                                                    <h2>Add Comment</h2>
                                                 </div>
 
                                                 <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Special comment to employer"
