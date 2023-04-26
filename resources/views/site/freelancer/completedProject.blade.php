@@ -123,9 +123,9 @@
                                                 </div>
                                                 <div class="wt-rightarea">
                                                     <div class="wt-btnarea">
-                                                        {{-- <a href="{{ url('/single-project2/' . $item->id) }}"
+                                                        <a href="{{ url('/single-project2/' . $item->project_id) }}"
                                                             class="wt-btn">VIEW
-                                                            DETAILS</a> --}}
+                                                            DETAILS</a>
                                                     </div>
                                                 </div>
                                             </div>

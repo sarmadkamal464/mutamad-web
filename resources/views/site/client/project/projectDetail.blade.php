@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -119,48 +119,57 @@
                                             <div class="modal-body">
                                                 <form method="POST" action="{{ url('mark-project-as-done') }}"
                                                     class="wt-formtheme wt-formpopup">
+
                                                     @csrf
                                                     <input type="hidden" name="project_id" value="{{ $id }}">
-                                                    @foreach ($proposals as $proposal)
-                                                        @if ($proposal['proposal_type'] == 'proposal' && $proposal['status'] == 'ongoing')
-                                                            <input type="hidden" name="proposal_id"
-                                                                value="{{ $proposal['id'] }}">
-                                                            <div class="proposal">
-                                                                <p>{{ $proposal['description'] }}</p>
-                                                                <p>Amount: {{ $budget }}</p>
-                                                                <p>Status: {{ $proposal['status'] }}</p>
-                                                                <p>By Freelancer:
-                                                                    {{ $proposal['freelancer']['name'] }}
-                                                                </p>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
-                                                    <fieldset>
-                                                        <div class="form-group">
-                                                            <label for="rating">Rating:</label>
-                                                            <select class="form-control" id="rating" name="rating"
-                                                                required>
-                                                                <option value="0.5">0.5</option>
-                                                                <option value="1.0">1.0</option>
-                                                                <option value="1.5">1.5</option>
-                                                                <option value="2.0">2.0</option>
-                                                                <option value="2.5">2.5</option>
-                                                                <option value="3.0">3.0</option>
-                                                                <option value="3.5">3.5</option>
-                                                                <option value="4.0">4.0</option>
-                                                                <option value="4.5">4.5</option>
-                                                                <option value="5.0">5.0</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="comment">Comment:</label>
-                                                            <textarea class="form-control" id="comment" name="comment" placeholder="Add Reviews*" required></textarea>
-                                                        </div>
-                                                        <div class="form-group wt-btnarea">
-                                                            <button type="submit" class="wt-btn color-white">Close
-                                                                Project </button>
-                                                        </div>
-                                                    </fieldset>
+                                                    @if (!$proposals)
+                                                        <fieldset>
+                                                            <p style="color: red;">Freelancer Deactivated</p>
+                                                        </fieldset>
+                                                    @else
+                                                        @foreach ($proposals as $proposal)
+                                                            @if ($proposal['proposal_type'] == 'proposal' && $proposal['status'] == 'ongoing')
+                                                                <input type="hidden" name="proposal_id"
+                                                                    value="{{ $proposal['id'] }}">
+                                                                <div class="proposal">
+                                                                    <p>{{ $proposal['description'] }}</p>
+                                                                    <p>Amount: {{ $budget }}</p>
+                                                                    <p>Status: {{ $proposal['status'] }}</p>
+                                                                    <p>By Freelancer:
+                                                                        {{ $proposal['freelancer']['name'] }}
+                                                                    </p>
+                                                                </div>
+                                                                <fieldset>
+
+                                                                    <div class="form-group">
+                                                                        <label for="rating">Rating:</label>
+                                                                        <select class="form-control" id="rating"
+                                                                            name="rating" required>
+                                                                            <option value="0.5">0.5</option>
+                                                                            <option value="1.0">1.0</option>
+                                                                            <option value="1.5">1.5</option>
+                                                                            <option value="2.0">2.0</option>
+                                                                            <option value="2.5">2.5</option>
+                                                                            <option value="3.0">3.0</option>
+                                                                            <option value="3.5">3.5</option>
+                                                                            <option value="4.0">4.0</option>
+                                                                            <option value="4.5">4.5</option>
+                                                                            <option value="5.0">5.0</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="comment">Comment:</label>
+                                                                        <textarea class="form-control" id="comment" name="comment" placeholder="Add Reviews*" required></textarea>
+                                                                    </div>
+                                                                    <div class="form-group wt-btnarea">
+                                                                        <button type="submit"
+                                                                            class="wt-btn color-white">Close
+                                                                            Project </button>
+                                                                    </div>
+                                                                </fieldset>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                 </form>
                                             </div>
                                         </div>
