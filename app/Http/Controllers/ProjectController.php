@@ -138,8 +138,12 @@ class ProjectController extends Controller
         
         if (!$data)
             $data = [];
-         
-        return $this->response->collectionResponse($request, $data, true, 'site/client/project/projectDetail', $data);
+            $review = $data->review ?? null; // get review if it exists, otherwise set to null
+      
+        return $this->response->collectionResponse($request, $data, true, 'site/client/project/projectDetail',  [
+            'data' => $data,
+            'review' => $review
+        ]);
     }
 
     public function getProjectsCount(Request $request)

@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -57,23 +57,23 @@
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
                             <div class="wt-proposalholder">
                                 <div class="wt-proposalhead">
-                                    <h2>{{ $title }}</h2>
+                                    <h2>{{ $data->title }}</h2>
 
                                     <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
                                         <li><span class="wt-dashboraddoller"><i class="fa fa-dollar-sign"></i>
-                                                &nbsp; Budget: &nbsp; {{ $budget }}</span></li>
+                                                &nbsp; Budget: &nbsp; {{ $data->budget }}</span></li>
                                         <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                &nbsp; Duration: &nbsp; {{ $duration['title'] }}</span></li>
+                                                &nbsp; Duration: &nbsp; {{ $data->duration['title'] }}</span></li>
                                         <li><span class="wt-clicksavefolder"><i class="far fa-folder"></i> &nbsp; Category:
                                                 &nbsp;
-                                                {{ $category['name'] }}</span>
+                                                {{ $data->category['name'] }}</span>
                                         </li>
                                     </ul>
                                 </div>
                                 @if (Auth::user()->role == 'freelancer')
 
 
-                                    @if (url()->current() == url('single-project2/' . $id))
+                                    @if (url()->current() == url('single-project2/' . $data->id))
                                         <div class="wt-btnarea color-white">
                                         </div>
                                     @else
@@ -88,7 +88,7 @@
 
                                                 <textarea name="description" class="form-group" style="height: 105px" placeholder="Add Special comment to employer"
                                                     required></textarea>
-                                                <input type="hidden" name="project_id" value="{{ $id }}">
+                                                <input type="hidden" name="project_id" value="{{ $data->id }}">
                                                 <input type="hidden" name="_redirect"
                                                     value="{{ url('/search-project?limit=4') }}">
                                                 <button type="submit" class="wt-btn">Send
@@ -97,11 +97,11 @@
                             </div>
                             @endif
                         @else
-                            @if ($status == 'open')
-                                <div class="wt-btnarea"><a href="{{ url('get-project-proposals/' . $id) }}"
+                            @if ($data->status == 'open')
+                                <div class="wt-btnarea"><a href="{{ url('get-project-proposals/' . $data->id) }}"
                                         class="wt-btn">Assign Project</a>
                                 </div>
-                            @elseif($status == 'ongoing')
+                            @elseif($data->status == 'ongoing')
                                 <div class="wt-btnarea color-white"><a data-toggle="modal" data-target="#reviewermodal"
                                         class="wt-btn">Mark as done</a>
                                 </div>
@@ -121,19 +121,19 @@
                                                     class="wt-formtheme wt-formpopup">
 
                                                     @csrf
-                                                    <input type="hidden" name="project_id" value="{{ $id }}">
-                                                    @if (!$proposals)
+                                                    <input type="hidden" name="project_id" value="{{ $data->id }}">
+                                                    @if (!$data->proposals)
                                                         <fieldset>
                                                             <p style="color: red;">Freelancer Deactivated</p>
                                                         </fieldset>
                                                     @else
-                                                        @foreach ($proposals as $proposal)
+                                                        @foreach ($data->proposals as $proposal)
                                                             @if ($proposal['proposal_type'] == 'proposal' && $proposal['status'] == 'ongoing')
                                                                 <input type="hidden" name="proposal_id"
                                                                     value="{{ $proposal['id'] }}">
                                                                 <div class="proposal">
                                                                     <p>{{ $proposal['description'] }}</p>
-                                                                    <p>Amount: {{ $budget }}</p>
+                                                                    <p>Amount: {{ $data->budget }}</p>
                                                                     <p>Status: {{ $proposal['status'] }}</p>
                                                                     <p>By Freelancer:
                                                                         {{ $proposal['freelancer']['name'] }}
@@ -179,10 +179,10 @@
                                 <div class="wt-btnarea">
                                     <div class="wt-hireduserstatus">
                                         <ul class="wt-hireduserimgs">
-                                            @if (!is_null($proposals[0]['freelancer']['profile_image']))
+                                            @if (!is_null($data->proposals[0]['freelancer']['profile_image']))
                                                 <li>
                                                     <figure><img
-                                                            src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $proposals[0]['freelancer']['profile_image']) }}"
+                                                            src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->proposals[0]['freelancer']['profile_image']) }}"
                                                             class="mCS_img_loaded"></figure>
                                                 </li>
                                             @else
@@ -192,7 +192,7 @@
                                                 </li>
                                             @endif
                                         </ul>
-                                        <p>{{ $proposals[0]['freelancer']['name'] }}</p>
+                                        <p>{{ $data->proposals[0]['freelancer']['name'] }}</p>
                                         <p style="color: red;">Project
                                             Closed</p>
                                     </div>
@@ -201,14 +201,30 @@
                             @endif
                         </div>
                     </div>
+
+
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
                         <div class="wt-projectdetail-holder">
                             <div class="wt-projectdetail">
+                                @if ($review)
+                                    <div class="wt-review">
+                                        <div class="wt-title">
+                                            <h3>Review :</h3>
+                                        </div>
+                                        <p>Rating :
+                                            @for ($i = 1; $i <= $review->rating; $i++)
+                                                <i class="fa fa-star" style="color:rgb(241, 241, 54)"></i>
+                                            @endfor
+                                        </p>
+                                        <p>Comment : {{ $review->comment }}</p>
+                                    </div>
+                                @endif
                                 <div class="wt-title">
                                     <h3>Project Detail</h3>
                                 </div>
+
                                 <div class="wt-description">
-                                    <p>{{ $description }}</p>
+                                    <p>{{ $data->description }}</p>
                                 </div>
                             </div>
                             <div class="wt-attachments">
@@ -216,12 +232,12 @@
                                     <h3>Attachments</h3>
                                 </div>
                                 <ul class="wt-attachfile">
-                                    @if ($document != null)
+                                    @if ($data->document != null)
                                         <li>
                                             <span>Document</span>
                                             <em>File size: 512 kb<a target="__blank"
-                                                    href="{{ url(config('app.storage_url') . 'documents/' . $document) }}"><i
-                                                        class="lnr lnr-download">{{ $document }}</i></a></em>
+                                                    href="{{ url(config('app.storage_url') . 'documents/' . $data->document) }}"><i
+                                                        class="lnr lnr-download">{{ $data->document }}</i></a></em>
                                         </li>
                                     @else
                                         <li>
