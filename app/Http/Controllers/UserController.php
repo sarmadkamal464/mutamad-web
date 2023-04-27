@@ -63,31 +63,5 @@ class UserController extends Controller
         }
         return $this->response->successResponse($request, 'Record Updated Successfully');
     }
-    public function deactivateAccount(Request $request)
-    {
-        $rules = [
-            'deactivate_reason' => 'required',
-        ];
-        $customMessages = [
-            'required' => 'Please Enter the Deactivation Reason',
-        ];
-        $validator = Validator::make($request->all(), $rules, $customMessages);
-        if ($validator->fails()) {
-            return $this->response->validationErrorResponse($request, $validator);
-        }
-        $user = User::find(Auth::user()->id);
-        if($request->deactivate_reason == "Others") {
-            $request['deactivate_reason'] =$request->other;
-        }
-        $user->update(['deactivate_reason' => $request->deactivate_reason, 'is_active' => 0]);
-        // $request->device_type == 'web'
-        //     ? Session::flush()
-        //     : $request
-        //     ->user()
-        //     ->token()
-        //     ->delete();
-        
-    Auth::logout(); // log out the user
-        return $this->response->successResponse($request, 'Your account is deactivated successfully');
-    }
+    
 }
