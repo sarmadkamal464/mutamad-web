@@ -154,7 +154,7 @@
                                 </figure>
                                 <div class="wt-title">
                                     <h3> &#8659;</h3>
-                                    <span>Invited Projects</span>
+                                    <span>Invited by Client</span>
                                 </div>
                             </div>
                         </a>
@@ -165,7 +165,7 @@
                                 </figure>
                                 <div class="wt-title">
                                     <h3>{{ $projectCounts['requested'] }}</h3>
-                                    <span>Requested Projects</span>
+                                    <span>Requested to Client</span>
                                 </div>
                             </div>
                         </a>
