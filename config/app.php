@@ -56,6 +56,10 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'app_api_url' => env('APP_API_URL', '/api/v1'),
+
+    'storage_url' => env('STORAGE_URL', '/public/storage/'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -134,6 +138,7 @@ return [
     |
     */
 
+
     'providers' => [
 
         /*
@@ -174,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -229,7 +235,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Helper' => App\Helpers\Helper::class,
     ],
 
 ];

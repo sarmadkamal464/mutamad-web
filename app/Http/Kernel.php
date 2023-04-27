@@ -2,6 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AuthCheck;
+use App\Http\Middleware\CheckDeviceType;
+use App\Http\Middleware\EnsureUserIsClient;
+use App\Http\Middleware\EnsureUserIsFreelancer;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -37,12 +41,15 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\AddDeviceTypeToRequest::class, // this will add deviceType web for blade
+            CheckDeviceType::class, //this will check device type
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            CheckDeviceType::class, //this will check device type
         ],
     ];
 
@@ -63,5 +70,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'auth.check' => AuthCheck::class,
+        'auth.client' => EnsureUserIsClient::class,
+        'auth.freelancer' => EnsureUserIsFreelancer::class,
     ];
 }
