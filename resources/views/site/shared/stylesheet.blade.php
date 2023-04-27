@@ -173,6 +173,12 @@
         color: #080808 !important;
     }
 
+    .wt-description,
+    .proposal,
+    .wt-review {
+        word-wrap: break-word;
+    }
+
     @media only screen and (min-width: 455px) {
         .wt-header {
             padding: 0;
