@@ -15,39 +15,38 @@ use Illuminate\Support\Facades\Mail;
 
 trait AuthTrait
 {
-    public function login(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return $this->response->validationErrorResponse($request, $validator);
-        }
-        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        if (!auth()->attempt([$fieldType => $request->email, 'password' => $request->password])) {
-            return $this->response->errorResponse($request, 'Invalid credentials', 403);
-        }
-        $user = Auth::user();
-        if($user->is_active == 0) {
-            return $this->response->errorResponse($request, 'Your account is deactivated. Please contact on this email: abc@test.com', 403);
-        }
-        $token = '';
-        if ($request->device_type == 'web') {
-            Session::put('role', $user->role);
-            Session::flash('message', 'Logged In Successfully');
-            return redirect()->route('home');
-        } else {
-            $token = $user->createToken('MyApp')->accessToken;
-        }
-        $data = User::with('category')->findOrFail($user->id);
-        // $data->update([
-        //     'is_active' => 1,
-        //     'deactivate_reason' => null
-        // ]);
-        return $this->response->collectionResponse($request, ['token' => $token, 'user' => $data]);
+public function login(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required',
+        'password' => 'required',
+    ]);
+    if ($validator->fails()) {
+        return $this->response->validationErrorResponse($request, $validator);
     }
-
+    $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+    $user = User::where($fieldType, $request->email)->first();
+    if (!$user) {
+        return $this->response->errorResponse($request, 'Invalid credentials', 403);
+    }
+    if ($user->is_active == 0) {
+        return $this->response->errorResponse($request, 'Your account is deactivated. Please contact on this email: abc@test.com', 403);
+    }
+    if (!auth()->attempt([$fieldType => $request->email, 'password' => $request->password])) {
+        return $this->response->errorResponse($request, 'Invalid credentials', 403);
+    }
+    $user = Auth::user();
+    $token = '';
+    if ($request->device_type == 'web') {
+        Session::put('role', $user->role);
+        Session::flash('message', 'Logged In Successfully');
+        return redirect()->route('home');
+    } else {
+        $token = $user->createToken('MyApp')->accessToken;
+    }
+    $data = User::with('category')->findOrFail($user->id);
+    return $this->response->collectionResponse($request, ['token' => $token, 'user' => $data]);
+}
     public function signup(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -181,6 +180,8 @@ trait AuthTrait
         //     ->user()
         //     ->token()
         //     ->delete();
+        
+    Auth::logout(); // log out the user
         return $this->response->successResponse($request, 'Your account is deactivated successfully');
     }
 

@@ -115,7 +115,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="wt-widget wt-effectiveholder">
+                                    {{-- <div class="wt-widget wt-effectiveholder">
                                         <div class="wt-widgettitle">
                                             <h2>Filter by Country</h2>
                                         </div>
@@ -136,7 +136,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="wt-widget wt-effectiveholder">
                                         <div class="wt-widgettitle">
                                             <h2>Filter by Skills</h2>
