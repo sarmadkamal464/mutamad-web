@@ -21,7 +21,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -122,7 +122,7 @@
 
                                                     @csrf
                                                     <input type="hidden" name="project_id" value="{{ $data->id }}">
-                                                    @if (!$data->proposals)
+                                                    @if ($data->proposals == '[]')
                                                         <fieldset>
                                                             <p style="color: red;">Freelancer Deactivated</p>
                                                         </fieldset>
@@ -179,24 +179,29 @@
                                 <div class="wt-btnarea">
                                     <div class="wt-hireduserstatus">
                                         <ul class="wt-hireduserimgs">
-                                            @if (!is_null($data->proposals[0]['freelancer']['profile_image']))
-                                                <li>
-                                                    <figure><img
-                                                            src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->proposals[0]['freelancer']['profile_image']) }}"
-                                                            class="mCS_img_loaded"></figure>
-                                                </li>
+                                            @if ($data->proposals == '[]')
+
+                                                <p style="color: red;">Freelancer Deactivated</p>
                                             @else
-                                                <li>
-                                                    <figure><img src="{{ asset('images/user-avatar.png') }}"
-                                                            class="mCS_img_loaded"></figure>
-                                                </li>
-                                            @endif
+                                                @if (!is_null($data->proposals[0]['freelancer']['profile_image']))
+                                                    <li>
+                                                        <figure><img
+                                                                src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->proposals[0]['freelancer']['profile_image']) }}"
+                                                                class="mCS_img_loaded"></figure>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <figure><img src="{{ asset('images/user-avatar.png') }}"
+                                                                class="mCS_img_loaded"></figure>
+                                                    </li>
+                                                @endif
                                         </ul>
                                         <p>{{ $data->proposals[0]['freelancer']['name'] }}</p>
                                         <p style="color: red;">Project
                                             Closed</p>
                                     </div>
                                 </div>
+                            @endif
                             @endif
                             @endif
                         </div>

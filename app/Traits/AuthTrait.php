@@ -181,7 +181,7 @@ public function login(Request $request)
         //     ->token()
         //     ->delete();
         
-    Auth::logout(); // log out the user
+    //Auth::logout(); // log out the user
         return $this->response->successResponse($request, 'Your account is deactivated successfully');
     }
 
