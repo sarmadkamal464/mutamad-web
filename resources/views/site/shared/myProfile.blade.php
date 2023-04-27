@@ -144,7 +144,7 @@
                                             <h2>Deactivate Account</h2>
                                         </div>
                                         <form id='deactivate_form' class="wt-formtheme wt-userform"
-                                            action="{{ url('deactivate-account') }}" method="POST">
+                                            action="{{ url('deactivate-account') }}" method="POST" onsubmit="logout()">
                                             @csrf
                                             <fieldset>
                                                 <h5>Choose reason</h5>
@@ -178,6 +178,34 @@
 @endsection
 @section('script')
     <script>
+        function logout() {
+            // Make a POST request to the logout API using fetch or XMLHttpRequest
+            // For example, using fetch:
+            fetch('{{ url('deactivate-account') }}', {
+                    method: 'POST'
+                })
+                .then(response => {
+                    // Redirect the user to the logout page or the home page
+                    window.location.href = '{{ url('deactivate-account') }}';
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Display an error message to the user
+                    alert('An error occurred while logging out. Please try again later.');
+                });
+            fetch('{{ url('logout') }}', {
+                    method: 'POST'
+                })
+                .then(response => {
+                    // Redirect the user to the logout page or the home page
+                    window.location.href = '{{ url('logout') }}';
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Display an error message to the user
+                    alert('An error occurred while logging out. Please try again later.');
+                });
+        }
         $(document).ready(function() {
             // Get the drop area and input element
             var reasons = [{
