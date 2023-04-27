@@ -133,6 +133,7 @@ class ProjectController extends Controller
             : Project::with('category')
             ->with('duration')
             ->with('clients')
+            ->with('review')
             ->find($id);
         
         if (!$data)

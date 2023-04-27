@@ -105,4 +105,9 @@ class Project extends Model
     {
         return '$' . $value;
     }
+
+    public function review(): HasOne
+    {
+        return $this->hasOne(Review::class);
+    }
 }
