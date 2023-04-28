@@ -182,7 +182,8 @@
                                     @endforeach
                                     <nav class="wt-pagination">
                                         <ul>
-                                            <li><a href="#" id="prev"><i class="lnr lnr-chevron-left"></i></a>
+                                            <li id="prev1"><a href="#" id="prev"><i
+                                                        class="lnr lnr-chevron-left"></i></a>
                                                 <span> Previous</span>
                                             </li>
                                             <li id="next1"><a href="#" id="next"><i
@@ -366,12 +367,19 @@
             $(this).remove();
             filter(e);
         });
+        if (offset == 0) {
+            $('#prev1').css('visibility', 'hidden'); // show prev button when next button is clicked
+            // add your other code here
+        } else {
+            $('#prev1').css('visibility', 'visible');
+        };
+
         if (freelancerCount > 3) {
             $('#next').css('background-color', '#0583ce');
-
         } else {
             $('#prev').css('background-color', '#0583ce');
             $('#next1').css('visibility', 'hidden');
+
         }
     </script>
 @endsection

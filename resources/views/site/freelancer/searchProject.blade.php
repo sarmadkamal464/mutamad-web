@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .table-cell {
+            display: table-cell !important;
+        }
+
         .wt-userlistinghold {
             background-color: #fff;
         }
@@ -202,20 +211,27 @@
                                                         <h2>{{ $project->title }}</h2>
 
                                                     </div>
-                                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
-                                                        <li><span class="wt-dashboraddoller"><i
-                                                                    class="fa fa-dollar-sign"></i>
-                                                                &nbsp; Project
-                                                                Category:{{ $project->category->name }}</span>
+                                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb  wrap">
+                                                        <li style=" display: flex;"><span
+                                                                class="wt-dashboradclock table-cell"><i
+                                                                    class="fa fa-dollar-sign"></i></span>
+                                                            <span class="wt-dashboradclock">
+                                                                &nbsp; Category:{{ $project->category->name }}</span>
                                                         </li>
-
-                                                        <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                                &nbsp; Duration: {{ $project->duration->title }}</span>
+                                                        <li style=" display: flex;"><span
+                                                                class="wt-dashboradclock table-cell"><i
+                                                                    class="far fa-clock"></i></span>
+                                                            <span class="wt-dashboradclock">
+                                                                &nbsp; Duration:
+                                                                &nbsp;{{ $project->duration->title }}</span>
                                                         </li>
-                                                        <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
-                                                                    class="far fa-folder"></i> &nbsp; Budget:
-                                                                {{ $project->budget }}</a></li>
+                                                        <li style=" display: flex;"><span
+                                                                class="wt-clicksavefolder table-cell"><i
+                                                                    class="far fa-folder"></i></span> <span
+                                                                class="wt-clicksavefolder">&nbsp; Budget: &nbsp;
+                                                                {{ $project->budget }}</span></li>
                                                     </ul>
+
                                                 </div>
                                                 <div class="wt-rightarea">
                                                     <div class="wt-btnarea">
@@ -256,7 +272,8 @@
                                     <nav class="wt-pagination">
                                         <ul>
 
-                                            <li><a href="#" id="prev"><i class="lnr lnr-chevron-left"></i></a>
+                                            <li id="prev1"><a href="#" id="prev"><i
+                                                        class="lnr lnr-chevron-left"></i></a>
                                                 <span> Previous</span>
                                             </li>
                                             <li id="next1"><a href="#" id="next"><i
@@ -438,12 +455,22 @@
             $(this).remove();
             filter(e);
         });
+
+
+
+        if (offset == 0) {
+            $('#prev1').css('visibility', 'hidden'); // show prev button when next button is clicked
+            // add your other code here
+        } else {
+            $('#prev1').css('visibility', 'visible');
+        };
+
         if (freelancerCount > 3) {
             $('#next').css('background-color', '#0583ce');
-
         } else {
             $('#prev').css('background-color', '#0583ce');
             $('#next1').css('visibility', 'hidden');
+
         }
     </script>
 @endsection
