@@ -7,6 +7,89 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .table-cell {
+            display: table-cell !important;
+        }
+
+        .wt-hireduserimgs figure {
+            max-width: 36px;
+            max-height: 36px;
+        }
+
+        p {
+            margin: 0 0 10px;
+        }
+
+        .wt-description {
+
+            float: initial;
+
+        }
+
+        .wt-projectdetail .wt-description p {
+
+            margin: 0 0 3px;
+        }
+
+        .wt-projectdetail-holder .wt-title h3 {
+            font-weight: 600;
+        }
+
+        .bold {
+            font-size: large;
+            font-weight: 600;
+
+        }
+
+        .inline {
+            display: inline-block !important;
+        }
+
+        .wt-proposalholder .wt-btnarea {
+            margin-top: 0px;
+
+        }
+
+        .wt-hireduserstatus {
+            padding: 0px;
+
+        }
+
+        .wt-hireduserimgs {
+            padding: 10px 0;
+        }
+
+
+
+
+
+        .wt-proposalholder .wt-btnarea {
+            margin-top: 0px;
+            padding: 0px;
+        }
+
+        /* .wt-proposalholder {
+                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                flex-direction: column;
+                                                                                                                                                                                                            } */
+
+        @media (max-width: 991px) {
+
+            .wt-hireduserstatus,
+            .wt-hireduserimgs {
+                padding: 10px 0;
+                display: flex;
+                margin-left: 0px;
+                align-items: start;
+                flex-direction: column;
+            }
+        }
+
         @media (max-width: 820px) {
             .wt-wrapper .wt-main {
 
@@ -21,7 +104,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -59,12 +142,20 @@
                                 <div class="wt-proposalhead">
                                     <h2>{{ $data->title }}</h2>
 
-                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
-                                        <li><span class="wt-dashboraddoller"><i class="fa fa-dollar-sign"></i>
-                                                &nbsp; Budget: &nbsp; {{ $data->budget }}</span></li>
-                                        <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                &nbsp; Duration: &nbsp; {{ $data->duration['title'] }}</span></li>
-                                        <li><span class="wt-clicksavefolder"><i class="far fa-folder"></i> &nbsp; Category:
+                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb wrap">
+                                        <li style=" display: flex;">
+                                            <span class="wt-dashboraddoller table-cell"><i
+                                                    class="fa fa-dollar-sign"></i></span><span class="wt-dashboraddoller">
+                                                &nbsp; Budget: &nbsp; {{ $data->budget }}</span>
+                                        </li>
+                                        <li style=" display: flex;"><span class="wt-dashboradclock table-cell"><i
+                                                    class="far fa-clock"></i></span>
+                                            <span class="wt-dashboradclock">&nbsp; Duration: &nbsp;
+                                                {{ $data->duration['title'] }}</span>
+                                        </li>
+                                        <li style=" display: flex;"><span class="wt-clicksavefolder table-cell"><i
+                                                    class="far fa-folder"></i> </span><span
+                                                class="wt-clicksavefolder">&nbsp; Category:
                                                 &nbsp;
                                                 {{ $data->category['name'] }}</span>
                                         </li>
@@ -96,6 +187,36 @@
                                         </form>
                             </div>
                             @endif
+
+
+                            <div class="wt-btnarea">
+                                <div class="wt-hireduserstatus">
+                                    <ul class="wt-hireduserimgs">
+
+                                        @if (!is_null($data->clients->profile_image))
+                                            <li>
+                                                <figure><img
+                                                        src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->clients->profile_image) }}"
+                                                        class="mCS_img_loaded"></figure>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <figure><img src="{{ asset('images/user-avatar.png') }}"
+                                                        class="mCS_img_loaded"></figure>
+                                            </li>
+                                        @endif
+                                    </ul>
+
+                                    <p>{{ $data->clients->name }}</p>
+                                    @if ($data->status == 'completed')
+                                        <p><span class="bold inline">Status : </span><span class=" inline"
+                                                style="color: red;">
+                                                &nbsp; Project
+                                                Closed</span></p>
+                                    @endif
+                                    {{-- {{ $data->clients->name profile_image}} --}}
+                                </div>
+                            </div>
                         @else
                             @if ($data->status == 'open')
                                 <div class="wt-btnarea"><a href="{{ url('get-project-proposals/' . $data->id) }}"
@@ -196,9 +317,12 @@
                                                     </li>
                                                 @endif
                                         </ul>
+
                                         <p>{{ $data->proposals[0]['freelancer']['name'] }}</p>
-                                        <p style="color: red;">Project
-                                            Closed</p>
+                                        <p><span class="bold inline">Status : </span><span class=" inline"
+                                                style="color: red;"> &nbsp; Project
+                                                Closed</span></p>
+                                        {{-- {{ $data->clients->name profile_image}} --}}
                                     </div>
                                 </div>
                             @endif
@@ -214,14 +338,22 @@
                                 @if ($review)
                                     <div class="wt-review">
                                         <div class="wt-title">
-                                            <h3>Review :</h3>
+                                            <h3>Review </h3>
                                         </div>
-                                        <p>Rating :
-                                            @for ($i = 1; $i <= $review->rating; $i++)
-                                                <i class="fa fa-star" style="color:rgb(241, 241, 54)"></i>
-                                            @endfor
-                                        </p>
-                                        <p>Comment : {{ $review->comment }}</p>
+                                        <div class="wt-description">
+
+                                            <p><span class="bold">Rating :</span>
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= $review->rating)
+                                                        <i class="fa fa-star" style="color:rgb(241, 241, 54)"></i>
+                                                    @else
+                                                        <i class="fa fa-star-o" style="color:black; "></i>
+                                                    @endif
+                                                @endfor
+                                            </p>
+
+                                            <p><span class="bold">Comment : </span>{{ $review->comment }}</p>
+                                        </div>
                                     </div>
                                 @endif
                                 <div class="wt-title">

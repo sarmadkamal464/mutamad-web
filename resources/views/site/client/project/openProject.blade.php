@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .table-cell {
+            display: table-cell !important;
+        }
+
         .wt-main {
             padding: 121px 40px 20px 310px;
         }
@@ -106,17 +115,27 @@
                                                     <div class="wt-title">
                                                         <h2>{{ $item->title }}</h2>
                                                     </div>
-                                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb">
-                                                        <li><span class="wt-dashboraddoller"><i
-                                                                    class="fa fa-dollar-sign"></i>
-                                                                &nbsp; Project Category:{{ $item->category->name }}</span>
+                                                    <ul class="wt-saveitem-breadcrumb wt-userlisting-breadcrumb  wrap">
+                                                        <li style=" display: flex;"><span
+                                                                class="wt-dashboraddoller table-cell"><i
+                                                                    class="fa fa-dollar-sign"></i></span><span
+                                                                class="wt-dashboraddoller">
+                                                                &nbsp; Project Category:
+                                                                &nbsp;{{ $item->category->name }}</span>
                                                         </li>
 
-                                                        <li><span class="wt-dashboradclock"><i class="far fa-clock"></i>
-                                                                &nbsp; Duration: {{ $item->duration->title }}</span></li>
-                                                        <li><a href="javascript:void(0);" class="wt-clicksavefolder"><i
-                                                                    class="far fa-folder"></i> &nbsp; Budget:
-                                                                {{ $item->budget }}</a></li>
+                                                        <li style=" display: flex;"><span
+                                                                class="wt-dashboradclock table-cell"><i
+                                                                    class="far fa-clock"></i></span>
+                                                            <span class="wt-dashboradclock">
+                                                                &nbsp; Duration: &nbsp;{{ $item->duration->title }}</span>
+                                                        </li>
+                                                        <li style=" display: flex;"><span
+                                                                class="wt-clicksavefolder table-cell"><i
+                                                                    class="far fa-folder"></i></span><span
+                                                                class="wt-clicksavefolder">
+                                                                &nbsp; Budget: &nbsp;
+                                                                {{ $item->budget }}</span></li>
                                                     </ul>
                                                 </div>
                                                 <div class="wt-rightarea">
