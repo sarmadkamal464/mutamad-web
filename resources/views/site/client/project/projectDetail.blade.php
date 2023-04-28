@@ -74,9 +74,9 @@
         }
 
         /* .wt-proposalholder {
-                                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                                    flex-direction: column;
-                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                            display: flex;
+                                                                                                                                                                                                                            flex-direction: column;
+                                                                                                                                                                                                                        } */
 
         @media (max-width: 991px) {
 
@@ -104,7 +104,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -163,35 +163,36 @@
                                 </div>
 
 
+                                @if (Auth::user()->role == 'freelancer')
+                                    <div class="wt-btnarea">
+                                        <div class="wt-hireduserstatus">
+                                            <ul class="wt-hireduserimgs">
 
-                                <div class="wt-btnarea">
-                                    <div class="wt-hireduserstatus">
-                                        <ul class="wt-hireduserimgs">
+                                                @if (!is_null($data->clients->profile_image))
+                                                    <li>
+                                                        <figure><img
+                                                                src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->clients->profile_image) }}"
+                                                                class="mCS_img_loaded"></figure>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <figure><img src="{{ asset('images/user-avatar.png') }}"
+                                                                class="mCS_img_loaded"></figure>
+                                                    </li>
+                                                @endif
+                                            </ul>
 
-                                            @if (!is_null($data->clients->profile_image))
-                                                <li>
-                                                    <figure><img
-                                                            src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->clients->profile_image) }}"
-                                                            class="mCS_img_loaded"></figure>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <figure><img src="{{ asset('images/user-avatar.png') }}"
-                                                            class="mCS_img_loaded"></figure>
-                                                </li>
+                                            <p>{{ $data->clients->name }}</p>
+                                            @if ($data->status == 'completed')
+                                                <p><span class="bold inline">Status : </span><span class=" inline"
+                                                        style="color: red;">
+                                                        &nbsp; Project
+                                                        Closed</span></p>
                                             @endif
-                                        </ul>
-
-                                        <p>{{ $data->clients->name }}</p>
-                                        @if ($data->status == 'completed')
-                                            <p><span class="bold inline">Status : </span><span class=" inline"
-                                                    style="color: red;">
-                                                    &nbsp; Project
-                                                    Closed</span></p>
-                                        @endif
-                                        {{-- {{ $data->clients->name profile_image}} --}}
+                                            {{-- {{ $data->clients->name profile_image}} --}}
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 @if (Auth::user()->role == 'freelancer')
 
 
