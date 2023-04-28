@@ -74,9 +74,9 @@
         }
 
         /* .wt-proposalholder {
-                                                                                                                                                                                                                            display: flex;
-                                                                                                                                                                                                                            flex-direction: column;
-                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                                flex-direction: column;
+                                                                                                                                                                                                                            } */
 
         @media (max-width: 991px) {
 
@@ -104,7 +104,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -349,7 +349,7 @@
                                                     @if ($i <= $review->rating)
                                                         <i class="fa fa-star" style="color:rgb(241, 241, 54)"></i>
                                                     @else
-                                                        <i class="fa fa-star-o" style="color:black; "></i>
+                                                        <i class="fa fa-star-o" style="color:rgb(0 0 0 / 39%);"></i>
                                                     @endif
                                                 @endfor
                                             </p>
