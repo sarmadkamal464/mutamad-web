@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        .wt-userdetails {
+            min-width: 100%;
+
+        }
+
+        .wt-userdetails .wt-description {
+            width: 100%;
+        }
+
         .wt-profilecounter {
             align-items: center;
             width: 100%;
@@ -72,7 +81,9 @@
 
                                         </ul>
                                         <div class="wt-description">
+
                                             <p>{{ $freelancer->bio }}</p>
+
                                         </div>
                                     </div>
                                     <div id="wt-statistics" class="wt-statistics wt-profilecounter">

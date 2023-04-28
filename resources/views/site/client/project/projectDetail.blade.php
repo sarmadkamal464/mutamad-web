@@ -74,9 +74,9 @@
         }
 
         /* .wt-proposalholder {
-                                                                                                                                                                                                                display: flex;
-                                                                                                                                                                                                                flex-direction: column;
-                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                    flex-direction: column;
+                                                                                                                                                                                                                } */
 
         @media (max-width: 991px) {
 
@@ -104,7 +104,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -161,6 +161,37 @@
                                         </li>
                                     </ul>
                                 </div>
+
+
+
+                                <div class="wt-btnarea">
+                                    <div class="wt-hireduserstatus">
+                                        <ul class="wt-hireduserimgs">
+
+                                            @if (!is_null($data->clients->profile_image))
+                                                <li>
+                                                    <figure><img
+                                                            src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->clients->profile_image) }}"
+                                                            class="mCS_img_loaded"></figure>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <figure><img src="{{ asset('images/user-avatar.png') }}"
+                                                            class="mCS_img_loaded"></figure>
+                                                </li>
+                                            @endif
+                                        </ul>
+
+                                        <p>{{ $data->clients->name }}</p>
+                                        @if ($data->status == 'completed')
+                                            <p><span class="bold inline">Status : </span><span class=" inline"
+                                                    style="color: red;">
+                                                    &nbsp; Project
+                                                    Closed</span></p>
+                                        @endif
+                                        {{-- {{ $data->clients->name profile_image}} --}}
+                                    </div>
+                                </div>
                                 @if (Auth::user()->role == 'freelancer')
 
 
@@ -187,36 +218,6 @@
                                         </form>
                             </div>
                             @endif
-
-
-                            <div class="wt-btnarea">
-                                <div class="wt-hireduserstatus">
-                                    <ul class="wt-hireduserimgs">
-
-                                        @if (!is_null($data->clients->profile_image))
-                                            <li>
-                                                <figure><img
-                                                        src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . $data->clients->profile_image) }}"
-                                                        class="mCS_img_loaded"></figure>
-                                            </li>
-                                        @else
-                                            <li>
-                                                <figure><img src="{{ asset('images/user-avatar.png') }}"
-                                                        class="mCS_img_loaded"></figure>
-                                            </li>
-                                        @endif
-                                    </ul>
-
-                                    <p>{{ $data->clients->name }}</p>
-                                    @if ($data->status == 'completed')
-                                        <p><span class="bold inline">Status : </span><span class=" inline"
-                                                style="color: red;">
-                                                &nbsp; Project
-                                                Closed</span></p>
-                                    @endif
-                                    {{-- {{ $data->clients->name profile_image}} --}}
-                                </div>
-                            </div>
                         @else
                             @if ($data->status == 'open')
                                 <div class="wt-btnarea"><a href="{{ url('get-project-proposals/' . $data->id) }}"

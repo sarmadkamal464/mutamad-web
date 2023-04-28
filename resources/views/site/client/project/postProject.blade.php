@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+        textarea {
+            color: black;
+        }
+
         .wt-profilephotocontent {
 
             padding: 0px;
@@ -30,7 +34,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
