@@ -120,10 +120,11 @@ class FreelancerController extends Controller
                 'status_change_by_user_id' => Auth::user()->id,
             ]);
             $proposal->save();
-             $this->response->successResponse($request, 'Proposal is submitted successfull');
-             $redirectUrl = $request->input('_redirect', '/'); // get the redirect URL from the form input field or default to home page
-
-        return redirect($redirectUrl)->with('success', 'Proposal is submitted successfully');
+            if ($request->device_type == 'web') {
+            $redirectUrl = $request->input('_redirect', '/'); // get the redirect URL from the form input field or default to home page
+            return redirect($redirectUrl)->with('success', 'Proposal is submitted successfully');
+            }
+            return $this->response->successResponse($request, 'Proposal is submitted successfull');
         } else {
             return $this->response->errorResponse($request, 'Already Proposal Submitted', 202);
         }
