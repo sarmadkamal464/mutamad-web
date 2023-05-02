@@ -4,6 +4,27 @@
 @section('keywords', 'keywords')
 @section('style')
     <style>
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .toggle-password i {
+            font-size: 18px;
+            color: #999;
+        }
+
+        .toggle-password.active i:before {
+            content: "\f070";
+        }
+
         @media (max-width: 760px) {
             .wt-main-section {
                 padding: 40px 0;
@@ -51,15 +72,23 @@
                                                 <label class="form-label" for="password">Password<span
                                                         class="label-required"><span class="label-required">
                                                             *</span></label>
-                                                <input id="password" type="password" name="password" class="form-control"
-                                                    placeholder="Password" required>
+                                                <div class="password-wrapper">
+                                                    <input id="password" type="password" name="password"
+                                                        class="form-control" placeholder="Password" required> <span
+                                                        id="toggle-password" class="toggle-password"><i
+                                                            class="fa fa-eye"></i></span>
+                                                </div>
                                             </div>
                                             <div class="form-group form-group">
                                                 <label class="form-label" for="password_confirmation">Confirm Password<span
                                                         class="label-required"><span class="label-required">
                                                             *</span></label>
-                                                <input id="confirm" type="password" name="password_confirmation"
-                                                    class="form-control" placeholder="Confirm Password" required>
+                                                <div class="password-wrapper">
+                                                    <input id="confirm" type="password" name="password_confirmation"
+                                                        class="form-control" placeholder="Confirm Password" required>
+                                                    <span id="toggle-password2" class="toggle-password"><i
+                                                            class="fa fa-eye"></i></span>
+                                                </div>
                                             </div>
                                             <div class="form-group" id="categoryDiv">
                                                 <label class="form-label" for="category">Category<span
@@ -164,6 +193,53 @@
                 input.setCustomValidity("Password and Confirm Password do not match");
             else
                 input.setCustomValidity("");
+        });
+        // Get the password input element and the toggle-password icon element
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm');
+        const togglePasswordIcon = document.getElementById('toggle-password');
+        const confirmTogglePasswordIcon = document.getElementById('toggle-password2');
+
+        // Add a click event listener to the toggle-password icon
+        togglePasswordIcon.addEventListener('click', function() {
+            // Toggle the active class on the toggle-password icon
+            togglePasswordIcon.classList.toggle('active');
+
+            // If the password input is of type password, change it to text; otherwise, change it back to password
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+
+            // If the toggle-password icon is active, hide the password after 3 seconds
+            if (togglePasswordIcon.classList.contains('active')) {
+                setTimeout(function() {
+                    passwordInput.type = 'password';
+                    togglePasswordIcon.classList.remove('active');
+                }, 3000);
+            }
+        });
+        // Add a click event listener to the toggle-password icon
+        confirmTogglePasswordIcon.addEventListener('click', function() {
+            // Toggle the active class on the toggle-password icon
+            confirmTogglePasswordIcon.classList.toggle('active');
+
+
+            // If the password input is of type password, change it to text; otherwise, change it back to password
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+            } else {
+                confirmPasswordInput.type = 'password';
+            }
+
+            // If the toggle-password icon is active, hide the password after 3 seconds
+            if (confirmTogglePasswordIcon.classList.contains('active')) {
+                setTimeout(function() {
+                    confirmPasswordInput.type = 'password';
+                    confirmTogglePasswordIcon.classList.remove('active');
+                }, 3000);
+            }
         });
     </script>
 @endsection

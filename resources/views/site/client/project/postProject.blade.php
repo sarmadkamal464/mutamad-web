@@ -34,7 +34,7 @@
 
         .padding {
             /* margin: auto;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 80px 0px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 80px 0px; */
             display: flex;
             justify-content: center;
             align-items: center
@@ -73,11 +73,14 @@
                                                 placeholder="Add your project title" required>
                                         </div>
                                         <div class="form-group form-group">
-                                            <label class="form-label" for="budget">Add budget<span class="label-required">
-                                                    *</span></label>
+                                            <label class="form-label" for="budget">Add budget $<span
+                                                    class="label-required">*</span></label>
                                             <input type="number" name="budget" class="form-control"
-                                                placeholder="Add budget" required>
+                                                placeholder="Add budget $" required min="0"
+                                                pattern="\$\d+(\.\d{2})?">
                                         </div>
+
+
                                         <div class="form-group">
                                             <label class="form-label" for="category_id">Project category<span
                                                     class="label-required">
