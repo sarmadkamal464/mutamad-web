@@ -92,4 +92,8 @@ class HomeController extends Controller
         $projectProposalsFreelancer = $this->project->getProjectProposals($request, $id);
         return view('site.client.project.assignedProject', ['projectProposalsFreelancer' => $projectProposalsFreelancer]);
     }
+    public function messages()
+    {
+        return view('site.chat');
+    }
 }
