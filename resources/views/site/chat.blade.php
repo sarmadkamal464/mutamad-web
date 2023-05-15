@@ -276,16 +276,19 @@
     <script>
         let socket;
         let to;
-        axios.get("/get-user-chat/2")
-            .then(function(response) {
-                // Loop through the messages and display them in the chat window
-                response.data.forEach(function(message) {
-                    console.log(message);
-                });
+        fetch("/api/v1/get-user-chat/2", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+
             })
-            .catch(function(error) {
-                console.error(error);
-            });
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+
+
 
         function addMessage(messageText, isSelf, messageId, date) {
             const messageEl = document.createElement("div");

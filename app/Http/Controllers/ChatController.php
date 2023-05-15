@@ -31,6 +31,11 @@ class ChatController extends Controller
     public function getUserChat(Request $request, $id)
     {
         $chat = Chat::where('receiver_id', $id)->get();
-        return $this->response->collectionResponse($request, $chat? $chat : []);
+        //  dd($chat->all());
+        // return response()->json(['success' => true]);
+        $message = "chat retrieved successfully";
+        return response()->json(['success' => true, 'messages'=> $chat]);
+        // return $this->response->successResponse($request, $message, true, 'chat-messages');
+        // return $this->response->collectionResponse($request, $chat? $chat->all() : []);
     }
 }
