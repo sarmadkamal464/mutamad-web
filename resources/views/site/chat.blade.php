@@ -263,6 +263,7 @@
     <!--Main End-->
 @endsection
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
     // Include Socket.IO client library
@@ -275,6 +276,16 @@
     <script>
         let socket;
         let to;
+        axios.get("/get-user-chat/2")
+            .then(function(response) {
+                // Loop through the messages and display them in the chat window
+                response.data.forEach(function(message) {
+                    console.log(message);
+                });
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
 
         function addMessage(messageText, isSelf, messageId, date) {
             const messageEl = document.createElement("div");

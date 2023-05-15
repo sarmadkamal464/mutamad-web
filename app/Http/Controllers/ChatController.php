@@ -2,26 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Request;
-use PRedis;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use App\Models\Chat;
+use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    public function __construct()
+    
+    protected $response;
+
+    public function __construct(ResponseController $response)
     {
-        $this->middleware('guest');
+        $this->response = $response;
     }
 
-    public function sendMessage()
+    public function storeChat(Request $request)
     {
-        $redis = PRedis::connection();
+        $message = new Chat([
+            "sender_id" => $request->sender_id,
+            "receiver_id" => $request->receiver_id,
+            "message" => $request->message,
+            "read" => $request->read
+        ]);
+        $message->save();
         
-        $data = ['message' => Request::input('message'), 'user' => Request::input('user')];
-        
-        $response = $redis->publish('message', json_encode($data));
-        
-        return response()->json(['success' => true, 'resp' => $response]);
-    }   
+        return response()->json(['success' => true]);
+    }
+
+    public function getUserChat(Request $request, $id)
+    {
+        $chat = Chat::where('receiver_id', $id)->get();
+        return $this->response->collectionResponse($request, $chat? $chat : []);
+    }
 }
