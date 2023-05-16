@@ -59,8 +59,9 @@ io.on('connection', (socket) => {
   // Emit 'message seen' event to sender
 socket.on('seen', ({to,messageId}) => {
     if (connectedUsers[socket.username]) {
-        console.log(connectedUsers[socket.username].unseenMessages);
-         connectedUsers[to].socket.emit('message seen', { messageId});
+     
+        console.log(messageId, to);
+        connectedUsers[to]?.socket.emit('message seen', { messageId});
         connectedUsers[socket.username].unseenMessages = connectedUsers[socket.username].unseenMessages.filter((id) => id !== messageId);
         const unseenMessagesCount = connectedUsers[socket.username].unseenMessages.length;
         connectedUsers[socket.username].socket.emit('unseen messages count', {

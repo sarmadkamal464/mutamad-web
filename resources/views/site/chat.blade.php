@@ -224,7 +224,7 @@
 
 
 
-                                            <button onclick="sendMessage()">Send</button>
+                                            <button class="wt-btnsendmsg" onclick="sendMessage()">Send</button>
 
 
 
@@ -368,22 +368,34 @@
                 });
 
                 // Listen for 'private message' event from server
-                // fetch(`/api/v1/get-user-chat/${from}/${to}`, {
-                //         method: 'GET',
-                //         headers: {
-                //             'Accept': 'application/json',
-                //             'Content-Type': 'application/json'
-                //         }
-                //     })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         const messages = data.messages;
-                //         let messageHTML = "";
-                //         messages.forEach(message => {
-                //             addMessage(message.message)
+                fetch(`/api/v1/get-user-chat/${from}/${to}`, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const messages = data.messages;
+                        let messageHTML = "";
+                        messages.forEach(message => {
+                            const createdAt = new Date(message.created_at);
+                            addMessage(message.message, message.sender_id == from, message.id, createdAt
+                                .toLocaleString(
+                                    'default', {
+                                        dateStyle: 'medium',
+                                        timeStyle: 'short'
+                                    }
+                                ));
+                            socket.emit('seen', {
+                                to,
+                                messageId: message.id
+                            });
+                        });
+                    })
+                    .catch(error => console.error(error));
 
-                //         })
-                //     });
                 socket.on("private message", ({
                     from,
                     message,
@@ -427,24 +439,25 @@
 
 
                 if (to) {
-                    // fetch("/api/v1/store-chat", {
-                    //         method: 'POST',
-                    //         body: JSON.stringify({
-                    //             sender_id: from,
-                    //             receiver_id: to,
-                    //             message: message,
-                    //             read: 0
-                    //         }),
-                    //         headers: {
-                    //             'Accept': 'application/json',
-                    //             'Content-Type': 'application/json'
-                    //         }
+                    fetch("/api/v1/store-chat", {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                sender_id: from,
+                                receiver_id: to,
+                                message: message,
+                                read: 0
+                            }),
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
 
-                    //     })
-                    //     .then(response => response.json())
-                    //     .then(data => console.log(data))
-                    //     .catch(error => console.error(error));
-                    // Send message to receiver through server
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log(data))
+                        .catch(error => console.error(error));
+
+                    //Send message to receiver through server
                     socket.emit("private message", {
                         to,
                         message,
