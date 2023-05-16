@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
             socket: socket,
             seenMessages: {},
              unseenMessages: [],
-            isTyping: false,
+          
         };
         console.log(`${username} is registered`);
     });
@@ -41,41 +41,37 @@ io.on('connection', (socket) => {
                 date,
             });
            
-    
-            // Emit 'message seen' event to sender
-            if (connectedUsers[socket.username]) {
-                connectedUsers[socket.username].socket.emit('message seen', { messageId});
-                console.log(`message seen from ${socket.username} `);
-            }else{
-                   // Add the messageId to the receiver's unseenMessages array
             receiverSocket.unseenMessages.push(messageId);
-            }
-       // Calculate number of unseen messages for receiver
-      const unseenMessagesCount = Object.values(connectedUsers[to].seenMessages).filter((seen) => !seen).length;
-
-      // Emit 'unseen messages count' event to receiver
-      receiverSocket.socket.emit('unseen messages count', {
-        count: unseenMessagesCount,
-      });
-      console.log(`sent unseen messages count (${unseenMessagesCount}) to ${to}`);
     
+            const unseenMessagesCount =  receiverSocket.unseenMessages.length;
+            receiverSocket.socket.emit('unseen messages count', {
+                count: unseenMessagesCount,notificationFrom:socket.username
+            });
+            console.log(`message count ${unseenMessagesCount} to ${to}`);
             console.log(`message sent from ${socket.username} to ${to}`);
         } 
         else {
             console.log(`Unable to send message to ${to}, user not connected`);
         }
     });
+   
     
-    socket.on('typing', ({
-        to,isTyping
-    }) => {
-        const receiverSocket = connectedUsers[to];
-        if (receiverSocket) {
-            receiverSocket.socket.emit('typing' ,({
-                to,isTyping
-            }));
-        }
-    });
+  // Emit 'message seen' event to sender
+socket.on('seen', ({to,messageId}) => {
+    if (connectedUsers[socket.username]) {
+        console.log(connectedUsers[socket.username].unseenMessages);
+         connectedUsers[to].socket.emit('message seen', { messageId});
+        connectedUsers[socket.username].unseenMessages = connectedUsers[socket.username].unseenMessages.filter((id) => id !== messageId);
+        const unseenMessagesCount = connectedUsers[socket.username].unseenMessages.length;
+        connectedUsers[socket.username].socket.emit('unseen messages count', {
+            count: unseenMessagesCount,
+        });
+        console.log(`message seen from ${socket.username}, unseen messages count: ${unseenMessagesCount}`);
+    } else {
+        console.log(`Unable to mark message as seen, user not connected`);
+    }
+});
+
 
     socket.on('disconnect', () => {
         console.log(`${socket.username} disconnected`);

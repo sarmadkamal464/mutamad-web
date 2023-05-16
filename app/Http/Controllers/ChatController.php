@@ -28,9 +28,11 @@ class ChatController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function getUserChat(Request $request, $id)
-    {
-        $chat = Chat::where('receiver_id', $id)->get();
+    public function getUserChat(Request $request, $rid ,$sid)
+    {   
+        $chat = Chat::where('receiver_id', $rid)->where('sender_id', $sid)->orWhere(function($query) use ($rid, $sid){
+            $query->where('receiver_id', $sid)->where('sender_id', $rid);
+        })->get();
         //  dd($chat->all());
         // return response()->json(['success' => true]);
         $message = "chat retrieved successfully";

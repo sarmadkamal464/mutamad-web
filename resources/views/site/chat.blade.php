@@ -184,6 +184,16 @@
                                             </div>
                                             <span>Consectetur adipisicing elit sed do...</span>
                                         </div>
+                                        <div class="wt-ad wt-dotnotification wt-active">
+                                            <input type="text" value="4" style="display: none;">
+                                            <div class="recieveNotification"></div>
+                                            <figure><img src="{{ asset('images/messages/img-01.jpg') }}"
+                                                    alt="image description"></figure>
+                                            <div class="wt-adcontent">
+                                                <h3>Reta Milnes</h3>
+                                            </div>
+                                            <span>Consectetur adipisicing elit sed do...</span>
+                                        </div>
                                     </div>
 
                                 </li>
@@ -263,7 +273,6 @@
     <!--Main End-->
 @endsection
 @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
     // Include Socket.IO client library
@@ -275,20 +284,6 @@
 
     <script>
         let socket;
-        let to;
-        fetch("/api/v1/get-user-chat/2", {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
-
-
 
         function addMessage(messageText, isSelf, messageId, date) {
             const messageEl = document.createElement("div");
@@ -308,6 +303,8 @@
       <span id=${messageId}></span>
     </div>
   `;
+            let to;
+
 
             const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
             messageContainerEl.append(messageEl);
@@ -323,18 +320,15 @@
                 const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
                 messageContainerEl.innerHTML = "";
                 const input = div.querySelector('input');
-                const to = input.value;
-                document.getElementById("chatbody").classList.add(`chat_${to}`);
-
-                connect(to, `chat_${to}`);
+                to = input.value;
+                connect();
 
             });
         });
 
 
 
-        function connect(to, chatBox) {
-            console.log(chatBox)
+        function connect() {
 
             let from = document.getElementById("sender").value;
             if (from && to) {
@@ -348,36 +342,25 @@
                 socket.emit("register", from);
                 // Function to create connection with server on button click
                 socket.on('unseen messages count', ({
-                    count
+                    count,
+                    notificationFrom
                 }) => {
                     console.log(count)
-
-                    // Select the notification element
-                    const notification = document.querySelector('.recieveNotification');
+                    // Select the notification element with an input value of 4
+                    const notification = document.querySelector('input[value="4"] + .recieveNotification');
 
                     // Update its text content to +8
-                    notification.textContent = `+${count}`;
-
-                });
-                socket.on('typing', ({
-                    to,
-                    isTyping
-                }) => {
-
-                    const typingEl = document.getElementById("typeId");
-
-
-                    if (isTyping) {
-                        typingEl.textContent = '...Typing ';
-                    } else {
-                        typingEl.textContent = ' ';
+                    if (count === 0) {
+                        notification.textContent = ` `;
+                    } else if (count > 0) {
+                        notification.textContent = `+${count}`;
                     }
                 });
                 // Listen for 'message seen' event from server
                 socket.on("message seen", ({
                     messageId
                 }) => {
-                    console.log(messageId);
+                    console.log("ms" + messageId);
                     const messageEl = document.getElementById(messageId);
                     if (messageEl) {
                         messageEl.textContent = "Seen";
@@ -385,19 +368,47 @@
                 });
 
                 // Listen for 'private message' event from server
+                // fetch(`/api/v1/get-user-chat/${from}/${to}`, {
+                //         method: 'GET',
+                //         headers: {
+                //             'Accept': 'application/json',
+                //             'Content-Type': 'application/json'
+                //         }
+                //     })
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         const messages = data.messages;
+                //         let messageHTML = "";
+                //         messages.forEach(message => {
+                //             addMessage(message.message)
+
+                //         })
+                //     });
                 socket.on("private message", ({
                     from,
                     message,
                     messageId,
                     date,
                 }) => {
-                    console.log(from)
-                    // Display received message in chat container
-                    const dates = new Date(date);
-                    addMessage(message, false, messageId, dates.toLocaleString('default', {
-                        dateStyle: 'medium',
-                        timeStyle: 'short'
-                    }));
+
+
+                    if (to === from) {
+                        // Display received message in chat container
+                        const dates = new Date(date);
+                        addMessage(message, false, messageId, dates.toLocaleString(
+                            'default', {
+                                dateStyle: 'medium',
+                                timeStyle: 'short'
+                            }));
+                        socket.emit('seen', {
+                            to,
+                            messageId
+                        });
+
+
+                    } else {
+                        socket.emit('unseen', messageId);
+                    }
                 });
             } else {
 
@@ -406,6 +417,7 @@
         }
         // Function to send chat messages to server
         function sendMessage() {
+            let from = document.getElementById("sender").value;
             const messageEl = document.querySelector(".wt-replaybox textarea");
 
             if (messageEl && messageEl.value.trim() !== '') {
@@ -415,6 +427,23 @@
 
 
                 if (to) {
+                    // fetch("/api/v1/store-chat", {
+                    //         method: 'POST',
+                    //         body: JSON.stringify({
+                    //             sender_id: from,
+                    //             receiver_id: to,
+                    //             message: message,
+                    //             read: 0
+                    //         }),
+                    //         headers: {
+                    //             'Accept': 'application/json',
+                    //             'Content-Type': 'application/json'
+                    //         }
+
+                    //     })
+                    //     .then(response => response.json())
+                    //     .then(data => console.log(data))
+                    //     .catch(error => console.error(error));
                     // Send message to receiver through server
                     socket.emit("private message", {
                         to,
@@ -436,27 +465,7 @@
                 }
             }
         }
-        const messageEl = document.querySelector(".wt-replaybox textarea");
 
-        messageEl.addEventListener("input", () => {
-
-            if (to) {
-                // Emit "typing"
-                // event to server
-
-                let typingTimeout = setTimeout(() => {
-                    socket.emit("typing", {
-                        to,
-                        isTyping: false
-                    });
-                }, 1000);
-                socket.emit("typing", {
-                    to,
-                    isTyping: true
-                });
-                // clearTimeout(typingTimeout);
-            }
-        });
         $('.lnr').click(function() {
             var entity = $(this).data('entity');
             $('.wt-replaybox textarea').val($('.wt-replaybox textarea').val() + entity);
