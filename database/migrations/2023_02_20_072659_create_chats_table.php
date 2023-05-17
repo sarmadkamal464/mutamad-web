@@ -13,6 +13,7 @@ class CreateChatsTable extends Migration
             $table->integer('sender_id');
             $table->integer('receiver_id')->comment('The ID of the user who received the chat message');
             $table->text('message')->comment('The content of the chat message');
+            $table->string('message_id')->comment('The content of the  messageID');
             $table->integer('read')->default(0);
             $table->timestamps();
         });
