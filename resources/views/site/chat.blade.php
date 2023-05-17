@@ -155,8 +155,8 @@
                                     </form>
                                     <div class="wt-verticalscrollbar wt-dashboardscrollbar">
                                         <div class="wt-ad wt-dotnotification wt-active">
-                                            <div class="recieveNotification"></div>
                                             <input type="text" value="1" style="display: none;">
+                                            <div class="recieveNotification"></div>
                                             <figure><img src="{{ asset('images/messages/img-01.jpg') }}"
                                                     alt="image description"></figure>
                                             <div class="wt-adcontent">
@@ -165,8 +165,8 @@
                                             <span>Consectetur adipisicing elit sed do...</span>
                                         </div>
                                         <div class="wt-ad wt-dotnotification wt-active">
-                                            <div class="recieveNotification"></div>
                                             <input type="text" value="2" style="display: none;">
+                                            <div class="recieveNotification"></div>
                                             <figure><img src="{{ asset('images/messages/img-10.jpg') }}"
                                                     alt="image description"></figure>
                                             <div class="wt-adcontent">
@@ -175,8 +175,8 @@
                                             <span>Consectetur adipisicing elit sed do...</span>
                                         </div>
                                         <div class="wt-ad wt-dotnotification wt-active">
-                                            <div class="recieveNotification"></div>
                                             <input type="text" value="3" style="display: none;">
+                                            <div class="recieveNotification"></div>
                                             <figure><img src="{{ asset('images/messages/img-01.jpg') }}"
                                                     alt="image description"></figure>
                                             <div class="wt-adcontent">
@@ -343,18 +343,50 @@
                 // Function to create connection with server on button click
                 socket.on('unseen messages count', ({
                     count,
-                    notificationFrom
-                }) => {
-                    console.log(count)
-                    // Select the notification element with an input value of 4
-                    const notification = document.querySelector('input[value="4"] + .recieveNotification');
 
-                    // Update its text content to +8
+                }) => {
                     if (count === 0) {
+                        const notification = document.querySelector(
+                            `input[value="${to}"] + .recieveNotification`);
                         notification.textContent = ` `;
-                    } else if (count > 0) {
-                        notification.textContent = `+${count}`;
                     }
+
+                    console.log(count)
+                    // Loop through the count object
+                    for (const notificationFrom in count) {
+                        const countValue = count[notificationFrom].count;
+                        // Find the notification div for the corresponding input value
+                        const notification = document.querySelector(
+                            `input[value="${notificationFrom}"] + .recieveNotification`);
+                        console.log(notification)
+                        if (notification) {
+                            // Update its text content to show the count value
+                            if (countValue === 0) {
+                                notification.textContent = ` `;
+                            } else if (countValue > 0) {
+                                notification.textContent = `+${countValue}`;
+                            }
+                        } else {
+                            // Create a new div for the notification
+                            const newDiv = document.createElement('div');
+                            newDiv.className = 'wt-ad wt-dotnotification wt-active';
+                            newDiv.innerHTML = `
+                        <input type="text" value="${notificationFrom}" style="display: none;">
+                        <div class="recieveNotification">${countValue > 0 ? `+${countValue}` : ''}</div>
+                        <figure><img src="{{ asset('images/messages/img-01.jpg') }}" alt="image description"></figure>
+                        <div class="wt-adcontent">
+                            <h3>Reta Milnes</h3>
+                        </div>
+                        <span>Consectetur adipisicing elit sed do...</span>`;
+                            // Append the new div to the parent container
+                            // Get the parent container
+                            const parentContainer = document.querySelector(
+                                '.wt-verticalscrollbar.wt-dashboardscrollbar');
+                            // Prepend the new div to the parent container
+                            parentContainer.prepend(newDiv);
+                        }
+                    }
+
                 });
                 // Listen for 'message seen' event from server
                 socket.on("message seen", ({
@@ -381,7 +413,7 @@
                         let messageHTML = "";
                         messages.forEach(message => {
                             const createdAt = new Date(message.created_at);
-                            addMessage(message.message, message.sender_id == from, message.id, createdAt
+                            addMessage(message.message, message.sender_id == from, message.message_id, createdAt
                                 .toLocaleString(
                                     'default', {
                                         dateStyle: 'medium',
@@ -390,7 +422,7 @@
                                 ));
                             socket.emit('seen', {
                                 to,
-                                messageId: message.id
+                                messageId: message.message_id
                             });
                         });
                     })
@@ -445,6 +477,7 @@
                                 sender_id: from,
                                 receiver_id: to,
                                 message: message,
+                                message_id: messageId,
                                 read: 0
                             }),
                             headers: {

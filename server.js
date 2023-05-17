@@ -41,11 +41,29 @@ io.on('connection', (socket) => {
                 date,
             });
            
-            receiverSocket.unseenMessages.push(messageId);
+            receiverSocket.unseenMessages.push({messageId, from: socket.username});
     
-            const unseenMessagesCount =  receiverSocket.unseenMessages.length;
+            const unseenMessagesCount =  receiverSocket.unseenMessages.reduce((acc, curr) => {
+                const { from, messageId } = curr;
+                
+                // if the 'from' property already exists in the accumulator, increase its count by 1
+                if (acc.hasOwnProperty(from)) {
+                  acc[from].count++;
+                } 
+                // if the 'from' property does not exist, initialize it with count 1
+                else {
+                  acc[from] = {
+                    count: 1,
+                    notificationFrom: from
+                  };
+                }
+              
+                return acc;
+              }, {});
+              
+              console.log(unseenMessagesCount);
             receiverSocket.socket.emit('unseen messages count', {
-                count: unseenMessagesCount,notificationFrom:socket.username
+                count: unseenMessagesCount
             });
             console.log(`message count ${unseenMessagesCount} to ${to}`);
             console.log(`message sent from ${socket.username} to ${to}`);
@@ -60,7 +78,7 @@ io.on('connection', (socket) => {
 socket.on('seen', ({to,messageId}) => {
     if (connectedUsers[socket.username]) {
      
-        console.log(messageId, to);
+        console.log(messageId, to, connectedUsers[socket.username].unseenMessages);
         connectedUsers[to]?.socket.emit('message seen', { messageId});
         connectedUsers[socket.username].unseenMessages = connectedUsers[socket.username].unseenMessages.filter((id) => id !== messageId);
         const unseenMessagesCount = connectedUsers[socket.username].unseenMessages.length;
