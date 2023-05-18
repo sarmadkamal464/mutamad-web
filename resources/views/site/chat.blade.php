@@ -284,6 +284,11 @@
 
     <script>
         let socket;
+        let to;
+
+        // Initialize scrollbar plugin
+        $(".wt-messages").mCustomScrollbar();
+
 
         function addMessage(messageText, isSelf, messageId, date) {
             const messageEl = document.createElement("div");
@@ -302,14 +307,28 @@
       <div class="clearfix"></div>
       <span id=${messageId}></span>
     </div>
+
   `;
-            let to;
-
-
             const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
             messageContainerEl.append(messageEl);
-            // Scroll to the bottom of chat container
-            messageContainerEl.scrollTop = messageContainerEl.scrollHeight;
+
+            if (messageId == "1684389113817") {
+
+
+
+                // Update scrollbar after adding the new message
+                $(".wt-messages").mCustomScrollbar("update");
+
+
+                // Scroll to the bottom of chat container
+                $(".wt-messages").mCustomScrollbar("scrollTo", "bottom");
+
+
+
+
+
+            }
+
         }
         const divs = document.querySelectorAll('.wt-ad');
 
