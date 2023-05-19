@@ -23,6 +23,8 @@ Route::post('request-reset-password', [UserController::class, 'requestResetPassw
 Route::post('validate-image', [SettingController::class, 'ImageValidation']);
 Route::post('store-chat', [ChatController::class, 'storeChat']);
 Route::get('/get-user-chat/{rid}/{sid}', [ChatController::class, 'getUserChat']);
+Route::get('/get-chats/{rid}', [ChatController::class, 'getChat']);
+Route::post('/read-message/{rid}/{sid}/{mid}', [ChatController::class, 'readMessage']);
 
 Route::get('/publish', function () {
     Redis::publish('test-channel', json_encode([

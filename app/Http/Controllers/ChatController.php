@@ -41,4 +41,34 @@ class ChatController extends Controller
         // return $this->response->successResponse($request, $message, true, 'chat-messages');
         // return $this->response->collectionResponse($request, $chat? $chat->all() : []);
     }
+
+    public function getChat(Request $request, $rid)
+    {   
+        $allChat = \DB::table('chats')
+            ->select('id','sender_id as sender', 'sender_id', 'receiver_id', 'message', 'read', 'created_at')
+            ->where('receiver_id', $rid)
+            ->groupBy('sender_id')
+            ->orderBy('id', 'desc')
+            ->latest()
+            ->get();
+
+        foreach( $allChat  as $chat) {
+            $senderName = \DB::table('users')->select('name')->where('id', $chat->sender)->get();
+            $chat->sender = $senderName[0]->name;
+        }
+        $message = "All chat retrieved successfully";
+        return response()->json(['success' => true, 'data'=> $allChat]);
+    }
+
+    public function readMessage(Request $request, $rid, $sid, $mid)
+    {
+        $getMessagesId = \DB::table('chats')->where('receiver_id', $rid)->where(function($query) use ($sid,$mid){
+            $query->where('sender_id', $sid);
+            $query->where('id', '<=', $mid);
+        })->get();
+        foreach($getMessagesId as $message) {
+            \DB::table('chats')->where('id', $message->id)->update(['read' => 1]);
+        }
+        return response()->json(['success' => true]);
+    }
 }
