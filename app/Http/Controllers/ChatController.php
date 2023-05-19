@@ -53,8 +53,9 @@ class ChatController extends Controller
             ->get();
 
         foreach( $allChat  as $chat) {
-            $senderName = \DB::table('users')->select('name')->where('id', $chat->sender)->get();
+            $senderName = \DB::table('users')->select('name', 'profile_image')->where('id', $chat->sender)->get();
             $chat->sender = $senderName[0]->name;
+            $chat->sender_image = $senderName[0]->profile_image;
         }
         $message = "All chat retrieved successfully";
         return response()->json(['success' => true, 'data'=> $allChat]);
