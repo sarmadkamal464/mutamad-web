@@ -93,7 +93,9 @@ class HomeController extends Controller
         return view('site.client.project.assignedProject', ['projectProposalsFreelancer' => $projectProposalsFreelancer]);
     }
     public function messages()
-    {
-        return view('site.chat');
+    
+    {$user = User::findOrFail(Auth::user()->id);
+        return view('site.chat', ['user' => $user]);
+       
     }
 }

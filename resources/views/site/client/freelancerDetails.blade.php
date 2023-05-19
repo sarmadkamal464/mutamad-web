@@ -90,6 +90,10 @@
                                         <div class="wt-description">
                                             <a href="javascript:void(0);" class="wt-btn" data-toggle="modal"
                                                 data-target="#reviewermodal" onclick="getOpenProjects()">Send Offer</a>
+                                            <a href="{{ url('/messages/' . $freelancer->id) }}" class="wt-btn">Start
+                                                Chat
+
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -184,6 +188,8 @@
                 }
             });
         }
+
+
         // const formGroup = document.querySelector('.wt-titlewithselect .form-group');
 
         // function handleWindowResize() {

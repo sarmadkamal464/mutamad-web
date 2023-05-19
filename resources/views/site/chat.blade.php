@@ -339,7 +339,9 @@
                 const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
                 messageContainerEl.innerHTML = "";
                 const input = div.querySelector('input');
-                to = input.value;
+                let url = window.location.href;
+                let to = url.substr(url.lastIndexOf('/') + 1);
+                console.log(to);
                 connect();
 
             });
@@ -348,8 +350,12 @@
 
 
         function connect() {
+            let url = window.location.href;
+            let to = url.substr(url.lastIndexOf('/') + 1);
 
-            let from = document.getElementById("sender").value;
+            console.log(to); //
+            let from = `{{ $user->id }}`
+            console.log(from)
             if (from && to) {
                 // Connect to server using socket.io
                 socket = io("http://localhost:3000", {
@@ -480,7 +486,11 @@
         }
         // Function to send chat messages to server
         function sendMessage() {
-            let from = document.getElementById("sender").value;
+            let from = {{ $user->id }}
+            var url = window.location.href;
+            var to = url.substr(url.lastIndexOf('/') + 1);
+
+
             const messageEl = document.querySelector(".wt-replaybox textarea");
 
             if (messageEl && messageEl.value.trim() !== '') {
@@ -532,7 +542,7 @@
         }
 
         $('.lnr').click(function() {
-            var entity = $(this).data('entity');
+            let entity = $(this).data('entity');
             $('.wt-replaybox textarea').val($('.wt-replaybox textarea').val() + entity);
         });
     </script>

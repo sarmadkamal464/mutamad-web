@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/messages', [HomeController::class, 'messages']);
+Route::get('/messages/{rid}', [HomeController::class, 'messages']);
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', [HomeController::class, 'about']);
 Route::get('/freelancer/{slug}', [HomeController::class, 'freelancer']);
