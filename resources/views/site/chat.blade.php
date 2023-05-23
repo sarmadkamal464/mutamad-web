@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <style>
-        #chatbody {
-            visibility: hidden;
-        }
+        /* .wt-chatarea {
+                            visibility: hidden;
+                        } */
+
+
 
         .recieveNotification {
             top: 50%;
@@ -111,8 +113,6 @@
 
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
-        <!-- Two input fields for sender and receiver user IDs -->
-        <input type="text" id="sender" placeholder="Enter sender ID">
 
 
 
@@ -143,57 +143,9 @@
                         <div class="wt-dashboardboxcontent wt-dashboardholder wt-offersmessages">
                             <ul>
                                 <li>
-                                    <form class="wt-formtheme wt-formsearch">
-                                        <fieldset>
-                                            <div class="form-group">
-                                                <input type="text" name="Location" class="form-control"
-                                                    placeholder="Search Here">
-                                                <a href="javascrip:void(0);" class="wt-searchgbtn"><i
-                                                        class="lnr lnr-magnifier"></i></a>
-                                            </div>
-                                        </fieldset>
-                                    </form>
+
                                     <div class="wt-verticalscrollbar wt-dashboardscrollbar">
-                                        <div class="wt-ad wt-dotnotification wt-active">
-                                            <input type="text" value="1" style="display: none;">
-                                            <div class="recieveNotification"></div>
-                                            <figure><img src="{{ asset('images/messages/img-01.jpg') }}"
-                                                    alt="image description"></figure>
-                                            <div class="wt-adcontent">
-                                                <h3>me</h3>
-                                            </div>
-                                            <span>Consectetur adipisicing elit sed do...</span>
-                                        </div>
-                                        <div class="wt-ad wt-dotnotification wt-active">
-                                            <input type="text" value="2" style="display: none;">
-                                            <div class="recieveNotification"></div>
-                                            <figure><img src="{{ asset('images/messages/img-10.jpg') }}"
-                                                    alt="image description"></figure>
-                                            <div class="wt-adcontent">
-                                                <h3>Reta Milnes</h3>
-                                            </div>
-                                            <span>Consectetur adipisicing elit sed do...</span>
-                                        </div>
-                                        <div class="wt-ad wt-dotnotification wt-active">
-                                            <input type="text" value="3" style="display: none;">
-                                            <div class="recieveNotification"></div>
-                                            <figure><img src="{{ asset('images/messages/img-01.jpg') }}"
-                                                    alt="image description"></figure>
-                                            <div class="wt-adcontent">
-                                                <h3>Reta Milnes</h3>
-                                            </div>
-                                            <span>Consectetur adipisicing elit sed do...</span>
-                                        </div>
-                                        <div class="wt-ad wt-dotnotification wt-active">
-                                            <input type="text" value="4" style="display: none;">
-                                            <div class="recieveNotification"></div>
-                                            <figure><img src="{{ asset('images/messages/img-01.jpg') }}"
-                                                    alt="image description"></figure>
-                                            <div class="wt-adcontent">
-                                                <h3>Reta Milnes</h3>
-                                            </div>
-                                            <span>Consectetur adipisicing elit sed do...</span>
-                                        </div>
+
                                     </div>
 
                                 </li>
@@ -284,13 +236,159 @@
 
     <script>
         let socket;
-        let to;
+        let url = window.location.href;
+        let to = url.substr(url.lastIndexOf('/') + 1);
+
+        let from = `{{ $user->id }}`
+        console.log(from)
+
+
+        function populateChatNotifications() {
+            fetch(`/api/v1/get-chats/${from}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    // Loop through the data array and create a div for each item
+                    data.data.forEach(item => {
+                        // Extract the necessary information from the item
+                        const {
+                            id,
+                            sender,
+                            message,
+                            sender_id,
+                            read,
+                            date: created_at
+                        } = item;
+
+                        // Check if the notification div already exists
+                        const existingNotification = document.querySelector(
+                            `input[value="${sender_id}"] + .recieveNotification`
+                        );
+
+                        if (!existingNotification) {
+                            // Create a new div for the notification
+                            const newDiv = document.createElement('div');
+                            newDiv.className = 'wt-ad wt-dotnotification wt-active';
+                            newDiv.innerHTML = `
+            <input type="text" value="${sender_id}" style="display: none;">
+            <div class="recieveNotification"></div>
+            <figure><img src="{{ asset('images/messages/img-01.jpg') }}" alt="image description"></figure>
+            <div class="wt-adcontent">
+              <h3>${sender}</h3>
+            </div>
+            <span>${message}</span>
+          `;
+
+                            // Append the new div to the parent container
+                            const parentContainer = document.querySelector(
+                                '.wt-verticalscrollbar.wt-dashboardscrollbar');
+                            parentContainer.prepend(newDiv);
+
+                            // Add click event listener to the new div
+                            newDiv.addEventListener('click', () => {
+                                const messageContainerEl = document.querySelector(
+                                    '.wt-messages .mCSB_container');
+                                messageContainerEl.innerHTML = "";
+                                const input = newDiv.querySelector('input');
+                                to = input.value;
+                                connect();
+                            });
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Connect to server using socket.io
+        socket = io("http://localhost:3000", {
+            transports: ["websocket"],
+        });
+
+        // Register sender ID with server
+
+        socket.emit("register", from);
+
+        socket.on('unseen messages count', ({
+            count,
+
+        }) => {
+            if (count === 0) {
+                const notification = document.querySelector(
+                    `input[value="${to}"] + .recieveNotification`);
+                notification.textContent = ` `;
+            }
+
+            console.log(count)
+            // Loop through the count object
+            for (const notificationFrom in count) {
+                const countValue = count[notificationFrom].count;
+                // Find the notification div for the corresponding input value
+                const notification = document.querySelector(
+                    `input[value="${notificationFrom}"] + .recieveNotification`);
+                console.log(notification)
+                if (notification) {
+                    // Update its text content to show the count value
+                    if (countValue === 0) {
+                        notification.textContent = ` `;
+                    } else if (countValue > 0) {
+                        notification.textContent = `+${countValue}`;
+                    }
+                } else {
+                    populateChatNotifications();
+                }
+            }
+
+        });
+        // Listen for 'message seen' event from server
+        socket.on("message seen", ({
+            messageId,
+            id,
+            read,
+        }) => {
+
+
+            console.log("ms" + messageId);
+            const messageEl = document.querySelector(`.wt-memessage #${messageId}`);
+            console.log(read);
+            // const messageEl = document.getElementById(messageId);
+            if (messageEl && read == 1) {
+
+                messageEl.textContent = "Seen";
+
+            }
+            if (read == 0) {
+                console.log(from, to, id)
+                // Make API request to mark the message as read
+                fetch(`/api/v1/read-message/${from}/${to}/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error(error));
+
+            }
+        });
+        populateChatNotifications();
+
 
         // Initialize scrollbar plugin
         $(".wt-messages").mCustomScrollbar();
 
 
-        function addMessage(messageText, isSelf, messageId, date) {
+        function addMessage(read, messageText, isSelf, messageId, date) {
             const messageEl = document.createElement("div");
             isSelf
                 ?
@@ -312,189 +410,135 @@
             const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
             messageContainerEl.append(messageEl);
 
-            if (messageId == "1684389113817") {
 
 
 
-                // Update scrollbar after adding the new message
-                $(".wt-messages").mCustomScrollbar("update");
+            // Update scrollbar after adding the new message
+            $(".wt-messages").mCustomScrollbar("update");
 
 
-                // Scroll to the bottom of chat container
-                $(".wt-messages").mCustomScrollbar("scrollTo", "bottom");
+            // Scroll to the bottom of chat container
+            $(".wt-messages").mCustomScrollbar("scrollTo", "bottom");
 
 
 
 
 
-            }
+
 
         }
-        const divs = document.querySelectorAll('.wt-ad');
-
-        divs.forEach(div => {
-            div.addEventListener('click', () => {
-                document.getElementById("chatbody").style.visibility = "visible";
-
-                const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
-                messageContainerEl.innerHTML = "";
-                const input = div.querySelector('input');
-                let url = window.location.href;
-                let to = url.substr(url.lastIndexOf('/') + 1);
-                console.log(to);
-                connect();
-
-            });
-        });
 
 
 
         function connect() {
-            let url = window.location.href;
-            let to = url.substr(url.lastIndexOf('/') + 1);
-
-            console.log(to); //
-            let from = `{{ $user->id }}`
-            console.log(from)
             if (from && to) {
-                // Connect to server using socket.io
-                socket = io("http://localhost:3000", {
-                    transports: ["websocket"],
-                });
-
-                // Register sender ID with server
-
-                socket.emit("register", from);
-                // Function to create connection with server on button click
-                socket.on('unseen messages count', ({
-                    count,
-
-                }) => {
-                    if (count === 0) {
-                        const notification = document.querySelector(
-                            `input[value="${to}"] + .recieveNotification`);
-                        notification.textContent = ` `;
-                    }
-
-                    console.log(count)
-                    // Loop through the count object
-                    for (const notificationFrom in count) {
-                        const countValue = count[notificationFrom].count;
-                        // Find the notification div for the corresponding input value
-                        const notification = document.querySelector(
-                            `input[value="${notificationFrom}"] + .recieveNotification`);
-                        console.log(notification)
-                        if (notification) {
-                            // Update its text content to show the count value
-                            if (countValue === 0) {
-                                notification.textContent = ` `;
-                            } else if (countValue > 0) {
-                                notification.textContent = `+${countValue}`;
+                // Check if the chat is already open
+                const isChatOpen = document.querySelector('.wt-messages .mCSB_container');
+                if (isChatOpen) {
+                    // Chat is not open, fetch chat messages from the server
+                    fetch(`/api/v1/get-user-chat/${from}/${to}`, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
                             }
-                        } else {
-                            // Create a new div for the notification
-                            const newDiv = document.createElement('div');
-                            newDiv.className = 'wt-ad wt-dotnotification wt-active';
-                            newDiv.innerHTML = `
-                        <input type="text" value="${notificationFrom}" style="display: none;">
-                        <div class="recieveNotification">${countValue > 0 ? `+${countValue}` : ''}</div>
-                        <figure><img src="{{ asset('images/messages/img-01.jpg') }}" alt="image description"></figure>
-                        <div class="wt-adcontent">
-                            <h3>Reta Milnes</h3>
-                        </div>
-                        <span>Consectetur adipisicing elit sed do...</span>`;
-                            // Append the new div to the parent container
-                            // Get the parent container
-                            const parentContainer = document.querySelector(
-                                '.wt-verticalscrollbar.wt-dashboardscrollbar');
-                            // Prepend the new div to the parent container
-                            parentContainer.prepend(newDiv);
-                        }
-                    }
-
-                });
-                // Listen for 'message seen' event from server
-                socket.on("message seen", ({
-                    messageId
-                }) => {
-                    console.log("ms" + messageId);
-                    const messageEl = document.getElementById(messageId);
-                    if (messageEl) {
-                        messageEl.textContent = "Seen";
-                    }
-                });
-
-                // Listen for 'private message' event from server
-                fetch(`/api/v1/get-user-chat/${from}/${to}`, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const messages = data.messages;
-                        let messageHTML = "";
-                        messages.forEach(message => {
-                            const createdAt = new Date(message.created_at);
-                            addMessage(message.message, message.sender_id == from, message.message_id, createdAt
-                                .toLocaleString(
-                                    'default', {
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const messages = data.messages;
+                            let messageHTML = "";
+                            messages.forEach(message => {
+                                const createdAt = new Date(message.created_at);
+                                addMessage(
+                                    message.read,
+                                    message.message,
+                                    message.sender_id == from,
+                                    message.message_id,
+                                    createdAt.toLocaleString('default', {
                                         dateStyle: 'medium',
                                         timeStyle: 'short'
-                                    }
-                                ));
-                            socket.emit('seen', {
-                                to,
-                                messageId: message.message_id
+                                    })
+                                );
+                                console.log("ms" + message.message_id);
+                                console.log(message);
+
+                                socket.emit('seen', {
+                                    to,
+                                    messageId: message.message_id,
+                                    read: 1
+                                });
+                                const messageEl = document.querySelector(
+                                    `.wt-memessage #${message.message_id}`);
+                                // const messageEl = document.getElementById(messageId);
+                                console.log(message.read);
+                                console.log(messageEl);
+                                if (messageEl && message.read == 1) {
+                                    console.log(message.read);
+                                    messageEl.textContent = "Seen";
+                                }
+                                if (message.read == 0) {
+                                    console.log(from, to, message.id);
+                                    // Make API request to mark the message as read
+                                    fetch(`/api/v1/read-message/${from}/${to}/${message.id}`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => console.log(data))
+                                        .catch(error => console.error(error));
+                                }
                             });
-                        });
-                    })
-                    .catch(error => console.error(error));
-
-                socket.on("private message", ({
-                    from,
-                    message,
-                    messageId,
-                    date,
-                }) => {
+                        })
+                        .catch(error => console.error(error));
+                }
 
 
-                    if (to === from) {
-                        // Display received message in chat container
-                        const dates = new Date(date);
-                        addMessage(message, false, messageId, dates.toLocaleString(
-                            'default', {
-                                dateStyle: 'medium',
-                                timeStyle: 'short'
-                            }));
-                        socket.emit('seen', {
-                            to,
-                            messageId
-                        });
-
-
-                    } else {
-                        socket.emit('unseen', messageId);
-                    }
-                });
             } else {
-
                 console.log("Both fields are required");
             }
         }
+        socket.on("private message", ({
+            from,
+            message,
+            messageId,
+            date,
+            read
+        }) => {
+            if (to === from) {
+                console.log("seen");
+                // Display received message in chat container
+                const dates = new Date(date);
+                addMessage(
+                    read,
+                    message,
+                    false,
+                    messageId,
+                    dates.toLocaleString('default', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
+                    })
+                );
+                socket.emit('seen', {
+                    to,
+                    messageId,
+                    read: 1
+                });
+            } else {
+                // socket.emit('unseen', messageId);
+            }
+        });
         // Function to send chat messages to server
         function sendMessage() {
-            let from = {{ $user->id }}
-            var url = window.location.href;
-            var to = url.substr(url.lastIndexOf('/') + 1);
+
 
 
             const messageEl = document.querySelector(".wt-replaybox textarea");
 
             if (messageEl && messageEl.value.trim() !== '') {
-                const messageId = Date.now();
+                const messageId = `_${Date.now()}`;
                 const date = new Date();
                 const message = messageEl.value;
 
@@ -521,14 +565,16 @@
 
                     //Send message to receiver through server
                     socket.emit("private message", {
+
                         to,
                         message,
                         messageId,
                         date,
+                        read: 0
                     });
 
                     // Display sent message in chat container
-                    addMessage(message, true, messageId, date.toLocaleString('default', {
+                    addMessage(read = 0, message, true, messageId, date.toLocaleString('default', {
                         dateStyle: 'medium',
                         timeStyle: 'short'
                     }));
