@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
       if (read === 0) {
         receiverSocket.unseenMessages.push({ messageId, from: socket.username });
       } else if (read === 1) {
+        console.log('kjkj')
         const index = receiverSocket.unseenMessages.findIndex(
           (msg) => msg.messageId === messageId && msg.from === socket.username
         );
@@ -66,6 +67,7 @@ io.on('connection', (socket) => {
         {}
       );
 
+
       console.log(unseenMessagesCount);
       receiverSocket.socket.emit('unseen messages count', {
         count: unseenMessagesCount
@@ -80,9 +82,9 @@ io.on('connection', (socket) => {
 socket.on('seen', ({to,messageId,id,read}) => {
     if (connectedUsers[socket.username]) {
      
-        console.log(messageId, to,read, connectedUsers[socket.username].unseenMessages);
+        console.log(messageId, to,read,id, connectedUsers[socket.username].unseenMessages);
         connectedUsers[to]?.socket.emit('message seen', { messageId,id,read});
-        connectedUsers[socket.username].unseenMessages = connectedUsers[socket.username].unseenMessages.filter((id) => id.messageId !== messageId);
+        connectedUsers[socket.username].unseenMessages = connectedUsers[socket.username].unseenMessages.filter((id) => id.read == 1);
         console.log(messageId, to,read, connectedUsers[socket.username].unseenMessages);
         const unseenMessagesCount = connectedUsers[socket.username].unseenMessages.length;
         connectedUsers[socket.username].socket.emit('unseen messages count', {

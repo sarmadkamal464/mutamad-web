@@ -57,6 +57,11 @@
                                              <span>My Profile</span>
                                          </a>
                                      </li>
+                                     <li>
+                                         <a href="{{ url('/messages/all') }}">
+                                             <span>Messages</span>
+                                         </a>
+                                     </li>
                                      @if (Auth::user()->role == 'client')
                                          <li>
                                              <a href="{{ url('post-project') }}">

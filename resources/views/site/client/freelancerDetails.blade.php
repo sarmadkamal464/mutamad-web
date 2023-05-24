@@ -30,6 +30,17 @@
         .wt-userdetails .wt-description {
             position: initial;
         }
+
+        .wt-btn {
+            margin: 5px;
+
+        }
+
+        .wt-profilecounter {
+
+            max-width: 570px;
+
+        }
     </style>
 @endsection
 @section('content')
