@@ -267,7 +267,7 @@
 
 
         function populateChatNotifications() {
-            fetch(`/api/v1/get-chats/${from}`, {
+            fetch(`/main/api/v1/get-chats/${from}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -486,7 +486,7 @@
                 const isChatOpen = document.querySelector('.wt-messages .mCSB_container');
                 if (isChatOpen) {
                     // Chat is not open, fetch chat messages from the server
-                    fetch(`/api/v1/get-user-chat/${from}/${to}`, {
+                    fetch(`/main/api/v1/get-user-chat/${from}/${to}`, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -594,7 +594,7 @@
 
 
                 if (to) {
-                    fetch("/api/v1/store-chat", {
+                    fetch("/main/api/v1/store-chat", {
                             method: 'POST',
                             body: JSON.stringify({
                                 sender_id: from,
