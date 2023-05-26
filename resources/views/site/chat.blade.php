@@ -260,7 +260,7 @@
 
         if (to == "all") {
             console.log(to);
-            console.log("isdojsdiojjjjjjjjjjjjj");
+           
             const boxreply = document.querySelector(".wt-replaybox");
             boxreply.style.display = 'none';
         }
