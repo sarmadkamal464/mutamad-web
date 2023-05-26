@@ -37,7 +37,11 @@ class ChatController extends Controller
         //  dd($chat->all());
         // return response()->json(['success' => true]);
         $message = "chat retrieved successfully";
-        return response()->json(['success' => true, 'messages'=> $chat]);
+        $senderImage = \DB::table('users')->select('profile_image')->where('id', $sid)->get();
+        $receiverImage = \DB::table('users')->select('profile_image')->where('id', $rid)->get();
+        $images['senderImage'] = $senderImage;
+        $images['receiverImage'] = $receiverImage;
+        return response()->json(['success' => true, 'messages'=> $chat, 'images'=> $images]);
         // return $this->response->successResponse($request, $message, true, 'chat-messages');
         // return $this->response->collectionResponse($request, $chat? $chat->all() : []);
     }
