@@ -56,6 +56,12 @@ class ChatController extends Controller
             $senderName = \DB::table('users')->select('name', 'profile_image')->where('id', $chat->sender)->get();
             $chat->sender = $senderName[0]->name;
             $chat->sender_image = $senderName[0]->profile_image;
+            $sId = $chat->sender_id;
+            $unReadCount = \DB::table('chats')->where('receiver_id', $rid)->where(function($query) use ($sId){
+                $query->where('sender_id', $sId);
+                $query->where('read', 0);
+            })->count();
+            $chat->count = $unReadCount;
         }
         $message = "All chat retrieved successfully";
         return response()->json(['success' => true, 'data'=> $allChat]);
