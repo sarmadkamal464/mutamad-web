@@ -415,7 +415,7 @@
             // Make API request to mark the message as read
             if (read === 0) {
                 console.log("jkj" + id + from + to)
-                axios.post(`/api/v1/read-message/${from}/${to}/${id}`, null, {
+                axios.post(`/main//api/v1/read-message/${from}/${to}/${id}`, null, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -524,7 +524,7 @@
                                 if (message.read == 0) {
                                     console.log(from, to, message.id);
                                     // Make API request to mark the message as read
-                                    axios.post(`/api/v1/read-message/${from}/${to}/${message.id}`, null, {
+                                    axios.post(`/main//api/v1/read-message/${from}/${to}/${message.id}`, null, {
                                             headers: {
                                                 'Accept': 'application/json',
                                                 'Content-Type': 'application/json'
