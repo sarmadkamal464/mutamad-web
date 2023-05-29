@@ -259,7 +259,7 @@
         let from = `{{ $user->id }}`
 
         if (to == "all") {
-            console.log(to);
+         
            
             const boxreply = document.querySelector(".wt-replaybox");
             boxreply.style.display = 'none';
@@ -267,7 +267,7 @@
 
 
         function populateChatNotifications() {
-            fetch(`/main/api/v1/get-chats/${from}`, {
+            fetch(`/api/v1/get-chats/${from}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -288,7 +288,8 @@
                             sender_id,
                             read,
                             created_at,
-                            sender_image
+                            sender_image,
+                            count
                         } = item;
 
                         // Check if the notification div already exists
@@ -301,9 +302,9 @@
                             newDiv.className = 'wt-ad wt-dotnotification wt-active';
                             newDiv.innerHTML = `
           <input type="text" value="${sender_id}" style="display: none;">
-          <div class="recieveNotification"></div>
+          <div class="recieveNotification">${count!=0?count:""}</div>
           <figure>
-            <img src="${sender_image ? `<?php echo asset('${sender_image}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
+            <img src="${sender_image ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${sender_image}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
           </figure>
           <div class="wt-adcontent">
             <h3>${sender}</h3>
@@ -319,7 +320,7 @@
 
                             // Add click event listener to the new div
                             newDiv.addEventListener('click', () => {
-                                console.log(`hdfhidhfi`.activeDiv)
+                               
                                 // Reset the background color of the previously active div
                                 if (activeDiv) {
                                     activeDiv.style.backgroundColor = '#fff';
@@ -345,6 +346,7 @@
                         }
                     });
                 })
+
                 .catch(error => {
                     console.error('Error:', error);
                 });
@@ -362,17 +364,21 @@
 
         socket.emit("register", from);
 
+      const notificationCount=(openChat)=>{
         socket.on('unseen messages count', ({
             count,
 
         }) => {
-            if (count === 0) {
-                const notification = document.querySelector(
-                    `input[value="${to}"] + .recieveNotification`);
-                notification.textContent = ` `;
-            }
+        
 
             console.log(count)
+            if(openChat){
+               
+            if (count==0){
+                const notification = document.querySelector(
+                    `input[value="${openChat}"] + .recieveNotification`);
+                notification.textContent ="";
+            }}
             // Loop through the count object
             for (const notificationFrom in count) {
                 const countValue = count[notificationFrom].count;
@@ -383,9 +389,14 @@
                 if (notification) {
                     // Update its text content to show the count value
                     if (countValue === 0) {
-                        notification.textContent = ` `;
+                        notification.textContent ="";
                     } else if (countValue > 0) {
-                        notification.textContent = `+${countValue}`;
+                    if(parseInt(notification.textContent)>0){
+                        notification.textContent = parseInt(notification.textContent) + 1;
+                    }
+                    else{
+                        notification.textContent =countValue
+                    }
                     }
                 } else {
                     populateChatNotifications();
@@ -393,41 +404,66 @@
             }
 
         });
+
+      }
+
         // Listen for 'message seen' event from server
         socket.on("message seen", ({
             messageId,
-            id,
             read,
         }) => {
+            fetch(`/api/v1/get-user-chat/${from}/${to}`, {
+    method: 'GET',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => response.json())
+.then(data => {
+    const messages = data.messages;
+  console.log(messages)
 
-
-            console.log("ms" + messageId);
+    const filteredMessage = messages.find(message => message.message_id === messageId);
+    if (filteredMessage) {
+        const Id = filteredMessage.id;
+        // Use the messageId as needed
+        console.log('Message ID:', Id);
+        
             const messageEl = document.querySelector(`.wt-memessage #${messageId}`);
-            console.log(`fkdkf` +
-                read);
+            
             // const messageEl = document.getElementById(messageId);
             if (messageEl) {
 
                 messageEl.textContent = "Seen";
-
+         
             }
-
+           
             // Make API request to mark the message as read
             if (read === 0) {
-                console.log("jkj" + id + from + to)
-                axios.post(`/main/api/v1/read-message/${from}/${to}/${id}`, null, {
+               
+                axios.post(`/api/v1/read-message/${to}/${from}/${Id}`, null, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         }
                     })
                     .then(response => {
+                           
+
                         console.log(response.data);
                     })
                     .catch(error => {
                         console.error(error);
                     });
             }
+    }})
+.catch(error => {
+    console.error('Error:', error);
+});
+
+
+            
         })
         populateChatNotifications();
 
@@ -486,7 +522,7 @@
                 const isChatOpen = document.querySelector('.wt-messages .mCSB_container');
                 if (isChatOpen) {
                     // Chat is not open, fetch chat messages from the server
-                    fetch(`/main/api/v1/get-user-chat/${from}/${to}`, {
+                    fetch(`/api/v1/get-user-chat/${from}/${to}`, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -499,6 +535,7 @@
                             let messageHTML = "";
                             messages.forEach(message => {
                                 const createdAt = new Date(message.created_at);
+                                
                                 addMessage(
                                     message.read,
                                     message.message,
@@ -511,20 +548,23 @@
                                 );
 
 
-
+                                notificationCount(to)
                                 const messageEl = document.querySelector(
                                     `.wt-memessage #${message.message_id}`);
-                                // const messageEl = document.getElementById(messageId);
-                                console.log(message.read);
-                                console.log(messageEl);
+                            
                                 if (messageEl && message.read == 1) {
                                     console.log(message.read);
                                     messageEl.textContent = "Seen";
                                 }
                                 if (message.read == 0) {
                                     console.log(from, to, message.id);
+                                    socket.emit('seen', {
+                    to,
+                    messageId:message.message_id,
+                    read:message.read
+                });
                                     // Make API request to mark the message as read
-                                    axios.post(`/main/api/v1/read-message/${from}/${to}/${message.id}`, null, {
+                                    axios.post(`/api/v1/read-message/${from}/${to}/${message.id}`, null, {
                                             headers: {
                                                 'Accept': 'application/json',
                                                 'Content-Type': 'application/json'
@@ -570,10 +610,11 @@
                         timeStyle: 'short'
                     })
                 );
+                notificationCount(to);
                 socket.emit('seen', {
                     to,
                     messageId,
-                    id: message.id,
+                 
                     read
                 });
             } else {
@@ -594,7 +635,7 @@
 
 
                 if (to) {
-                    fetch("/main/api/v1/store-chat", {
+                    fetch("/api/v1/store-chat", {
                             method: 'POST',
                             body: JSON.stringify({
                                 sender_id: from,
@@ -691,7 +732,7 @@
                 back()
             }
         };
-
+        notificationCount()
         // Initial check on page load
         checkScreenSize();
 
