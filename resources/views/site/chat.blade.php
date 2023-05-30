@@ -303,7 +303,7 @@
 
 
         function populateChatNotifications() {
-            fetch(`/api/v1/get-chats/${from}`, {
+            fetch(`{{ env('BaseUrl') }}/api/v1/get-chats/${from}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -472,7 +472,7 @@
             messageId,
             read,
         }) => {
-            fetch(`/api/v1/get-user-chat/${from}/${to}`, {
+            fetch(`{{ env('BaseUrl') }}/api/v1/get-user-chat/${from}/${to}`, {
     method: 'GET',
     headers: {
         'Accept': 'application/json',
@@ -506,7 +506,7 @@
             if (filteredMessage.read === 0) {
           
               
-                axios.post(`/api/v1/read-message/${to}/${from}/${Id}`, null, {
+                axios.post(`{{ env('BaseUrl') }}/api/v1/read-message/${to}/${from}/${Id}`, null, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -616,7 +616,7 @@ function hideLoader() {
                 const isChatOpen = document.querySelector('.wt-messages .mCSB_container');
                 if (isChatOpen) {
                     // Chat is not open, fetch chat messages from the server
-                    fetch(`/api/v1/get-user-chat/${from}/${to}`, {
+                    fetch(`{{ env('BaseUrl') }}/api/v1/get-user-chat/${from}/${to}`, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -679,7 +679,7 @@ function hideLoader() {
                     read:message.read
                 });
                                     // Make API request to mark the message as read
-                                    axios.post(`/api/v1/read-message/${from}/${to}/${message.id}`, null, {
+                                    axios.post(`{{ env('BaseUrl') }}/api/v1/read-message/${from}/${to}/${message.id}`, null, {
                                             headers: {
                                                 'Accept': 'application/json',
                                                 'Content-Type': 'application/json'
@@ -767,7 +767,7 @@ setInterval(() => {
 
 
                 if (to) {
-                    fetch("/api/v1/store-chat", {
+                    fetch("{{ env('BaseUrl') }}/api/v1/store-chat", {
                             method: 'POST',
                             body: JSON.stringify({
                                 sender_id: from,
