@@ -13,6 +13,15 @@
     height: 30px;
     
 }
+.size{
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    width: 40px;
+}
+.size img{
+    border-radius: 50%;
+}
 .read {
     top: 7px;
     right: 3px;
@@ -303,7 +312,7 @@
 
 
         function populateChatNotifications() {
-            fetch(`{{ env('BaseUrl') }}/api/v1/get-chats/${from}`, {
+            fetch(`/main/api/v1/get-chats/${from}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -472,7 +481,7 @@
             messageId,
             read,
         }) => {
-            fetch(`{{ env('BaseUrl') }}/api/v1/get-user-chat/${from}/${to}`, {
+            fetch(`/main/api/v1/get-user-chat/${from}/${to}`, {
     method: 'GET',
     headers: {
         'Accept': 'application/json',
@@ -506,7 +515,7 @@
             if (filteredMessage.read === 0) {
           
               
-                axios.post(`{{ env('BaseUrl') }}/api/v1/read-message/${to}/${from}/${Id}`, null, {
+                axios.post(`/main/api/v1/read-message/${to}/${from}/${Id}`, null, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -616,7 +625,7 @@ function hideLoader() {
                 const isChatOpen = document.querySelector('.wt-messages .mCSB_container');
                 if (isChatOpen) {
                     // Chat is not open, fetch chat messages from the server
-                    fetch(`{{ env('BaseUrl') }}/api/v1/get-user-chat/${from}/${to}`, {
+                    fetch(`/main/api/v1/get-user-chat/${from}/${to}`, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -679,7 +688,7 @@ function hideLoader() {
                     read:message.read
                 });
                                     // Make API request to mark the message as read
-                                    axios.post(`{{ env('BaseUrl') }}/api/v1/read-message/${from}/${to}/${message.id}`, null, {
+                                    axios.post(`/main/api/v1/read-message/${from}/${to}/${message.id}`, null, {
                                             headers: {
                                                 'Accept': 'application/json',
                                                 'Content-Type': 'application/json'
@@ -767,7 +776,7 @@ setInterval(() => {
 
 
                 if (to) {
-                    fetch("{{ env('BaseUrl') }}/api/v1/store-chat", {
+                    fetch("/main/api/v1/store-chat", {
                             method: 'POST',
                             body: JSON.stringify({
                                 sender_id: from,
@@ -836,7 +845,7 @@ setInterval(() => {
                 // Change the username in the message div
                 let usernameElement = document.getElementById('wt-userlogedin');
                 usernameElement.innerHTML = `
-                <figure>
+                <figure class="size">
             <img src="${sender_image ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${sender_image}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
           </figure>
                                 <div class="wt-username" >
