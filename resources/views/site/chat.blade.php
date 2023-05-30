@@ -7,10 +7,42 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <style>
-        /* .wt-chatarea {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            visibility: hidden;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
-        .wt-offersmessages ul li .wt-messages:before {
+        .wt-offerermessage figure, .wt-memessage figure {
+    bottom: 40px;
+    width: 30px;
+    height: 30px;
+    
+}
+.read {
+    top: 7px;
+    right: 3px;
+    width: 5px;
+    height: 9px;
+    color: #00cc67;
+    font-size: 4px;
+    line-height: 16px;
+    content: '\f00c';
+    position: absolute;
+    transform: rotate(49deg);
+    border-bottom: 2.5px solid #00cc67;
+    border-right: 2.5px solid #00cc67;
+    display: block;
+}
+    .preloader-outer {
+    top: 50%;
+    left: 50%;
+    /* right: 0; */
+    /* bottom: 0; */
+    width: 57px;
+    height: 33px;
+    z-index: 9999;
+    position: fixed;
+    background: #fff;
+}
+    .show{
+        display:block !important;
+    }          
+         .wt-offersmessages ul li .wt-messages:before {
 
             background: none;
         }
@@ -187,10 +219,12 @@
                                 <li id="chatbody">
                                     <div class="wt-chatarea">
                                         <div class="wt-messages wt-verticalscrollbar wt-dashboardscrollbar">
-
+                                        
+    </div>
                                         </div>
 
-
+                                        <div id="preloader-outer" class="preloader-outer">
+        <div class="loader" id="loader"></div>
                                     </div>
                                     <div class="wt-replaybox">
 
@@ -239,15 +273,16 @@
 @section('script')
 
 
-    // Include Socket.IO client library
+
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
         integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    // Initialize Socket.IO client
+  
 
     <script>
+        
         let SenderImage = `{{ $user->profile_image }}`
         // Define a variable to store the currently active newDiv
         let activeDiv;
@@ -257,6 +292,7 @@
         let to = url.substr(url.lastIndexOf('/') + 1);
 
         let from = `{{ $user->id }}`
+
 
         if (to == "all") {
          
@@ -324,6 +360,7 @@
                                 // Reset the background color of the previously active div
                                 if (activeDiv) {
                                     activeDiv.style.backgroundColor = '#fff';
+                                    notificationCt(to);
                                 }
 
                                 // Set the background color of the clicked div
@@ -335,8 +372,9 @@
 
                                 const input = newDiv.querySelector('input');
                                 to = input.value;
-                                connect();
-                                OpenChat(sender);
+                                connect(to);
+                                notificationCount(to);
+                                OpenChatHeader(sender , sender_image);
                                 const messageEl = document.querySelector(".wt-replaybox");
                                 messageEl.style.display = 'block';
                                 // Update the activeDiv variable
@@ -363,50 +401,72 @@
         // Register sender ID with server
 
         socket.emit("register", from);
-
-      const notificationCount=(openChat)=>{
         socket.on('unseen messages count', ({
+     
+            fro,  
             count,
 
         }) => {
         
 
-            console.log(count)
-            if(openChat){
+            console.log(count);
+            console.log(fro);
+         
+       
+            const notification = document.querySelector(
+                    `input[value="${fro}"] + .recieveNotification`);
                
-            if (count==0){
-                const notification = document.querySelector(
-                    `input[value="${openChat}"] + .recieveNotification`);
-                notification.textContent ="";
-            }}
-            // Loop through the count object
-            for (const notificationFrom in count) {
-                const countValue = count[notificationFrom].count;
-                // Find the notification div for the corresponding input value
-                const notification = document.querySelector(
-                    `input[value="${notificationFrom}"] + .recieveNotification`);
-                console.log(notification)
                 if (notification) {
-                    // Update its text content to show the count value
-                    if (countValue === 0) {
-                        notification.textContent ="";
-                    } else if (countValue > 0) {
-                    if(parseInt(notification.textContent)>0){
-                        notification.textContent = parseInt(notification.textContent) + 1;
+                    console.log(notification.innerHTML === '&#9676;' || notification.innerHTML === '◌')
+                    if (notification.innerHTML === '&#9676;' || notification.innerHTML === '◌') {
+
+                        return
+                    }
+                    else if(parseInt(notification.textContent)>0){
+
+                        notification.textContent = parseInt(notification.textContent) + count;
                     }
                     else{
-                        notification.textContent =countValue
+                        notification.textContent = count
                     }
-                    }
+                    
                 } else {
                     populateChatNotifications();
                 }
-            }
+         
+
+            
+          
 
         });
+        const notificationCount=(openChat)=>{
+        if(openChat){
+                console.log(openChat) 
+      
+               
+                const notification = document.querySelector(
+                    `input[value="${openChat}"] + .recieveNotification`);
+                    notification.innerHTML = '&#9676;';
+     
+    
+            }
+
+      }
+        const notificationCt=(openChat)=>{
+        if(openChat){
+                console.log(openChat) 
+      
+               
+                const notification = document.querySelector(
+                    `input[value="${openChat}"] + .recieveNotification`);
+                    notification.innerHTML = '';
+     
+    
+            }
 
       }
 
+ 
         // Listen for 'message seen' event from server
         socket.on("message seen", ({
             messageId,
@@ -422,7 +482,7 @@
 .then(response => response.json())
 .then(data => {
     const messages = data.messages;
-  console.log(messages)
+//   console.log(messages)
 
     const filteredMessage = messages.find(message => message.message_id === messageId);
     if (filteredMessage) {
@@ -431,17 +491,21 @@
         console.log('Message ID:', Id);
         
             const messageEl = document.querySelector(`.wt-memessage #${messageId}`);
-            
-            // const messageEl = document.getElementById(messageId);
+         
             if (messageEl) {
 
-                messageEl.textContent = "Seen";
+             
+                messageEl.classList.add('read');
+               
+
+
          
             }
            
             // Make API request to mark the message as read
-            if (read === 0) {
-               
+            if (filteredMessage.read === 0) {
+          
+              
                 axios.post(`/api/v1/read-message/${to}/${from}/${Id}`, null, {
                         headers: {
                             'Accept': 'application/json',
@@ -472,29 +536,40 @@
         $(".wt-messages").mCustomScrollbar();
 
 
-        function addMessage(read, messageText, isSelf, messageId, date) {
+        function addMessage(read, messageText, isSelf, messageId, date, senderImage, receiverImage) {
+            console.log(senderImage)
+            console.log(receiverImage)
+  const messageEl = document.createElement("div");
+  if (isSelf) {
+    messageEl.classList.add("wt-memessage", "wt-readmessage");
+    messageEl.innerHTML = `
+      <figure>
+        <img src="${senderImage ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${senderImage}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
+      </figure>
+      <div class="wt-description">
+        <p>${messageText}</p>
+        <time datetime="${date}">${date}<span id=${messageId}></span></time>
+        <div class="clearfix"></div>
+        
+      </div>
+    `;
+  } else {
+    messageEl.classList.add("wt-offerermessage");
+    messageEl.innerHTML = `
+    <figure>
+        <img src="${ receiverImage? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${receiverImage}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
+      </figure>
+      <div class="wt-description">
+        <p>${messageText}</p>
+        <time datetime="${date}">${date}<span id=${messageId}></span></time>
+        <div class="clearfix"></div>
+     
+      </div>
+    `;
+  }
 
-            const messageEl = document.createElement("div");
-            isSelf
-                ?
-                messageEl.classList.add("wt-memessage", "wt-readmessage") :
-                messageEl.classList.add("wt-offerermessage");
-            messageEl.innerHTML = `
-            <figure>
-            <img src="${SenderImage ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${SenderImage}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
-          </figure>
-    <div class="wt-description">
-  
-      <p>${messageText}</p>
-      <time datetime="${date}">${date}</time>
-
-      <div class="clearfix"></div>
-      <span id=${messageId}></span>
-    </div>
-
-  `;
-            const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
-            messageContainerEl.append(messageEl);
+  const messageContainerEl = document.querySelector('.wt-messages .mCSB_container');
+  messageContainerEl.append(messageEl);
 
 
 
@@ -513,11 +588,30 @@
 
 
         }
+        function showLoader() {
+  let loader = document.getElementById("loader");
+  let preloaderouter = document.getElementById("preloader-outer");
+ 
+  loader.classList.add("show");
+  preloaderouter.classList.add("show");
+}
 
+function hideLoader() {
+  let loader = document.getElementById("loader");
+  let preloaderouter = document.getElementById("preloader-outer");
+  loader.classList.remove("show");
+  preloaderouter.classList.remove("show");
+}
 
-
+        let isConnectDisabled = false;
         function connect() {
+            if (isConnectDisabled) {
+                showLoader();
+                console.log("hh");
+    return; // Exit if connect is disabled
+  }
             if (from && to) {
+              
                 // Check if the chat is already open
                 const isChatOpen = document.querySelector('.wt-messages .mCSB_container');
                 if (isChatOpen) {
@@ -532,6 +626,18 @@
                         .then(response => response.json())
                         .then(data => {
                             const messages = data.messages;
+                            let senderImage = null; // Default value if profile_image is null
+
+                            if (data.images.senderImage.length > 0 && data.images.senderImage[0].profile_image !== null) {
+                            senderImage = data.images.senderImage[0].profile_image;
+                                }
+                            let receiverImage = null; // Default value if profile_image is null
+
+                            if (data.images.receiverImage.length > 0 && data.images.receiverImage[0].profile_image !== null) {
+                                receiverImage = data.images.receiverImage[0].profile_image;
+                                }
+                            
+
                             let messageHTML = "";
                             messages.forEach(message => {
                                 const createdAt = new Date(message.created_at);
@@ -544,22 +650,31 @@
                                     createdAt.toLocaleString('default', {
                                         dateStyle: 'medium',
                                         timeStyle: 'short'
-                                    })
+                                    }),
+                                  
+                                    receiverImage,
+                                    senderImage,
                                 );
 
 
-                                notificationCount(to)
+                          
                                 const messageEl = document.querySelector(
                                     `.wt-memessage #${message.message_id}`);
                             
                                 if (messageEl && message.read == 1) {
-                                    console.log(message.read);
-                                    messageEl.textContent = "Seen";
+                                   
+                                    messageEl.classList.add('read');
+
+                            
+
+
+
                                 }
                                 if (message.read == 0) {
                                     console.log(from, to, message.id);
                                     socket.emit('seen', {
                     to,
+                    from:{{ $user->id}},
                     messageId:message.message_id,
                     read:message.read
                 });
@@ -588,8 +703,21 @@
             } else {
                 console.log("Both fields are required");
             }
+            isConnectDisabled = true;
+            showLoader();
+            setTimeout(() => {
+    isConnectDisabled = false;
+    hideLoader();
+  }, 1000); // 6000 milliseconds = 6 seconds
+
+
+setInterval(() => {
+  // Enable connect() every 6 seconds
+  isConnectDisabled = false;
+}, 1000); // 6000 milliseconds = 6 seconds
         }
         socket.on("private message", ({
+            receiverImage,
             from,
             message,
             messageId,
@@ -601,6 +729,7 @@
                 // Display received message in chat container
                 const dates = new Date(date);
                 addMessage(
+                   
                     read,
                     message,
                     false,
@@ -608,13 +737,16 @@
                     dates.toLocaleString('default', {
                         dateStyle: 'medium',
                         timeStyle: 'short'
-                    })
+                    }),
+                    null,  
+                    receiverImage,
                 );
-                notificationCount(to);
+              
+               
                 socket.emit('seen', {
                     to,
                     messageId,
-                 
+                 from:{{ $user->id }},
                     read
                 });
             } else {
@@ -656,19 +788,26 @@
 
                     //Send message to receiver through server
                     socket.emit("private message", {
-
+                        senderImage : `{{ $user->profile_image }}`,
                         to,
                         message,
                         messageId,
                         date,
                         read: 0
                     });
-
+                    
                     // Display sent message in chat container
-                    addMessage(read = 0, message, true, messageId, date.toLocaleString('default', {
+                    addMessage( read = 0,
+                     message,
+                      true, 
+                      messageId,
+                       date.toLocaleString('default', {
                         dateStyle: 'medium',
                         timeStyle: 'short'
-                    }));
+                    }),
+                    `{{ $user->profile_image }}`,
+                    null, 
+                    );
 
                     // Clear message input field
                     messageEl.value = "";
@@ -683,7 +822,7 @@
             $('.wt-replaybox textarea').val($('.wt-replaybox textarea').val() + entity);
         });
         // Get the element to click on
-        const OpenChat = (username) => {
+        const OpenChatHeader = (username, sender_image) => {
             // Check if the media query matches
             if (window.matchMedia('(max-width: 991px)').matches) {
                 // Toggle the CSS properties
@@ -697,9 +836,9 @@
                 // Change the username in the message div
                 let usernameElement = document.getElementById('wt-userlogedin');
                 usernameElement.innerHTML = `
-                                    <figure class="wt-userimg">
-                                    <img src="{{ asset('images/user-img.jpg') }}" alt="image description">
-                                </figure>
+                <figure>
+            <img src="${sender_image ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${sender_image}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
+          </figure>
                                 <div class="wt-username" >
                                     <h3><i class="fa fa-check-circle"></i> ${username}</h3>
                                     <span>Private</span>
@@ -732,7 +871,7 @@
                 back()
             }
         };
-        notificationCount()
+       
         // Initial check on page load
         checkScreenSize();
 

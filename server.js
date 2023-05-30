@@ -26,10 +26,11 @@ io.on('connection', (socket) => {
   });
  
 
-  socket.on('private message', ({ to, message, messageId, date, read }) => {
+  socket.on('private message', ({ senderImage,to, message, messageId, date, read }) => {
     const receiverSocket = connectedUsers[to];
     if (receiverSocket) {
       receiverSocket.socket.emit('private message', {
+        receiverImage:senderImage,
         from: socket.username,
         message,
         messageId,
@@ -40,7 +41,7 @@ io.on('connection', (socket) => {
       if (read === 0) {
         receiverSocket.unseenMessages.push({ messageId, from: socket.username });
       } else if (read === 1) {
-      
+        console.log('kjkj')
         const index = receiverSocket.unseenMessages.findIndex(
           (msg) => msg.messageId === messageId && msg.from === socket.username
         );
@@ -70,7 +71,8 @@ io.on('connection', (socket) => {
 
       console.log(unseenMessagesCount);
       receiverSocket.socket.emit('unseen messages count', {
-        count: unseenMessagesCount
+        fro:socket.username ,
+        count: 1
       });
       console.log(`message count ${unseenMessagesCount} to ${to}`);
       console.log(`message sent from ${socket.username} to ${to}`);
@@ -84,13 +86,7 @@ socket.on('seen', ({to,messageId,read}) => {
      
         console.log(messageId, to,read,connectedUsers[socket.username].unseenMessages);
         connectedUsers[to]?.socket.emit('message seen', { messageId,read});
-        connectedUsers[socket.username].unseenMessages = connectedUsers[socket.username].unseenMessages.filter((id) => id.read == 1);
-        console.log(messageId, to,read, connectedUsers[socket.username].unseenMessages);
-        const unseenMessagesCount = connectedUsers[socket.username].unseenMessages.length;
-        connectedUsers[socket.username].socket.emit('unseen messages count', {
-            count: unseenMessagesCount,
-        });
-        console.log(`message seen from ${socket.username}, unseen messages count: ${unseenMessagesCount}`);
+       
     } else {
         console.log(`Unable to mark message as seen, user not connected`);
     }
