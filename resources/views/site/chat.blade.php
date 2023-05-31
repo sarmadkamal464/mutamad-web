@@ -7,8 +7,36 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <style>
+        
+        .wt-offersmessages .wt-ad span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+        }
+        .wt-username span{
+            margin-left:18px;
+        }
+      .flexx{
+        display: flex;
+       }
+       .wt-dashboardboxtitle {
+        padding: 10px 20px;
+    border-bottom: 1px solid #ddd !important;
+}
+.wt-titlemessages .wt-userlogedin {
+    
+    display: flex !important;
+}
+.wt-replaybox {
+   
+    border: 1px solid #eaedef !important;
+}
+.wt-iconbox {
+   
+    border-top: 1px solid #ddd !important;
+}
         .wt-offerermessage figure, .wt-memessage figure {
-    bottom: 40px;
+    bottom: 20px;
     width: 30px;
     height: 30px;
     
@@ -176,7 +204,11 @@
                 float: right;
             }
         }
-
+        @media (max-width: 568px){
+.wt-offerermessage .wt-description p, .wt-memessage .wt-description p {
+    width: fit-content !important;
+}
+}
         @media (max-width: 370px) {
             .wt-btnsendmsg {
                 margin: 0;
@@ -205,12 +237,13 @@
                             <h2>Messages</h2>
                         </div>
                         <div class="wt-dashboardboxtitle wt-titlemessages">
+                            <div class="flexx">
                             <a href="javascript:void(0);" class="wt-back"><i class="ti-arrow-left"></i></a>
                             <div class="wt-userlogedin" id="wt-userlogedin">
 
                                 <div>
                                     <h1 id="typeId" class="wt-viewprofile"></h1>
-                                </div>
+                                </div></div>
                             </div>
 
                             {{-- <a href="{{ url('/freelancer/' . $freelancer->username) }}" class="wt-viewprofile">View
@@ -312,7 +345,7 @@
 
 
         function populateChatNotifications() {
-            fetch(`/main/api/v1/get-chats/${from}`, {
+            fetch(` /main/api/v1/get-chats/${from}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -353,8 +386,8 @@
           </figure>
           <div class="wt-adcontent">
             <h3>${sender}</h3>
+            <span>${message}</span>
           </div>
-          <span>${message}</span>
         `;
 
 
@@ -456,6 +489,7 @@
                 const notification = document.querySelector(
                     `input[value="${openChat}"] + .recieveNotification`);
                     notification.innerHTML = '&#9676;';
+                    notification.style.color = 'white';
      
     
             }
