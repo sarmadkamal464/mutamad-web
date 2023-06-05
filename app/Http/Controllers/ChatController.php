@@ -17,12 +17,14 @@ class ChatController extends Controller
 
     public function storeChat(Request $request)
     {
+        $miliTimeStamp = \Carbon\Carbon::now()->format('Y-m-d H:i:s.u');
         $message = new Chat([
             "sender_id" => $request->sender_id,
             "receiver_id" => $request->receiver_id,
             "message" => $request->message,
             "message_id" => $request->message_id,
-            "read" => $request->read
+            "read" => $request->read,
+            "date_time" => $miliTimeStamp
         ]);
         $message->save();
         

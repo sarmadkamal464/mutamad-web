@@ -15,6 +15,7 @@ class CreateChatsTable extends Migration
             $table->text('message')->comment('The content of the chat message');
             $table->string('message_id')->comment('The content of the  messageID');
             $table->integer('read')->default(0);
+            $table->string('date_time')->comment('Date Time with miliseconds store');
             $table->timestamps();
         });
     }
