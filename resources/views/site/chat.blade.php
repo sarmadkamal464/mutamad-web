@@ -345,7 +345,7 @@
 
 
         function populateChatNotifications() {
-            fetch(` /main/api/v1/get-chats/${from}`, {
+            fetch(` {{ url('') }}/api/v1/get-chats/${from}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -382,8 +382,8 @@
           <input type="text" value="${sender_id}" style="display: none;">
           <div class="recieveNotification">${count!=0?count:""}</div>
           <figure>
-            <img src="${sender_image ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${sender_image}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
-          </figure>
+                ${sender_image ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${sender_image}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
           <div class="wt-adcontent">
             <h3>${sender}</h3>
             <span>${message}</span>
@@ -530,7 +530,8 @@
            
         
           
-            axios.post(`/main/api/v1/read-message/${to}/${from}/${Id}`, null, {
+              
+                axios.post(`{{ url('') }}/api/v1/read-message/${to}/${from}/${id}`, null, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -563,9 +564,11 @@
   if (isSelf) {
     messageEl.classList.add("wt-memessage", "wt-readmessage");
     messageEl.innerHTML = `
-      <figure>
-        <img src="${senderImage ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${senderImage}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
-      </figure>
+    <figure>
+                ${senderImage ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${senderImage}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
+
+
       <div class="wt-description">
         <p>${messageText}</p>
         <time datetime="${date}">${date}<span id=${messageId}></span></time>
@@ -577,8 +580,8 @@
     messageEl.classList.add("wt-offerermessage");
     messageEl.innerHTML = `
     <figure>
-        <img src="${ receiverImage? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${receiverImage}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
-      </figure>
+                ${receiverImage ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${receiverImage}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
       <div class="wt-description">
         <p>${messageText}</p>
         <time datetime="${date}">${date}<span id=${messageId}></span></time>
@@ -636,7 +639,7 @@ function hideLoader() {
                 const isChatOpen = document.querySelector('.wt-messages .mCSB_container');
                 if (isChatOpen) {
                     // Chat is not open, fetch chat messages from the server
-                    fetch(`/main/api/v1/get-user-chat/${from}/${to}`, {
+                    fetch(`{{ url('') }}/api/v1/get-user-chat/${from}/${to}`, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -700,7 +703,7 @@ function hideLoader() {
                     id:message.id
                 });
                                     // Make API request to mark the message as read
-                                    axios.post(`/main/api/v1/read-message/${from}/${to}/${message.id}`, null, {
+                                    axios.post(`{{ url('') }}/api/v1/read-message/${from}/${to}/${message.id}`, null, {
                                             headers: {
                                                 'Accept': 'application/json',
                                                 'Content-Type': 'application/json'
@@ -760,7 +763,7 @@ setInterval(() => {
                         dateStyle: 'medium',
                         timeStyle: 'short'
                     }),
-                    null,  
+                    false,  
                     receiverImage,
                 );
               
@@ -779,7 +782,8 @@ setInterval(() => {
         // Function to send chat messages to server
         function sendMessage() {
 
-
+console.log(`{{ url('') }}`);
+console.log('fd');
 
             const messageEl = document.querySelector(".wt-replaybox textarea");
 
@@ -790,7 +794,7 @@ setInterval(() => {
 
 
                 if (to) {
-                    fetch("/main/api/v1/store-chat", {
+                    fetch("{{ url('') }}/api/v1/store-chat", {
                             method: 'POST',
                             body: JSON.stringify({
                                 sender_id: from,
@@ -831,7 +835,7 @@ setInterval(() => {
                         timeStyle: 'short'
                     }),
                     `{{ $user->profile_image }}`,
-                    null, 
+                    false, 
                     );
 
                     // Clear message input field
@@ -861,9 +865,9 @@ setInterval(() => {
                 // Change the username in the message div
                 let usernameElement = document.getElementById('wt-userlogedin');
                 usernameElement.innerHTML = `
-                <figure class="size">
-            <img src="${sender_image ? `<?php echo asset('https://mutamad.com/main/public/storage/user-profile-pictures/${sender_image}'); ?>` : `<?php echo asset('images/user-avatar.png'); ?>`}" alt="image description">
-          </figure>
+                <figure>
+                ${sender_image ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${sender_image}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
                                 <div class="wt-username" >
                                     <h3><i class="fa fa-check-circle"></i> ${username}</h3>
                                     <span>Private</span>
