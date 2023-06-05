@@ -58,7 +58,9 @@ return [
 
     'app_api_url' => env('APP_API_URL', '/api/v1'),
 
-    'storage_url' => env('STORAGE_URL', '/public/storage/'),
+    'storage_url' => env('STORAGE_URL', '/storage/'),
+   
+    // 'storage_url' => env('STORAGE_URL', '/public/storage/'),
 
     /*
     |--------------------------------------------------------------------------
