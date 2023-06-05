@@ -26,7 +26,7 @@ class ChatController extends Controller
         ]);
         $message->save();
         
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'id'=>$message->id]);
     }
 
     public function getUserChat(Request $request, $rid ,$sid)
