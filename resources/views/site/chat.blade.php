@@ -436,7 +436,7 @@
 
 
         // Connect to server using socket.io
-        socket = io("https://www.mutamad.com/main:3000", {
+        socket = io("localhost:3000", {
             transports: ["websocket"],
         });
 
@@ -451,15 +451,14 @@
         }) => {
         
 
-            console.log(count);
-            console.log(fro);
+        
          
        
             const notification = document.querySelector(
                     `input[value="${fro}"] + .recieveNotification`);
                
                 if (notification) {
-                    console.log(notification.innerHTML === '&#9676;' || notification.innerHTML === '◌')
+                
                     if (notification.innerHTML === '&#9676;' || notification.innerHTML === '◌') {
 
                         return
@@ -483,7 +482,7 @@
         });
         const notificationCount=(openChat)=>{
         if(openChat){
-                console.log(openChat) 
+             
       
                
                 const notification = document.querySelector(
@@ -497,7 +496,7 @@
       }
         const notificationCt=(openChat)=>{
         if(openChat){
-                console.log(openChat) 
+             
       
                
                 const notification = document.querySelector(
@@ -514,24 +513,8 @@
         socket.on("message seen", ({
             messageId,
             read,
+            id
         }) => {
-            fetch(`/main/api/v1/get-user-chat/${from}/${to}`, {
-    method: 'GET',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-})
-.then(response => response.json())
-.then(data => {
-    const messages = data.messages;
-//   console.log(messages)
-
-    const filteredMessage = messages.find(message => message.message_id === messageId);
-    if (filteredMessage) {
-        const Id = filteredMessage.id;
-        // Use the messageId as needed
-        console.log('Message ID:', Id);
         
             const messageEl = document.querySelector(`.wt-memessage #${messageId}`);
          
@@ -545,11 +528,9 @@
          
             }
            
-            // Make API request to mark the message as read
-            if (filteredMessage.read === 0) {
+        
           
-              
-                axios.post(`/main/api/v1/read-message/${to}/${from}/${Id}`, null, {
+            axios.post(`/main/api/v1/read-message/${to}/${from}/${Id}`, null, {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -558,20 +539,17 @@
                     .then(response => {
                            
 
-                        console.log(response.data);
                     })
                     .catch(error => {
                         console.error(error);
                     });
-            }
-    }})
-.catch(error => {
-    console.error('Error:', error);
-});
+            
+    })
+
 
 
             
-        })
+      
         populateChatNotifications();
 
 
@@ -580,8 +558,7 @@
 
 
         function addMessage(read, messageText, isSelf, messageId, date, senderImage, receiverImage) {
-            console.log(senderImage)
-            console.log(receiverImage)
+
   const messageEl = document.createElement("div");
   if (isSelf) {
     messageEl.classList.add("wt-memessage", "wt-readmessage");
@@ -650,7 +627,7 @@ function hideLoader() {
         function connect() {
             if (isConnectDisabled) {
                 showLoader();
-                console.log("hh");
+          
     return; // Exit if connect is disabled
   }
             if (from && to) {
@@ -714,12 +691,13 @@ function hideLoader() {
 
                                 }
                                 if (message.read == 0) {
-                                    console.log(from, to, message.id);
+                                  
                                     socket.emit('seen', {
                     to,
                     from:{{ $user->id}},
                     messageId:message.message_id,
-                    read:message.read
+                    read:message.read,
+                    id:message.id
                 });
                                     // Make API request to mark the message as read
                                     axios.post(`/main/api/v1/read-message/${from}/${to}/${message.id}`, null, {
@@ -765,7 +743,8 @@ setInterval(() => {
             message,
             messageId,
             date,
-            read
+            read, 
+            id
         }) => {
             if (to === from) {
 
@@ -790,7 +769,8 @@ setInterval(() => {
                     to,
                     messageId,
                  from:{{ $user->id }},
-                    read
+                    read,
+                    id
                 });
             } else {
                 // socket.emit('unseen', messageId);
@@ -826,18 +806,20 @@ setInterval(() => {
 
                         })
                         .then(response => response.json())
-                        .then(data => console.log(data))
-                        .catch(error => console.error(error));
-
-                    //Send message to receiver through server
+                        .then(data => {
+                          //Send message to receiver through server
                     socket.emit("private message", {
                         senderImage : `{{ $user->profile_image }}`,
                         to,
                         message,
                         messageId,
                         date,
-                        read: 0
+                        read: 0,
+                        id:data.id
                     });
+                })
+                        .catch(error => console.error(error));
+                        
                     
                     // Display sent message in chat container
                     addMessage( read = 0,

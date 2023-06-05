@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
   });
  
 
-  socket.on('private message', ({ senderImage,to, message, messageId, date, read }) => {
+  socket.on('private message', ({ senderImage,to, message, messageId, date, read ,id}) => {
     const receiverSocket = connectedUsers[to];
     if (receiverSocket) {
       receiverSocket.socket.emit('private message', {
@@ -35,13 +35,14 @@ io.on('connection', (socket) => {
         message,
         messageId,
         date,
-        read
+        read,
+        id
       });
 
       if (read === 0) {
         receiverSocket.unseenMessages.push({ messageId, from: socket.username });
       } else if (read === 1) {
-        console.log('kjkj')
+    
         const index = receiverSocket.unseenMessages.findIndex(
           (msg) => msg.messageId === messageId && msg.from === socket.username
         );
@@ -81,11 +82,11 @@ io.on('connection', (socket) => {
     }
   });
   // Emit 'message seen' event to sender
-socket.on('seen', ({to,messageId,read}) => {
+socket.on('seen', ({to,messageId,read,id}) => {
     if (connectedUsers[socket.username]) {
      
-        console.log(messageId, to,read,connectedUsers[socket.username].unseenMessages);
-        connectedUsers[to]?.socket.emit('message seen', { messageId,read});
+       
+        connectedUsers[to]?.socket.emit('message seen', { messageId,read,id});
        
     } else {
         console.log(`Unable to mark message as seen, user not connected`);
