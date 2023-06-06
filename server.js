@@ -1,11 +1,8 @@
 const app = require('express')();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, {
+const io = require('socket.io')(server,{
   cors: {
-    origin: "https://www.mutamad.com/main/public", // Replace with your actual client's domain
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-    credentials: true
+    origin: "https://mutamad.com"  // Update with the actual origin of your Blade file
   }
 });
 

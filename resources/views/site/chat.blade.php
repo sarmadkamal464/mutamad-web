@@ -448,7 +448,12 @@
 
 
 
-        socket = io("https://www.mutamad.com/main/public:3000");
+       // Connect to server using socket.io
+const socket = io("https://mutamad.com", {
+  path: "/main/socket.io",  // Specify the path to the socket.io endpoint
+  transports: ["websocket"],
+});
+
 
         // Register sender ID with server
 
