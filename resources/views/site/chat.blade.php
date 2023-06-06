@@ -449,9 +449,7 @@
 
 
         // Connect to server using socket.io
-        socket = io("localhost:3000", {
-            transports: ["websocket"],
-        });
+        socket = io();
 
         // Register sender ID with server
 
