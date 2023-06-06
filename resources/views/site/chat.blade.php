@@ -339,7 +339,7 @@
         // Define a variable to store the currently active newDiv
         let activeDiv;
 
-        let socket;
+        // let socket;
         let url = window.location.href;
         let to = url.substr(url.lastIndexOf('/') + 1);
 
