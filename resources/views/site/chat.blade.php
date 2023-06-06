@@ -395,9 +395,8 @@
           <input type="text" value="${sender_id}" style="display: none;">
           <div class="recieveNotification">${count!=0?count:""}</div>
           <figure>
-    ${sender_image ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${sender_image}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
-</figure>
-
+                ${sender_image ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${sender_image}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
           <div class="wt-adcontent">
             <h3>${sender}</h3>
             <span>${message}</span>
@@ -578,10 +577,9 @@
   if (isSelf) {
     messageEl.classList.add("wt-memessage", "wt-readmessage");
     messageEl.innerHTML = `
-
     <figure>
-    ${senderImage ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${senderImage}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
-</figure>
+                ${senderImage ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${senderImage}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
 
 
       <div class="wt-description">
@@ -595,9 +593,8 @@
     messageEl.classList.add("wt-offerermessage");
     messageEl.innerHTML = `
     <figure>
-    ${receiverImage ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${receiverImage}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
-</figure>
-
+                ${receiverImage ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${receiverImage}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
       <div class="wt-description">
         <p>${messageText}</p>
         <time datetime="${date}">${date}<span id=${messageId}></span></time>
