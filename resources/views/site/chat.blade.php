@@ -382,9 +382,8 @@
           <input type="text" value="${sender_id}" style="display: none;">
           <div class="recieveNotification">${count!=0?count:""}</div>
           <figure>
-    ${sender_image ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${sender_image}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
-</figure>
-
+                ${sender_image ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${sender_image}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
           <div class="wt-adcontent">
             <h3>${sender}</h3>
             <span>${message}</span>
@@ -437,7 +436,7 @@
 
 
         // Connect to server using socket.io
-        socket = io("http://127.0.0.1:3000", {
+        socket = io("https://www.mutamad.com/main:3000", {
             transports: ["websocket"],
         });
 
@@ -565,10 +564,9 @@
   if (isSelf) {
     messageEl.classList.add("wt-memessage", "wt-readmessage");
     messageEl.innerHTML = `
-
     <figure>
-    ${senderImage ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${senderImage}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
-</figure>
+                ${senderImage ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${senderImage}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
 
 
       <div class="wt-description">
@@ -582,9 +580,8 @@
     messageEl.classList.add("wt-offerermessage");
     messageEl.innerHTML = `
     <figure>
-    ${receiverImage ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${receiverImage}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
-</figure>
-
+                ${receiverImage ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${receiverImage}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
       <div class="wt-description">
         <p>${messageText}</p>
         <time datetime="${date}">${date}<span id=${messageId}></span></time>
@@ -869,9 +866,8 @@ console.log('fd');
                 let usernameElement = document.getElementById('wt-userlogedin');
                 usernameElement.innerHTML = `
                 <figure>
-    ${sender_image ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${sender_image}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
-</figure>
-
+                ${sender_image ? `<a href="{{ url('') }}"><img src="{{ asset('/storage/user-profile-pictures/${sender_image}') }}"></a>` : `<img src="{{ asset('images/user-avatar.png') }}">`}
+            </figure>
                                 <div class="wt-username" >
                                     <h3><i class="fa fa-check-circle"></i> ${username}</h3>
                                     <span>Private</span>
