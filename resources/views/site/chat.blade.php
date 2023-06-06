@@ -178,7 +178,17 @@
 
             background: #95d9c3;
         }
-
+.n{
+    height: 50px;
+    width: 50px;
+    margin:0;
+}
+.nn{
+    height: 100%;
+    width:100%;
+    border-radius:50%;
+   
+}
 
         @media (max-width: 1059px) {
             .wt-btnsendmsg {
@@ -354,7 +364,10 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-
+                    console.log(data.data)
+                    if(data.data.length ==0){
+                        OpenChatHeader()
+                    }
 
                     // Loop through the data array and create a div for each item
                     data.data.forEach(item => {
@@ -437,7 +450,7 @@
 
 
         // Connect to server using socket.io
-        socket = io("https://www.mutamad.com/main:3000", {
+        socket = io("localhost:3000", {
             transports: ["websocket"],
         });
 
@@ -785,8 +798,7 @@ setInterval(() => {
         // Function to send chat messages to server
         function sendMessage() {
 
-console.log(`{{ url('') }}`);
-console.log('fd');
+
 
             const messageEl = document.querySelector(".wt-replaybox textarea");
 
@@ -849,14 +861,22 @@ console.log('fd');
             }
         }
         connect();
+     
         $('.lnr').click(function() {
             let entity = $(this).data('entity');
             $('.wt-replaybox textarea').val($('.wt-replaybox textarea').val() + entity);
         });
         // Get the element to click on
         const OpenChatHeader = (username, sender_image) => {
+            if (!username) {
+    let wtBackElement = document.querySelector('.wt-back');
+    if (wtBackElement) {
+      wtBackElement.style.display = 'none';
+    }
+  }
             // Check if the media query matches
-            if (window.matchMedia('(max-width: 991px)').matches) {
+           if (window.matchMedia('(max-width: 991px)').matches) {
+              
                 // Toggle the CSS properties
                 let style = document.querySelector('.wt-offersmessages ul li:first-child').style;
                 style.display = style.display === 'none' ? '' : 'none';
@@ -868,12 +888,12 @@ console.log('fd');
                 // Change the username in the message div
                 let usernameElement = document.getElementById('wt-userlogedin');
                 usernameElement.innerHTML = `
-                <figure>
-    ${sender_image ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${sender_image}" />` : `<img src="{{ asset('images/user-avatar.png') }}" />`}
+                <figure class="n">
+    ${sender_image ? `<img class='nn' src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${sender_image}" />` : `<img class='nn'  src="{{ asset('images/user-avatar.png') }}" />`}
 </figure>
 
                                 <div class="wt-username" >
-                                    <h3><i class="fa fa-check-circle"></i> ${username}</h3>
+                                    <h3><i class="fa fa-check-circle"></i> ${username ? username:' Request Chat'}</h3>
                                     <span>Private</span>
                                 </div>`
 
@@ -904,7 +924,7 @@ console.log('fd');
                 back()
             }
         };
-       
+//   
         // Initial check on page load
         checkScreenSize();
 
