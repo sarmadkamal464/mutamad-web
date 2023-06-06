@@ -436,7 +436,7 @@
 
 
         // Connect to server using socket.io
-        socket = io("https://www.mutamad.com/main:3000", {
+        socket = io(" http://127.0.0.1:3000", {
             transports: ["websocket"],
         });
 
