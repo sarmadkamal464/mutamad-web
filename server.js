@@ -2,7 +2,10 @@ const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: "*"
+    origin: "https://mutamad.com/main/public", // Replace with your actual client's domain
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true
   }
 });
 

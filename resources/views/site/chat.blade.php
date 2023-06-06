@@ -448,7 +448,6 @@
 
 
 
-        // Connect to server using socket.io
         socket = io();
 
         // Register sender ID with server
