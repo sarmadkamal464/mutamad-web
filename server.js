@@ -2,7 +2,7 @@ const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server,{
   cors: {
-    origin: "wss://mutamad.com/main/socket.io/?EIO=4&transport=websocket"  // Update with the actual origin of your Blade file
+    origin: "wss://mutamad.com"  // Update with the actual origin of your Blade file
   }
 });
 
