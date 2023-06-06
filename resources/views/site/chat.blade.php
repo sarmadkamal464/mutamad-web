@@ -448,9 +448,7 @@
 
 
 
-        socket = io("https://www.mutamad.com/main:3000", {
-    transports: ["websocket"],
-});
+        socket = io("https://www.mutamad.com/main/public:3000");
 
         // Register sender ID with server
 
