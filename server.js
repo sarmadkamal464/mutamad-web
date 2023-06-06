@@ -1,10 +1,35 @@
 const app = require('express')();
 const server = require('http').Server(app);
-const io = require('socket.io')(server,{
+const io = require('socket.io')(server, {
   cors: {
-    origin: "wss://mutamad.com"  // Update with the actual origin of your Blade file
+    origin: "*"
   }
 });
+const os = require('os');
+
+// Get the network interfaces
+const networkInterfaces = os.networkInterfaces();
+
+// Find the network interface with the IPv4 address
+const interfaceNames = Object.keys(networkInterfaces);
+let serverUrl = '';
+
+for (const name of interfaceNames) {
+  const iface = networkInterfaces[name];
+
+  for (const alias of iface) {
+    if (alias.family === 'IPv4' && !alias.internal) {
+      serverUrl = `http://${alias.address}:3000`;
+      break;
+    }
+  }
+
+  if (serverUrl) {
+    break;
+  }
+}
+
+console.log(`Server running at ${serverUrl}`);
 
 server.listen(3000, () => {
   console.log('Server listening on port 3000');

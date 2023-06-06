@@ -449,12 +449,7 @@
 
 
 // Connect to the WebSocket server
-const socket = io("wss://mutamad.com:3000", {
-  path: "/main/socket.io",  // Specify the path to the socket.io endpoint
-  transports: ["websocket"],
-});
-
-
+const socket = io("http://10.10.10.26:3000");
 
 
         // Register sender ID with server
