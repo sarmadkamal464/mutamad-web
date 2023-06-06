@@ -450,7 +450,7 @@
 
        // Connect to server using socket.io
 const socket = io("https://mutamad.com", {
-  path: "/main/public/messages/all/socket.io",  // Specify the path to the socket.io endpoint
+  path: "/main/socket.io",  // Specify the path to the socket.io endpoint
   transports: ["websocket"],
 });
 
