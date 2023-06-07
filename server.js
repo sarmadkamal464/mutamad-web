@@ -5,35 +5,10 @@ const io = require('socket.io')(server, {
     origin: "*"
   }
 });
-const os = require('os');
 
-// Get the network interfaces
-const networkInterfaces = os.networkInterfaces();
-
-// Find the network interface with the IPv4 address
-const interfaceNames = Object.keys(networkInterfaces);
-let serverUrl = '';
-
-for (const name of interfaceNames) {
-  const iface = networkInterfaces[name];
-
-  for (const alias of iface) {
-    if (alias.family === 'IPv4' && !alias.internal) {
-      serverUrl = `http://${alias.address}:3000`;
-      break;
-    }
-  }
-
-  if (serverUrl) {
-    break;
-  }
-}
-
-console.log(`Server running at ${serverUrl}`);
-
-server.listen(3000, () => {
+app.listen(3000, '0.0.0.0', () => {
   console.log('Server listening on port 3000');
-});
+});;
 
 const connectedUsers = {};
 
