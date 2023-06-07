@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <style>
-        
+       .wt-dotnotification{
+display:flex;
+align-items:center;
+}
+        .wt-offerermessage .wt-description p, .wt-memessage .wt-description p {
+    max-width: 100%;
+}
+        .wt-titlemessages .wt-back {
+    line-height: inherit;
+    margin-bottom:0px;
+}
         .wt-offersmessages .wt-ad span {
     white-space: nowrap;
     overflow: hidden;
@@ -18,6 +28,7 @@
         }
       .flexx{
         display: flex;
+        align-items: center;
        }
        .wt-dashboardboxtitle {
         padding: 10px 20px;
@@ -86,25 +97,30 @@
 
 
         .recieveNotification {
-            top: 50%;
+            top: 38%;
             right: 20px;
             width: 6px;
             height: 6px;
 
             font-weight: bold;
             color: #f91942;
-            margin: -3px 0 0;
+            margin: 0;
             position: absolute;
             border-radius: 6px;
-            background: white;
+            background: inherit;
 
         }
-
+.wt-dotnotification:before {
+ display: none;   
+}
 
         .wt-main {
-            padding: 121px 120px 20px 310px;
+            padding: 121px 120px 20px 120px;
         }
-
+        @media (max-width: 1680px)
+.wt-wrapper .wt-main {
+    .padding-left: 120px;
+}
         .wt-iconbox {
 
             height: auto;
@@ -214,11 +230,12 @@
                 float: right;
             }
         }
-        @media (max-width: 568px){
+         @media (max-width: 568px){
 .wt-offerermessage .wt-description p, .wt-memessage .wt-description p {
     width: fit-content !important;
+    max-width: 100%;
 }
-}
+} 
         @media (max-width: 370px) {
             .wt-btnsendmsg {
                 margin: 0;
@@ -240,7 +257,7 @@
 
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
-            <div class="row">
+            <div class="row d-flex align-items-center justify-content-center">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-9">
                     <div class="wt-dashboardbox wt-messages-holder">
                         <div class="wt-dashboardboxtitle">
@@ -399,7 +416,7 @@
 </figure>
           <div class="wt-adcontent">
             <h3>${sender}</h3>
-            <span>${message}</span>
+          
           </div>
         `;
 
@@ -892,8 +909,8 @@ setInterval(() => {
 </figure>
 
                                 <div class="wt-username" >
-                                    <h3><i class="fa fa-check-circle"></i> ${username ? username:' Request Chat'}</h3>
-                                    <span>Private</span>
+                                    <h3> ${username ? username:' Request Chat'}</h3>
+                                    
                                 </div>`
 
             }
