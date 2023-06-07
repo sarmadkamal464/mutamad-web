@@ -449,7 +449,7 @@
 
 
 // Connect to the WebSocket server
-const socket = io("http://10.10.10.26:3000");
+const socket = io("http://127.0.0.1:3000");
 
 
         // Register sender ID with server
