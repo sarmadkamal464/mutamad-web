@@ -449,7 +449,7 @@
 
 
 // Connect to the WebSocket server
-const socket = io("http://127.0.0.1:3000");
+const socket = io("https://www.mutamad.com/main/public:3000");
 
 
         // Register sender ID with server

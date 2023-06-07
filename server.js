@@ -6,9 +6,9 @@ const io = require('socket.io')(server, {
   }
 });
 
-app.listen(3000, '0.0.0.0', () => {
+server.listen(3000, () => {
   console.log('Server listening on port 3000');
-});;
+});
 
 const connectedUsers = {};
 
