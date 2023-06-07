@@ -449,8 +449,8 @@
 
 
        // Connect to server using socket.io
-const socket = io("https://mutamad.com:3000", {
-  path: "/main/public/socket.io",  // Specify the path to the socket.io endpoint
+const socket = io("https://149.62.39.147:3000", {
+
   transports: ["websocket"],
 });
 
