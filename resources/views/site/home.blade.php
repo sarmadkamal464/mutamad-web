@@ -238,19 +238,20 @@
                 }
             }
         });
-        //Search freelancer Or projects button
-        const togglePage = () => {
-            const searchType = document.querySelector('input[name=\'searchtype\']:checked').value;
-            if (searchType === 'freelancer') {
-                window.location.href =
-                    `{{ url('search-freelancer?limit=4&offset=0&search=') }}${$('#searchField').val()}`;
-                $('#searchField').val();
-            } else if (searchType === 'project') {
-                window.location.href =
-                    `{{ url('/search-project?limit=4&offset=0&search=') }}${$('#searchField').val()}`;
-            }
+      // Search freelancer Or projects button
+const togglePage = () => {
+  const searchType = document.querySelector('input[name=\'searchtype\']:checked').value;
+  const searchValue = encodeURIComponent($('#searchField').val());
+  const baseUrl = "{{ url('') }}";
 
-        };
+  if (searchType === 'freelancer') {
+    window.location.href = `${baseUrl}/search-freelancer?limit=4&offset=0&search=${searchValue}`;
+    $('#searchField').val();
+  } else if (searchType === 'project') {
+    window.location.href = `${baseUrl}/search-project?limit=4&offset=0&search=${searchValue}`;
+  }
+};
+
     </script>
 
 

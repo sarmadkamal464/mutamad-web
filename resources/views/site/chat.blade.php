@@ -7,9 +7,34 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <style>
+        #scrollDownButton{
+            font-size: 20px;
+    border-radius: 50%;
+    padding: 1px 8px;
+    position: absolute;
+    bottom: 225px;
+
+        }
+        #scrollDownButton:focus{
+            outline:none
+        }
+        .mCustomScrollBox {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+      
        .wt-dotnotification{
 display:flex;
 align-items:center;
+}
+.recievetime{
+    font-weight: 900;
+font-size: 10px;
+line-height: 15px;
+color: #0583ce;
+position: absolute;
+    top: 27%;
+right:4px;
 }
         .wt-offerermessage .wt-description p, .wt-memessage .wt-description p {
     max-width: 100%;
@@ -97,13 +122,16 @@ align-items:center;
 
 
         .recieveNotification {
-            top: 38%;
-            right: 20px;
+            top: 50%;
+    right: 22px;
             width: 6px;
             height: 6px;
 
             font-weight: bold;
-            color: #f91942;
+            font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #89C664;
             margin: 0;
             position: absolute;
             border-radius: 6px;
@@ -117,10 +145,7 @@ align-items:center;
         .wt-main {
             padding: 121px 120px 20px 120px;
         }
-        @media (max-width: 1680px)
-.wt-wrapper .wt-main {
-    .padding-left: 120px;
-}
+   
         .wt-iconbox {
 
             height: auto;
@@ -195,17 +220,22 @@ align-items:center;
             background: #95d9c3;
         }
 .n{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     margin:0;
+    margin-right:7px;
 }
 .nn{
+
     height: 100%;
     width:100%;
     border-radius:50%;
    
 }
 
+.wt-adcontent{
+    max-width:65%
+}
         @media (max-width: 1059px) {
             .wt-btnsendmsg {
                 margin: 0;
@@ -216,7 +246,7 @@ align-items:center;
             }
         }
 
-        @media (max-width: 991px) {
+        @media (max-width: 1300px) {
             .wt-btnsendmsg {
                 color: #fff;
                 width: 70px;
@@ -258,7 +288,7 @@ align-items:center;
         <!--Register Form Start-->
         <section class="wt-haslayout wt-dbsectionspace">
             <div class="row d-flex align-items-center justify-content-center">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-9">
+                <div class="col-xs-12 col-sm-11 col-md-12 col-lg-10 col-xl-10 col-11">
                     <div class="wt-dashboardbox wt-messages-holder">
                         <div class="wt-dashboardboxtitle">
                             <h2>Messages</h2>
@@ -279,7 +309,14 @@ align-items:center;
                         <div class="wt-dashboardboxcontent wt-dashboardholder wt-offersmessages">
                             <ul>
                                 <li>
-
+                                <form class="wt-formtheme wt-formsearch">
+												<fieldset>
+													<div class="form-group">
+														<input type="text" name="Location" id="searchInput" class="form-control" placeholder="Search Here">
+														<a href="javascrip:void(0);" class="wt-searchgbtn"><i class="lnr lnr-magnifier"></i></a>
+													</div>
+												</fieldset>
+											</form>
                                     <div class="wt-verticalscrollbar wt-dashboardscrollbar">
 
                                     </div>
@@ -290,6 +327,7 @@ align-items:center;
                                         <div class="wt-messages wt-verticalscrollbar wt-dashboardscrollbar">
                                         
     </div>
+
                                         </div>
 
                                         <div id="preloader-outer" class="preloader-outer">
@@ -297,7 +335,7 @@ align-items:center;
                                     </div>
                                     <div class="wt-replaybox">
 
-
+                                    <button id="scrollDownButton" type="button">&#x21E3;</button>
                                         <div class="form-group">
                                             <textarea class="form-control" name="reply" placeholder="Type message here"></textarea>
                                         </div>
@@ -369,9 +407,29 @@ align-items:center;
             const boxreply = document.querySelector(".wt-replaybox");
             boxreply.style.display = 'none';
         }
+        function showLoader() {
+  let loader = document.getElementById("loader");
+  let preloaderouter = document.getElementById("preloader-outer");
+ 
+  loader.classList.add("show");
+  preloaderouter.classList.add("show");
+}
 
+function hideLoader() {
+  let loader = document.getElementById("loader");
+  let preloaderouter = document.getElementById("preloader-outer");
+  loader.classList.remove("show");
+  preloaderouter.classList.remove("show");
+}
 
-        function populateChatNotifications() {
+        let isConnectDisabled = false;
+
+        function populateChatNotifications(prep) {
+            if (isConnectDisabled) {
+                showLoader();
+          
+    return; // Exit if connect is disabled
+  }
             fetch(` {{ url('') }}/api/v1/get-chats/${from}`, {
                     method: 'GET',
                     headers: {
@@ -381,7 +439,7 @@ align-items:center;
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.data)
+                  
                     if(data.data.length ==0){
                         OpenChatHeader()
                     }
@@ -404,19 +462,23 @@ align-items:center;
                         const existingNotification = document.querySelector(
                             `input[value="${sender_id}"] + .recieveNotification`);
 
-                        if (!existingNotification) {
+                       
                             // Create a new div for the notification
                             const newDiv = document.createElement('div');
                             newDiv.className = 'wt-ad wt-dotnotification wt-active';
                             newDiv.innerHTML = `
           <input type="text" value="${sender_id}" style="display: none;">
+         
           <div class="recieveNotification">${count!=0?count:""}</div>
           <figure >
     ${sender_image ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${sender_image}" />` : `<img  src="{{ asset('images/user-avatar.png') }}" />`}
 </figure>
+<div class="recievetime">${formatTime(created_at)}</div>
           <div class="wt-adcontent">
-            <h3>${sender}</h3>
-          
+           <div class="d-flex ">
+         <h3>${sender}</h3>
+        </div>
+         <span>${message}</span>
           </div>
         `;
 
@@ -424,7 +486,23 @@ align-items:center;
                             // Append the new div to the parent container
                             const parentContainer = document.querySelector(
                                 '.wt-verticalscrollbar.wt-dashboardscrollbar');
-                            parentContainer.prepend(newDiv);
+                               
+                                if (!existingNotification) {
+                                    
+                                 
+                                   
+                                if (prep) {
+     parentContainer.lastElementChild.prepend(newDiv);
+    } else {
+     const lastChild = parentContainer.lastElementChild;
+    if (lastChild) {
+    lastChild.appendChild(newDiv);
+     } else {
+    parentContainer.appendChild(newDiv);
+  }
+}
+}
+
 
                             // Add click event listener to the new div
                             newDiv.addEventListener('click', () => {
@@ -453,20 +531,33 @@ align-items:center;
                                 activeDiv = newDiv;
                             });
 
-                        }
+                       
                     });
                 })
 
                 .catch(error => {
                     console.error('Error:', error);
                 });
+                isConnectDisabled = true;
+            showLoader();
+            setTimeout(() => {
+    isConnectDisabled = false;
+    hideLoader();
+  }, 3000); // 6000 milliseconds = 6 seconds
+
+
+setInterval(() => {
+  // Enable connect() every 6 seconds
+  isConnectDisabled = false;
+}, 1000); // 6000 milliseconds = 6 seconds
+        
         }
 
 
 
 
        // Connect to server using socket.io
-const socket = io("https://149.62.39.147:3000", {
+const socket = io("http://localhost:3000", {
 
   transports: ["websocket"],
 });
@@ -488,23 +579,48 @@ const socket = io("https://149.62.39.147:3000", {
        
             const notification = document.querySelector(
                     `input[value="${fro}"] + .recieveNotification`);
-               
+              
                 if (notification) {
+             
+                    if (notification.innerHTML === '&nbsp;' || notification.innerHTML === ' ') {
                 
-                    if (notification.innerHTML === '&#9676;' || notification.innerHTML === '◌') {
 
                         return
                     }
                     else if(parseInt(notification.textContent)>0){
-
+                     
                         notification.textContent = parseInt(notification.textContent) + count;
+                        const parentCont = document.querySelector('.wt-verticalscrollbar .wt-dashboardscrollbar');
+    const parentElement = notification.closest('.wt-ad .wt-dotnotification .wt-active');
+    
+    if (parentElement) {
+   
+  
+        parentCont.lastElementChild.removeChild(parentElement);
+        parentCont.lastElementChild.prepend(parentElement);
+
+  ;
+    }
+
+
+                                
                     }
                     else{
-                        notification.textContent = count
+                        notification.textContent = count;
+                        const parentCont = document.querySelector('.wt-verticalscrollbar .wt-dashboardscrollbar');
+    const parentElement = notification.closest('.wt-ad .wt-dotnotification .wt-active');
+    
+    if (parentElement) {
+     
+        parentCont.lastElementChild.removeChild(parentElement);
+        parentCont.lastElementChild.prepend(parentElement);
+
+       
                     }
                     
-                } else {
-                    populateChatNotifications();
+                }}
+                 else {
+                    populateChatNotifications(true);
                 }
          
 
@@ -519,8 +635,8 @@ const socket = io("https://149.62.39.147:3000", {
                
                 const notification = document.querySelector(
                     `input[value="${openChat}"] + .recieveNotification`);
-                    notification.innerHTML = '&#9676;';
-                    notification.style.color = 'white';
+                    notification.innerHTML = '&nbsp;';
+                    // notification.style.color = 'white';
      
     
             }
@@ -643,22 +759,7 @@ const socket = io("https://149.62.39.147:3000", {
 
 
         }
-        function showLoader() {
-  let loader = document.getElementById("loader");
-  let preloaderouter = document.getElementById("preloader-outer");
- 
-  loader.classList.add("show");
-  preloaderouter.classList.add("show");
-}
-
-function hideLoader() {
-  let loader = document.getElementById("loader");
-  let preloaderouter = document.getElementById("preloader-outer");
-  loader.classList.remove("show");
-  preloaderouter.classList.remove("show");
-}
-
-        let isConnectDisabled = false;
+      
         function connect() {
             if (isConnectDisabled) {
                 showLoader();
@@ -725,7 +826,8 @@ function hideLoader() {
 
 
                                 }
-                                if (message.read == 0) {
+                                if (message.read == 0 && message.receiver_id == from) {
+                                 
                                   
                                     socket.emit('seen', {
                     to,
@@ -742,7 +844,7 @@ function hideLoader() {
                                             }
                                         })
                                         .then(response => {
-                                            console.log(response.data);
+                                            console.log(response);
                                         })
                                         .catch(error => {
                                             console.error(error);
@@ -764,7 +866,7 @@ function hideLoader() {
             setTimeout(() => {
     isConnectDisabled = false;
     hideLoader();
-  }, 1000); // 6000 milliseconds = 6 seconds
+  }, 3000); // 6000 milliseconds = 6 seconds
 
 
 setInterval(() => {
@@ -946,6 +1048,50 @@ setInterval(() => {
 
         // Add resize event listener to dynamically check screen size
         window.addEventListener('resize', checkScreenSize);
+        function formatTime(timeString) {
+    const date = new Date(timeString);
+    const options = {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+    };
+    const formattedTime = date.toLocaleString(undefined, options);
+    return formattedTime;
+}
+
+// Search Functionality
+const searchInput = document.getElementById('searchInput');
+
+ // Append the new div to the parent container
+ const notificationContainer = document.querySelector(
+                                '.wt-verticalscrollbar.wt-dashboardscrollbar');
+                              
+
+searchInput.addEventListener('input', handleSearch);
+
+function handleSearch() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const notifications = notificationContainer.getElementsByClassName('wt-ad');
+
+    Array.from(notifications).forEach((notification) => {
+        const name = notification.querySelector('h3').textContent.toLowerCase();
+        const spanText = notification.querySelector('span').textContent.toLowerCase();
+
+        if (name.includes(searchTerm) || spanText.includes(searchTerm)) {
+            notification.style.display = 'block';
+        } else {
+            notification.style.display = 'none';
+        }
+    });
+}
+// Function to scroll the messages container to the bottom
+function scrollToBottom() {
+  $(".wt-messages").mCustomScrollbar("scrollTo", "bottom");
+}
+
+// Attach click event to the scroll down button
+$("#scrollDownButton").on("click", scrollToBottom);
+
     </script>
 
 
