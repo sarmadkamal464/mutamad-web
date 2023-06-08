@@ -121,21 +121,21 @@ right:4px;
         }
 
 
-        .recieveNotification {
+        .recieveNoti {
             top: 50%;
-    right: 22px;
-            width: 6px;
-            height: 6px;
-
-            font-weight: bold;
-            font-weight: 600;
+    right: 4px;
+   
+    font-weight: bold;
+    font-weight: 600;
     font-size: 14px;
     line-height: 17px;
-    color: #89C664;
-            margin: 0;
-            position: absolute;
-            border-radius: 6px;
-            background: inherit;
+    color: white;
+    margin: 0;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #89C664;
+    
+    padding: 1px 6px;
 
         }
 .wt-dotnotification:before {
@@ -468,8 +468,7 @@ function hideLoader() {
                             newDiv.className = 'wt-ad wt-dotnotification wt-active';
                             newDiv.innerHTML = `
           <input type="text" value="${sender_id}" style="display: none;">
-         
-          <div class="recieveNotification">${count!=0?count:""}</div>
+          ${count !== 0 ? `<div class="recieveNotification recieveNoti">${count}</div>` : `<div class="recieveNotification"></div>`}
           <figure >
     ${sender_image ? `<img src="{{ url(config('app.storage_url')) }}/user-profile-pictures/${sender_image}" />` : `<img  src="{{ asset('images/user-avatar.png') }}" />`}
 </figure>
@@ -588,7 +587,7 @@ const socket = io("http://localhost:3000", {
                         return
                     }
                     else if(parseInt(notification.textContent)>0){
-                     
+                        notification.classList.add('recieveNoti');
                         notification.textContent = parseInt(notification.textContent) + count;
                         const parentCont = document.querySelector('.wt-verticalscrollbar.wt-dashboardscrollbar');
     const parentElement = notification.closest('.wt-ad.wt-dotnotification.wt-active');
@@ -605,7 +604,7 @@ const socket = io("http://localhost:3000", {
                                 
                     }
                     else{
-
+                        notification.classList.add('recieveNoti');
                         notification.textContent = count;
                         const parentCont = document.querySelector('.wt-verticalscrollbar.wt-dashboardscrollbar');
     const parentElement = notification.closest('.wt-ad.wt-dotnotification.wt-active');
@@ -635,8 +634,9 @@ const socket = io("http://localhost:3000", {
                
                 const notification = document.querySelector(
                     `input[value="${openChat}"] + .recieveNotification`);
+                    notification.classList.remove('recieveNoti');
                     notification.innerHTML = '&nbsp;';
-                    // notification.style.color = 'white';
+              
      
     
             }
