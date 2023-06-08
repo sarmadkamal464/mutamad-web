@@ -581,7 +581,7 @@ const socket = io("http://localhost:3000", {
                     `input[value="${fro}"] + .recieveNotification`);
               
                 if (notification) {
-             
+            
                     if (notification.innerHTML === '&nbsp;' || notification.innerHTML === ' ') {
                 
 
@@ -590,12 +590,11 @@ const socket = io("http://localhost:3000", {
                     else if(parseInt(notification.textContent)>0){
                      
                         notification.textContent = parseInt(notification.textContent) + count;
-                        const parentCont = document.querySelector('.wt-verticalscrollbar .wt-dashboardscrollbar');
-    const parentElement = notification.closest('.wt-ad .wt-dotnotification .wt-active');
+                        const parentCont = document.querySelector('.wt-verticalscrollbar.wt-dashboardscrollbar');
+    const parentElement = notification.closest('.wt-ad.wt-dotnotification.wt-active');
     
     if (parentElement) {
    
-  
         parentCont.lastElementChild.removeChild(parentElement);
         parentCont.lastElementChild.prepend(parentElement);
 
@@ -606,9 +605,10 @@ const socket = io("http://localhost:3000", {
                                 
                     }
                     else{
+
                         notification.textContent = count;
-                        const parentCont = document.querySelector('.wt-verticalscrollbar .wt-dashboardscrollbar');
-    const parentElement = notification.closest('.wt-ad .wt-dotnotification .wt-active');
+                        const parentCont = document.querySelector('.wt-verticalscrollbar.wt-dashboardscrollbar');
+    const parentElement = notification.closest('.wt-ad.wt-dotnotification.wt-active');
     
     if (parentElement) {
      
