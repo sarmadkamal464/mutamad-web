@@ -248,7 +248,7 @@ const togglePage = () => {
     window.location.href = `${baseUrl}/search-freelancer?limit=4&offset=0&search=${searchValue}`;
     $('#searchField').val();
   } else if (searchType === 'project') {
-    window.location.href = `${baseUrl}/search-project?limit=4&offset=0&search=${searchValue}`;
+    window.location.href = `${baseUrl}/search-project?limit=4&offset=0`;
   }
 };
 
