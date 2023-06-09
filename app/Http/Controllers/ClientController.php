@@ -62,6 +62,9 @@ class ClientController extends Controller
     {
         $freelancer = User::active()
             ->with('category')
+            ->withCount(['reviews as reviews_avg' => function($query) {
+                $query->select(\DB::raw('round(avg(rating),1)'));
+            }])
             ->freelancer()
             ->filter($request->all())
             ->get();

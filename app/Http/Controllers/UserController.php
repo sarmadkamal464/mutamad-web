@@ -23,7 +23,10 @@ class UserController extends Controller
 
     public function myProfile(Request $request)
     {
-        $user = User::with('category')->findOrFail(Auth::user()->id);
+        $user = User::with('category')
+        ->withCount(['reviews as reviews_avg' => function($query) {
+            $query->select(\DB::raw('round(avg(rating),1)'));
+        }])->findOrFail(Auth::user()->id);
         return $this->response->collectionResponse($request, $user);
     }
 

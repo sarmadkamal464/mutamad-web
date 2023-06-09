@@ -116,4 +116,9 @@ class User extends Authenticatable
             return $name[0] . ' ' . $name[1];
         return $value;
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'freelancer_id');
+    }
 }
