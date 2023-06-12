@@ -28,6 +28,8 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/hows-it-work', [HomeController::class, 'howsItWork']);
 Route::any('password/reset', [UserController::class, 'resetPassword']);
 Route::post('changePassword', [UserController::class, 'changePassword']);
+Route::post('/customer-plan/add', 'StripePaymentController@createCustomer');
+
 // Will redirect to profile if loggedIn
 Route::group(['middleware' => 'auth.check'], function () {
     include 'hybrid.php';
