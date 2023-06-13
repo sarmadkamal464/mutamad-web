@@ -18,6 +18,17 @@
 {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 
 <style>
+
+    .roundimg{
+        width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    }
+    .roundimg img{
+        width: 100%;
+    height: 100%;
+ object-fit:cover;
+    }
     .wt-hireduserimgs::after {
         background: none !important;
     }
