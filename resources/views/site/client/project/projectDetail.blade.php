@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
             .wt-hireduserimgs figure {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
     border-radius: 50%;
 }
