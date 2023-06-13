@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StripePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,6 @@ Route::get('/messages/{rid}', [HomeController::class, 'messages']);
 Route::get('/messages/all', [HomeController::class, 'messages']);
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', [HomeController::class, 'about']);
-Route::get('/payment', [HomeController::class, 'paymentStripe']);
 Route::get('/freelancer/{slug}', [HomeController::class, 'freelancer']);
 Route::get('/ongoingProject', [HomeController::class, 'ongoingProject']);
 Route::get('/completedProject', [HomeController::class, 'completedProject']);
@@ -28,7 +28,11 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/hows-it-work', [HomeController::class, 'howsItWork']);
 Route::any('password/reset', [UserController::class, 'resetPassword']);
 Route::post('changePassword', [UserController::class, 'changePassword']);
-Route::post('/customer-plan/add', 'StripePaymentController@createCustomer');
+
+// Routes for payment and createCustomer actions
+Route::get('/stripepayment/payment', [StripePaymentController::class, 'paymentStripe'])->name('stripe.payment');
+Route::post('/stripepayment/create-customer', [StripePaymentController::class, 'createCustomer'])->name('stripe.create-customer');
+
 
 // Will redirect to profile if loggedIn
 Route::group(['middleware' => 'auth.check'], function () {
