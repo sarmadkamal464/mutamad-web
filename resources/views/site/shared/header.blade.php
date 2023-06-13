@@ -38,7 +38,7 @@
                      </nav>
                      @auth
                          <div class="wt-userlogedin">
-                             <figure class="wt-userimg">
+                             <figure class="wt-userimg roundimg">
                                  @if (Auth::user()->profile_image && Auth::user()->profile_image != null)
                                      <img src="{{ url(config('app.storage_url') . 'user-profile-pictures/' . Auth::user()->profile_image) }}"
                                          alt="image description">
