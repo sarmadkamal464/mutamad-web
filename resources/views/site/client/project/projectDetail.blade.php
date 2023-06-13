@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="{{ asset('css/dbresponsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <style>
+            .wt-hireduserimgs figure {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.wt-hireduserimgs figure img {
+   height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
         .wrap {
             display: flex;
             flex-wrap: wrap;
