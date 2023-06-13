@@ -53,12 +53,11 @@ class ChatController extends Controller
         $allChat = \DB::table('chats')
             ->select('id','sender_id as sender', 'sender_id', 'receiver_id', 'message', 'read', 'created_at')
             ->where('receiver_id', $rid)
-            ->groupBy('sender_id')
-            ->orderBy('id', 'desc')
-            ->latest()
+            ->orderBy('created_at', 'desc')
             ->get();
-
-        foreach( $allChat  as $chat) {
+        $uniqueChat = $allChat->unique('sender_id');
+        
+        foreach( $uniqueChat  as $chat) {
             $senderName = \DB::table('users')->select('name', 'profile_image')->where('id', $chat->sender)->get();
             $chat->sender = $senderName[0]->name;
             $chat->sender_image = $senderName[0]->profile_image;
@@ -70,7 +69,7 @@ class ChatController extends Controller
             $chat->count = $unReadCount;
         }
         $message = "All chat retrieved successfully";
-        return response()->json(['success' => true, 'data'=> $allChat]);
+        return response()->json(['success' => true, 'data'=> $uniqueChat]);
     }
 
     public function readMessage(Request $request, $rid, $sid, $mid)
