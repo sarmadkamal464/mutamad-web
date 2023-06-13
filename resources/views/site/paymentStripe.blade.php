@@ -36,6 +36,44 @@
         .rounded {
             border-radius: 1rem;
         }
+        
+        #loader {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+            #loader:after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 60px;
+                height: 60px;
+                margin: -30px 0 0 -30px;
+                border-radius: 50%;
+                border: 6px solid #f3f3f3;
+                border-top-color: #3498db;
+                animation: spin 1s ease-in-out infinite;
+            }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+     
+
         @media (min-width: 769px) {
             .wt-main {
     padding-top:100px ;
@@ -132,6 +170,9 @@
                                                 </label>
                                         </div>
                                     </div>
+                                    <div id="loader"></div>
+
+
                                     <button id="submit-button" type="submit"
                                         class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Confirm</button>
                                 </form>
@@ -275,9 +316,41 @@
                     const submitBtn = document.getElementById("submit-button");
                     submitBtn.style.backgroundColor = "#696969";
                     submitBtn.disabled = true;
+                    $.toast({
+                        text: 'Card Added',
+                        heading: 'Success',
+                        icon: 'success',
+                        showHideTransition: 'slide',
+                        allowToastClose: true,
+                        hideAfter: 5000,
+                        position: 'bottom-right',
+                        textAlign: 'left',
+                        loader: true,
+                        loaderBg: 'green'
+                    });
                 },
-                error: function(xhr) {
-                    console.log(xhr);
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Remove loader and show error message
+                    var errorMessage = 'There was an error processing your request. Please try again later.';
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.error && jqXHR.responseJSON.error.message) {
+                        errorMessage = jqXHR.responseJSON.error.message;
+                    } else if (errorThrown) {
+                        errorMessage = errorThrown;
+                    }
+
+                    $.toast({
+                        text: 'An internal error has occurred. If you continue to experience this, please contact your administrator.',
+                        heading: 'Error',
+                        icon: 'error',
+                        showHideTransition: 'slide',
+                        allowToastClose: true,
+                        hideAfter: 5000,
+                        position: 'bottom-right',
+                        textAlign: 'left',
+                        loader: true,
+                        loaderBg: '#9EC600'
+                    });
+
                 },
                 complete: function() {
                     $('#loader').css('display', 'none');
@@ -285,6 +358,8 @@
                     const submitBtn = document.getElementById("submit-button");
                     submitBtn.style.backgroundColor = "#0098d6";
                     submitBtn.disabled = false;
+                    
+
                 }
             });
         });
