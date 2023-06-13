@@ -11,6 +11,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
+        .error-message{
+            color:red;
+        }
+ .input-group-append{
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.7;
+ }
+ .input-group-text.text-muted{
+    background: none;
+    border-left: none;
+ }
         body {
             background-color: #f6f9fb !important;
         }
@@ -22,6 +36,11 @@
         .rounded {
             border-radius: 1rem;
         }
+        @media (min-width: 769px) {
+            .wt-main {
+    padding-top:100px ;
+}
+}
     </style>
     <script src="https://js.stripe.com/v2/"></script>
 @endsection
@@ -31,7 +50,7 @@
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
         <!-- FOR DEMO PURPOSE -->
-        <div class="container py-5">
+        <div class="container py-4">
 
             <div class="row">
                 <div class="col-lg-7 mx-auto">
@@ -46,7 +65,7 @@
                         <div class="tab-content">
                             <!-- credit card info-->
                             <div id="nav-tab-card" class="tab-pane fade show active">
-                                <p id="card-error-message" class="alert alert-success d-none"></p>
+                            
                                 <form method="POST" id="create-customer-form"
                                     action="{{ route('stripe.create-customer') }}" role="form">
                                     <div class="form-group">
@@ -73,10 +92,10 @@
                                                     <i class="fa fa-cc-mastercard mx-1"></i>
                                                 </span>
                                             </div>
-                                            <label id="card-error-message" for="#">
-                                            </label>
+                                            
                                         </div>
-
+                                        <label class="error-message"  id="card-error-message" for="#">
+                                            </label>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-8">
@@ -93,9 +112,10 @@
                                                         name="expirationYear" placeholder="Exp Year" class="form-control"
                                                         required>
 
-                                                    <label id="expiry-error-message" for="#">
-                                                    </label>
+                                                    
                                                 </div>
+                                                <label class="error-message"  id="expiry-error-message" for="#">
+                                                    </label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -106,9 +126,10 @@
                                                 <input type="number" id="card-cvc" pattern="/^-?\d+\.?\d*$/"
                                                     onKeyPress="if(this.value.length==4) return false;" name="cvc"
                                                     placeholder="CVC" class="form-control" required>
-                                                <label id="cvc-error-message" for="#">
-                                                </label>
+                                               
                                             </div>
+                                            <label class="error-message" id="cvc-error-message" for="#">
+                                                </label>
                                         </div>
                                     </div>
                                     <button id="submit-button" type="submit"
@@ -132,9 +153,7 @@
         // var stripe = Stripe(
         //     'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
         // ); // Stripe public key
-        Stripe.setPublishableKey(
-            'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
-        );
+        Stripe.setPublishableKey('pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52');
         var customerId = '';
 
         document.addEventListener("DOMContentLoaded", function() {
