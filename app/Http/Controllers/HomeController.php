@@ -28,10 +28,6 @@ class HomeController extends Controller
     {
         return view('site.about');
     }
-    public function paymentStripe()
-    {
-        return view('site.paymentStripe');
-    }
 
     public function freelancer(Request $request, $slug)
     {
