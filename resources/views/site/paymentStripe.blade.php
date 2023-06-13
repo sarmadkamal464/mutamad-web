@@ -17,13 +17,13 @@
  .input-group-append{
     position: absolute;
     right: 0;
-    top: 0;
-    bottom: 0;
+    top: -40px;
+    bottom: 40px;
     opacity: 0.7;
  }
  .input-group-text.text-muted{
     background: none;
-    border-left: none;
+    border: none;
  }
         body {
             background-color: #f6f9fb !important;
