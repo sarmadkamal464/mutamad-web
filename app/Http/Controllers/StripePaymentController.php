@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -27,7 +26,7 @@ class StripePaymentController extends Controller
     public function createCustomer(Request $request)
     {
         // Set your Stripe secret key
-      Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
        
         // Extract customer data from the request
         $name = $request->input('name');
