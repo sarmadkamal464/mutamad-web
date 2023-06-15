@@ -17,8 +17,13 @@
         }
 
         .wt-hireduserimgs figure {
-            max-width: 36px;
-            max-height: 36px;
+            width: 50px;
+            height: 50px;
+        }
+        .wt-hireduserimgs figure img{
+            width: 100%;
+    height: 100%;
+    object-fit: cover;
         }
 
         p {
