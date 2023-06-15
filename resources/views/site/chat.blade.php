@@ -91,7 +91,7 @@ right:4px;
     height: 40px;
    
 }
-.wt-offersmessages .wt-ad figure img {
+.wt-offersmessages .wt-ad figure img ,.wt-offerermessage figure img, .wt-memessage figure img {
    width: 100%;
    height: 100%;
    
