@@ -115,12 +115,12 @@
                                         <input type="text" name="username" placeholder="Username" required
                                             class="form-control">
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" id="card-holder-email" name="email" class="form-control"
                                             placeholder="email@example.com" style=" margin-bottom:12px;" required>
 
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label for="cardNumber">Card number</label>
                                         <div class="input-group">
@@ -207,23 +207,23 @@
             submitBtn.style.cursor = "pointer";
         });
 
-        const emailInput = document.getElementById('card-holder-email');
+        // const emailInput = document.getElementById('card-holder-email');
 
-        emailInput.addEventListener('input', () => {
-            const email = emailInput.value;
+        // emailInput.addEventListener('input', () => {
+        //     const email = emailInput.value;
 
-            if (!isValidEmail(email)) {
-                emailInput.setCustomValidity('Please enter a valid email address');
-            } else {
-                emailInput.setCustomValidity('');
-            }
-        });
+        //     if (!isValidEmail(email)) {
+        //         emailInput.setCustomValidity('Please enter a valid email address');
+        //     } else {
+        //         emailInput.setCustomValidity('');
+        //     }
+        // });
 
-        function isValidEmail(email) {
-            // Regular expression to match the format of a valid email address
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
+        // function isValidEmail(email) {
+        //     // Regular expression to match the format of a valid email address
+        //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        //     return emailRegex.test(email);
+        // }
 
         var cardNumber = document.getElementById("card-number");
 
@@ -295,7 +295,7 @@
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             var data = {
-                email: form.email.value,
+          
                 name: form.username.value,
                 cardNumber: form.cardNumber.value,
                 expirationMonth: form.expirationMonth.value,
