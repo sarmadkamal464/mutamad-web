@@ -169,6 +169,15 @@
                                                                 class="fa fa-check-circle"></i>
                                                             {{ $freelancer->name }}
                                                         </a>
+                                                        <p><span class="bold">Rating :</span>
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <=  $freelancer->reviews_avg)   
+                                                        <i class="fa fa-star" style="color:rgb(241, 241, 54)"></i>
+                                                    @else
+                                                        <i class="fa fa-star-o" style="color:rgb(0 0 0 / 39%);"></i>
+                                                    @endif
+                                                @endfor
+                                            </p>
                                                         <h2>{{ $freelancer->earning }}</h2>
                                                         <span>Member Since: {{ $freelancer->created_at }}</span>
                                                     </div>
