@@ -18,6 +18,17 @@
     width: 100%;
     border-radius: 50%;
 }
+            .wt-hireduserimgs figure {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.wt-hireduserimgs figure img {
+   height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
         .wrap {
             display: flex;
             flex-wrap: wrap;

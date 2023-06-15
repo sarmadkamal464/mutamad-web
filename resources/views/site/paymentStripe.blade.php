@@ -11,6 +11,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
+        .error-message{
+            color:red;
+        }
+ .input-group-append{
+    position: absolute;
+    right: 0;
+    top: -40px;
+    bottom: 40px;
+    opacity: 0.7;
+ }
+ .input-group-text.text-muted{
+    background: none;
+    border: none;
+ }
         body {
             background-color: #f6f9fb !important;
         }
@@ -22,6 +36,52 @@
         .rounded {
             border-radius: 1rem;
         }
+<<<<<<< HEAD
+=======
+        
+        #loader {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+            #loader:after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 60px;
+                height: 60px;
+                margin: -30px 0 0 -30px;
+                border-radius: 50%;
+                border: 6px solid #f3f3f3;
+                border-top-color: #3498db;
+                animation: spin 1s ease-in-out infinite;
+            }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+     
+
+        @media (min-width: 769px) {
+            .wt-main {
+    padding-top:100px ;
+}
+}
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
     </style>
     <script src="https://js.stripe.com/v2/"></script>
 @endsection
@@ -31,7 +91,11 @@
     <!--Main Start-->
     <main id="wt-main" class="wt-main wt-haslayout">
         <!-- FOR DEMO PURPOSE -->
+<<<<<<< HEAD
         <div class="container py-5">
+=======
+        <div class="container py-4">
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
 
             <div class="row">
                 <div class="col-lg-7 mx-auto">
@@ -46,7 +110,11 @@
                         <div class="tab-content">
                             <!-- credit card info-->
                             <div id="nav-tab-card" class="tab-pane fade show active">
+<<<<<<< HEAD
                                 <p id="card-error-message" class="alert alert-success d-none"></p>
+=======
+                            
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
                                 <form method="POST" id="create-customer-form"
                                     action="{{ route('stripe.create-customer') }}" role="form">
                                     <div class="form-group">
@@ -73,10 +141,17 @@
                                                     <i class="fa fa-cc-mastercard mx-1"></i>
                                                 </span>
                                             </div>
+<<<<<<< HEAD
                                             <label id="card-error-message" for="#">
                                             </label>
                                         </div>
 
+=======
+                                            
+                                        </div>
+                                        <label class="error-message"  id="card-error-message" for="#">
+                                            </label>
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-8">
@@ -93,9 +168,16 @@
                                                         name="expirationYear" placeholder="Exp Year" class="form-control"
                                                         required>
 
+<<<<<<< HEAD
                                                     <label id="expiry-error-message" for="#">
                                                     </label>
                                                 </div>
+=======
+                                                    
+                                                </div>
+                                                <label class="error-message"  id="expiry-error-message" for="#">
+                                                    </label>
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -106,11 +188,23 @@
                                                 <input type="number" id="card-cvc" pattern="/^-?\d+\.?\d*$/"
                                                     onKeyPress="if(this.value.length==4) return false;" name="cvc"
                                                     placeholder="CVC" class="form-control" required>
+<<<<<<< HEAD
                                                 <label id="cvc-error-message" for="#">
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
+=======
+                                               
+                                            </div>
+                                            <label class="error-message" id="cvc-error-message" for="#">
+                                                </label>
+                                        </div>
+                                    </div>
+                                    <div id="loader"></div>
+
+
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
                                     <button id="submit-button" type="submit"
                                         class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Confirm</button>
                                 </form>
@@ -132,9 +226,13 @@
         // var stripe = Stripe(
         //     'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
         // ); // Stripe public key
+<<<<<<< HEAD
         Stripe.setPublishableKey(
             'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
         );
+=======
+        Stripe.setPublishableKey('pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52');
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
         var customerId = '';
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -256,9 +354,47 @@
                     const submitBtn = document.getElementById("submit-button");
                     submitBtn.style.backgroundColor = "#696969";
                     submitBtn.disabled = true;
+<<<<<<< HEAD
                 },
                 error: function(xhr) {
                     console.log(xhr);
+=======
+                    $.toast({
+                        text: 'Card Added',
+                        heading: 'Success',
+                        icon: 'success',
+                        showHideTransition: 'slide',
+                        allowToastClose: true,
+                        hideAfter: 5000,
+                        position: 'bottom-right',
+                        textAlign: 'left',
+                        loader: true,
+                        loaderBg: 'green'
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Remove loader and show error message
+                    var errorMessage = 'There was an error processing your request. Please try again later.';
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.error && jqXHR.responseJSON.error.message) {
+                        errorMessage = jqXHR.responseJSON.error.message;
+                    } else if (errorThrown) {
+                        errorMessage = errorThrown;
+                    }
+
+                    $.toast({
+                        text: 'An internal error has occurred. If you continue to experience this, please contact your administrator.',
+                        heading: 'Error',
+                        icon: 'error',
+                        showHideTransition: 'slide',
+                        allowToastClose: true,
+                        hideAfter: 5000,
+                        position: 'bottom-right',
+                        textAlign: 'left',
+                        loader: true,
+                        loaderBg: '#9EC600'
+                    });
+
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
                 },
                 complete: function() {
                     $('#loader').css('display', 'none');
@@ -266,6 +402,11 @@
                     const submitBtn = document.getElementById("submit-button");
                     submitBtn.style.backgroundColor = "#0098d6";
                     submitBtn.disabled = false;
+<<<<<<< HEAD
+=======
+                    
+
+>>>>>>> cf1dc7745e52fea4ad529d16c836bc9b4aaf9f81
                 }
             });
         });
