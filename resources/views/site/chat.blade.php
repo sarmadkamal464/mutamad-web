@@ -439,12 +439,13 @@ function hideLoader() {
                 })
                 .then(response => response.json())
                 .then(data => {
+                 console.log((data));
                   
                     if(data.data.length ==0){
                         OpenChatHeader()
                     }
 
-                    // Loop through the data array and create a div for each item
+
                     data.data.forEach(item => {
                         // Extract the necessary information from the item
                         const {

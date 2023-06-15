@@ -107,7 +107,24 @@
                                 </div>
                                 <aside id="wt-sidebar" class="wt-sidebar wt-usersidebar">
                                    
-                                   
+                                    <div class="wt-widget wt-effectiveholder">
+                                        <div class="wt-widgettitle">
+                                            <h2>Freelancers</h2>
+                                        </div>
+                                        <div class="wt-widgetcontent">
+                                            <form class="wt-formtheme wt-formsearch">
+                                                <fieldset>
+                                                    <div class="form-group">
+                                                        <input type="text" name="search" id="search-input"
+                                                            class="form-control" placeholder="Search by name">
+                                                        <a id="search" href="javascrip:void(0);"
+                                                            class="applyfilters wt-searchgbtn"><i
+                                                                class="lnr lnr-magnifier"></i></a>
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
                                     <div class="wt-widget wt-effectiveholder">
                                         <div class="wt-widgettitle">
                                             <h2>Filter by Skills</h2>
