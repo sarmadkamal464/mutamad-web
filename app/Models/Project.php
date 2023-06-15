@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\FilterTrait;
+use App\Traits\ProjectFilterTrait;
 
 class Project extends Model
 {
-    use SoftDeletes, FilterTrait, DateFormatTrait;
+    use SoftDeletes, DateFormatTrait, ProjectFilterTrait;
 
     use HasFactory;
     protected $duration;
