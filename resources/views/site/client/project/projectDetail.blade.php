@@ -18,6 +18,17 @@
     width: 100%;
     border-radius: 50%;
 }
+            .wt-hireduserimgs figure {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.wt-hireduserimgs figure img {
+   height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
         .wrap {
             display: flex;
             flex-wrap: wrap;
@@ -27,7 +38,7 @@
             display: table-cell !important;
         }
 
-<<<<<<< HEAD
+
         .wt-hireduserimgs figure {
             width: 50px;
             height: 50px;
@@ -37,9 +48,6 @@
     height: 100%;
     object-fit: cover;
         }
-=======
-       
->>>>>>> b409151 (css)
 
         p {
             margin: 0 0 10px;

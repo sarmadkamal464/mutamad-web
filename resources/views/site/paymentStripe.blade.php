@@ -11,20 +11,23 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
-        .error-message{
-            color:red;
+        .error-message {
+            color: red;
         }
- .input-group-append{
-    position: absolute;
-    right: 0;
-    top: -40px;
-    bottom: 40px;
-    opacity: 0.7;
- }
- .input-group-text.text-muted{
-    background: none;
-    border: none;
- }
+
+        .input-group-append {
+            position: absolute;
+            right: 0;
+            top: -40px;
+            bottom: 40px;
+            opacity: 0.7;
+        }
+
+        .input-group-text.text-muted {
+            background: none;
+            border: none;
+        }
+
         body {
             background-color: #f6f9fb !important;
         }
@@ -36,7 +39,7 @@
         .rounded {
             border-radius: 1rem;
         }
-        
+
         #loader {
             display: none;
             position: fixed;
@@ -48,20 +51,20 @@
             background-color: rgba(255, 255, 255, 0.7);
         }
 
-            #loader:after {
-                content: "";
-                display: block;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 60px;
-                height: 60px;
-                margin: -30px 0 0 -30px;
-                border-radius: 50%;
-                border: 6px solid #f3f3f3;
-                border-top-color: #3498db;
-                animation: spin 1s ease-in-out infinite;
-            }
+        #loader:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            margin: -30px 0 0 -30px;
+            border-radius: 50%;
+            border: 6px solid #f3f3f3;
+            border-top-color: #3498db;
+            animation: spin 1s ease-in-out infinite;
+        }
 
         @@keyframes spin {
             0% {
@@ -72,13 +75,13 @@
                 transform: rotate(360deg);
             }
         }
-     
+
 
         @media (min-width: 769px) {
             .wt-main {
-    padding-top:100px ;
-}
-}
+                padding-top: 100px;
+            }
+        }
     </style>
     <script src="https://js.stripe.com/v2/"></script>
 @endsection
@@ -103,7 +106,7 @@
                         <div class="tab-content">
                             <!-- credit card info-->
                             <div id="nav-tab-card" class="tab-pane fade show active">
-                            
+
                                 <form method="POST" id="create-customer-form"
                                     action="{{ route('stripe.create-customer') }}" role="form">
                                     <div class="form-group">
@@ -130,10 +133,10 @@
                                                     <i class="fa fa-cc-mastercard mx-1"></i>
                                                 </span>
                                             </div>
-                                            
+
                                         </div>
-                                        <label class="error-message"  id="card-error-message" for="#">
-                                            </label>
+                                        <label class="error-message" id="card-error-message" for="#">
+                                        </label>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-8">
@@ -150,10 +153,10 @@
                                                         name="expirationYear" placeholder="Exp Year" class="form-control"
                                                         required>
 
-                                                    
+
                                                 </div>
-                                                <label class="error-message"  id="expiry-error-message" for="#">
-                                                    </label>
+                                                <label class="error-message" id="expiry-error-message" for="#">
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -164,10 +167,10 @@
                                                 <input type="number" id="card-cvc" pattern="/^-?\d+\.?\d*$/"
                                                     onKeyPress="if(this.value.length==4) return false;" name="cvc"
                                                     placeholder="CVC" class="form-control" required>
-                                               
+
                                             </div>
                                             <label class="error-message" id="cvc-error-message" for="#">
-                                                </label>
+                                            </label>
                                         </div>
                                     </div>
                                     <div id="loader"></div>
@@ -194,7 +197,9 @@
         // var stripe = Stripe(
         //     'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
         // ); // Stripe public key
-        Stripe.setPublishableKey('pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52');
+        Stripe.setPublishableKey(
+            'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
+            );
         var customerId = '';
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -331,8 +336,10 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     // Remove loader and show error message
-                    var errorMessage = 'There was an error processing your request. Please try again later.';
-                    if (jqXHR.responseJSON && jqXHR.responseJSON.error && jqXHR.responseJSON.error.message) {
+                    var errorMessage =
+                        'There was an error processing your request. Please try again later.';
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.error && jqXHR.responseJSON.error
+                        .message) {
                         errorMessage = jqXHR.responseJSON.error.message;
                     } else if (errorThrown) {
                         errorMessage = errorThrown;
@@ -358,7 +365,7 @@
                     const submitBtn = document.getElementById("submit-button");
                     submitBtn.style.backgroundColor = "#0098d6";
                     submitBtn.disabled = false;
-                    
+
 
                 }
             });
