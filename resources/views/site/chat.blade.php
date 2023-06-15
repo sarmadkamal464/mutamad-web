@@ -86,6 +86,18 @@ right:4px;
 .size img{
     border-radius: 50%;
 }
+.wt-offersmessages .wt-ad figure  {
+    width: 40px;
+    height: 40px;
+   
+}
+.wt-offersmessages .wt-ad figure img {
+   width: 100%;
+   height: 100%;
+   
+}
+
+
 .read {
     top: 7px;
     right: 3px;
