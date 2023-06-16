@@ -108,10 +108,22 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @auth
+                                                        @if (Auth::user()->role == 'client')
+                                                         
+                                                        @elseif (Auth::user()->role == 'freelancer')
+                                                        <div class="form-group form-group-half">
+                                                <p id="reviewsAvg">Average Reviews: </p>
+
+                                                </div>
+                                                        @endif
+                                                    @endauth
+                                                
                                                 <div class="form-group form-group-half">
                                                     <input type="text" name="name" class="form-control"
                                                         placeholder="Name*" value="{{ $user->name }}" required>
                                                 </div>
+                                               
                                                 <div class="form-group form-group-half">
                                                     <input type="email" class="form-control" placeholder="Email*"
                                                         value="{{ $user->email }}" disabled>
@@ -178,6 +190,29 @@
 @endsection
 @section('script')
     <script>
+const encodedReviewsData = '{{ $user->reviews }}';
+const reviewsData = JSON.parse(encodedReviewsData.replace(/&quot;/g, '"'));
+
+
+// Calculate the average rating
+const totalReviews = reviewsData.length;
+let totalRating = 0;
+
+reviewsData.forEach(review => {
+  totalRating += review.rating;
+});
+
+const averageRating = totalReviews > 0 ? totalRating / totalReviews : NaN;
+
+// Update the HTML element with the average rating
+const reviewsAvgElement = document.getElementById('reviewsAvg');
+if (!isNaN(averageRating)) {
+  reviewsAvgElement.textContent += averageRating.toFixed(1);
+} 
+
+
+
+
         function logout() {
             // Make a POST request to the logout API using fetch or XMLHttpRequest
             // For example, using fetch:

@@ -31,6 +31,7 @@ Route::post('changePassword', [UserController::class, 'changePassword']);
 
 // Routes for payment and createCustomer actions
 Route::get('/stripepayment/payment', [StripePaymentController::class, 'paymentStripe'])->name('stripe.payment');
+Route::get('/bankDetails', [StripePaymentController::class, 'bankDetail']);
 Route::post('/stripepayment/create-customer', [StripePaymentController::class, 'createCustomer'])->name('stripe.create-customer');
 
 

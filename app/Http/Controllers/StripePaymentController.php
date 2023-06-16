@@ -16,6 +16,10 @@ class StripePaymentController extends Controller
     {
         return view('site.paymentStripe');
     }
+    public function bankDetail()
+    {
+        return view('site.freelancer.bankDetails');
+    }
 
     /**
      * Create a new customer in Stripe.
