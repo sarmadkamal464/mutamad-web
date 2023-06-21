@@ -183,8 +183,7 @@
                                             
                                           
                                             <div class="form-group form-group-half wt-btnarea row">
-                                                <button type="submit" class="wt-btn singupBtn  wt-btn-sm">Sign
-                                                    up</button>
+                                                <button type="submit" class="wt-btn singupBtn  wt-btn-sm">Submit</button>
                                             </div>
                                         </fieldset>
                                       
