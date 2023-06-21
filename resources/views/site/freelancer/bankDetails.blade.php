@@ -1,4 +1,4 @@
-@extends('site.layout')
+{{-- @extends('site.layout')
 @section('title', 'Signup')
 @section('description', 'Description')
 @section('keywords', 'keywords')
@@ -33,7 +33,7 @@
     </style>
 @endsection
 @section('content')
-    {{-- Start Content Here --}}
+  Start Content Here 
     <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
         <div class="wt-haslayout wt-main-section">
             <div class="container">
@@ -199,4 +199,167 @@
 @endsection
 @section('script')
 
+@endsection
+ --}}
+@extends('site.layout')
+@section('title', 'Signup')
+@section('description', 'Description')
+@section('keywords', 'keywords')
+@section('style')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Add any additional stylesheets here -->
+@endsection
+@section('content')
+    {{-- Start Content Here --}}
+    <main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
+        <div class="wt-haslayout wt-main-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Account holder bank information</h4>
+                                <hr>
+                                <div class="wt-accountdel">
+                                    <form class="wt-formtheme wt-userform" id="bankAccountForm"
+                                        action="{{ route('addFreelancerAccount') }}" method="POST">
+
+                                        @csrf
+                                        <fieldset class="container">
+                                            <div class="form-group form-group row">
+                                                <label class="form-label" for="name">Account owner<span
+                                                        class="label-required">*</span></label>
+                                                <input id="name" type="text" name="name" class="form-control">
+                                            </div>
+                                            <div class="form-group form-group row">
+                                                <label class="form-label" for="email">Owner's Email<span
+                                                        class="label-required">*</span></label>
+                                                <input id="email" type="email" name="email" class="form-control">
+                                            </div>
+                                            <div class="form-group form-group row">
+                                                <label class="form-label" for="accountNumber">Account Number<span
+                                                        class="label-required">*</span></label>
+                                                <input id="accountNumber" type="text" name="accountNumber"
+                                                    class="form-control">
+                                            </div>
+                                            <div class="form-group form-group row">
+                                                <label class="form-label" for="routingNumber">Routing Number<span
+                                                        class="label-required">*</span></label>
+                                                <input id="routingNumber" type="text" name="routingNumber"
+                                                    class="form-control">
+                                            </div>
+                                            <div class="form-group form-group row">
+                                                <label class="form-label" for="accountHolderName">Account Holder Name<span
+                                                        class="label-required">*</span></label>
+                                                <input id="accountHolderName" type="text" name="accountHolderName"
+                                                    class="form-control">
+                                            </div>
+                                            <div class="form-group form-group row">
+                                                <label class="form-label" for="bankName">Bank Name<span
+                                                        class="label-required">*</span></label>
+                                                <input id="bankName" type="text" name="bankName" class="form-control">
+                                            </div>
+                                            <div class="form-group form-group row">
+                                                <label class="form-label" for="card-element">Card Details<span
+                                                        class="label-required">*</span></label>
+                                                <div id="card-element"></div>
+                                            </div>
+                                            <div class="form-group form-group-half wt-btnarea row">
+                                                <button type="button" id="submitBtn"
+                                                    class="wt-btn singupBtn wt-btn-sm">Submit</button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+@endsection
+
+@section('script')
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe(
+            'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
+        );
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var elements = stripe.elements();
+            var form = document.getElementById('bankAccountForm');
+            var submitBtn = document.getElementById('submitBtn');
+
+            // Handle form submission
+            submitBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                // Disable the submit button to prevent multiple clicks
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+
+
+
+                stripe.createToken('bank_account', {
+                    country: 'US',
+                    currency: 'usd',
+                    routing_number: routingNumber.toString(),
+                    account_number: accountNumber.toString(),
+                    account_holder_name: accountHolderName.toString(),
+                    account_holder_type: 'individual'
+                }).then(function(result) {
+                    if (result.error) {
+                        // Inform the user if there was an error
+                        console.error('Token error: ', result.error.message);
+
+                        // Re-enable the submit button
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Submit';
+                    } else {
+                        // Set the Stripe token in the hidden input field
+                        var stripeToken = result.token.id;
+                        var formData = new FormData(form);
+                        formData.append('stripeToken', stripeToken);
+
+                        // Send the form data using AJAX
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '{{ route('addFreelancerAccount') }}');
+                        xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                    var response = JSON.parse(xhr.responseText);
+                                    if (response.success) {
+                                        // Success: Handle the response
+                                        console.log(response.message);
+                                        console.log(response.bankAccountId);
+                                    } else {
+                                        // Error: Handle the response
+                                        console.error(response.message);
+                                    }
+                                } else {
+                                    // Error: Handle the AJAX request
+                                    console.error('AJAX request failed');
+                                }
+
+                                // Re-enable the submit button
+                                submitBtn.disabled = false;
+                                submitBtn.textContent = 'Submit';
+                            }
+                        };
+                        xhr.send(formData);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
