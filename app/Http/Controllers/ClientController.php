@@ -13,6 +13,7 @@ use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Models\StripeClient;
 
 class ClientController extends Controller
 {
@@ -30,32 +31,38 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'category_id' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'budget' => 'required',
-            'duration_id' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return $this->response->validationErrorResponse($request, $validator);
-        }
-        $documentName = null;
-        if ($request->has('doc') && $request->doc != null) {
-            $validator = Validator::make($request->all(), ['doc' => 'max:2048']);
+        $cId = Auth::user()->id;
+        $checkStripeUser = StripeClient::where('user_id', $cId)->where('status', 'active')->get();
+        if (!empty($checkStripeUser->toArray())) {
+            $validator = Validator::make($request->all(), [
+                'category_id' => 'required',
+                'title' => 'required',
+                'description' => 'required',
+                'budget' => 'required',
+                'duration_id' => 'required',
+            ]);
             if ($validator->fails()) {
                 return $this->response->validationErrorResponse($request, $validator);
             }
-            $document = $request->file('doc');
-            $documentName = time() . '.' . $document->getClientOriginalExtension();
-            $document->storeAs('public/documents', $documentName);
+            $documentName = null;
+            if ($request->has('doc') && $request->doc != null) {
+                $validator = Validator::make($request->all(), ['doc' => 'max:2048']);
+                if ($validator->fails()) {
+                    return $this->response->validationErrorResponse($request, $validator);
+                }
+                $document = $request->file('doc');
+                $documentName = time() . '.' . $document->getClientOriginalExtension();
+                $document->storeAs('public/documents', $documentName);
+            }
+            $request['document'] = $documentName;
+            $request['status'] = 'open';
+            $request['client_id'] = Auth::user()->id;
+            $project = new Project($request->except('_token', 'doc'));
+            $project->save();
+            return $this->response->successResponse($request, 'Project Posted Successfully', true, 'open-projects');
+        } else {
+            return $this->response->errorResponse($request, 'Client does not have Stripe account', 403);
         }
-        $request['document'] = $documentName;
-        $request['status'] = 'open';
-        $request['client_id'] = Auth::user()->id;
-        $project = new Project($request->except('_token', 'doc'));
-        $project->save();
-        return $this->response->successResponse($request, 'Project Posted Successfully', true, 'open-projects');
     }
 
     public function searchFreelancer(Request $request)

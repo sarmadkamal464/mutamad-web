@@ -2,9 +2,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\StripeClient;
 use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Token;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 
 class StripePaymentController extends Controller
 {
@@ -28,30 +33,59 @@ class StripePaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function createCustomer(Request $request)
-    {
-        // Set your Stripe secret key
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-       
-        // Extract customer data from the request
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $stripeToken = $request->input('stripeToken'); // Assuming you're receiving the token from the frontend
+  public function createCustomer(Request $request)
+{
+    $userId = Auth::user()->id;
+    $checkStripeUser = StripeClient::where('user_id', $userId)->get();
+    if(empty($checkStripeUser->toArray())) {
+    $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'email' => 'required',
+        'stripeToken' => 'required', // Updated field name
+    ]);
 
+    if ($validator->fails()) {
+        return $this->response->validationErrorResponse($request, $validator);
+    }
+
+    // Set your Stripe secret key
+    \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+    // Extract customer data from the request
+    $name = $request->input('name');
+    $email = $request->input('email');
+    $stripeToken = $request->input('stripeToken'); // Updated variable name
+
+    try {
         // Create a new customer in Stripe
-        $customer = Customer::create([
+        $customer = \Stripe\Customer::create([
             'name' => $name,
             'email' => $email,
-            'source' => $stripeToken,
+            'source' => $stripeToken, // Pass the token directly
         ]);
 
-        // Handle the customer creation response
         // For example, you can store the customer ID in your database
         $customerId = $customer->id;
+        $customerModel = new StripeClient();
+        $customerModel->name = $name;
+        $customerModel->email = $email;
+        $customerModel->customer_id = $customerId;
+        $customerModel->user_id = $userId;
+        $customerModel->save();
 
-        // Return a response indicating success or failure
-        return response()->json(['message' => 'Customer created successfully', 'customerId' => $customerId]);
+        return response()->json(['success' => true, 'message' => 'Customer Created Successfully']);
+        } catch (\Stripe\Exception\CardException $e) {
+            // Handle card error
+            return response()->json($e->getMessage(), 400);
+        } catch (\Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
+            // Handle other Stripe-related exceptions
+            return response()->json('An error occurred while creating the customer.', 500);
+        }
+    } else {
+        return response()->json(['success' => false, 'message' => 'Customer Already exist']);
     }
+}
+
 
  public function addFreelancerAccount(Request $request)
 {

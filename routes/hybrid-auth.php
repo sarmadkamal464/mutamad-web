@@ -5,6 +5,7 @@ use App\Http\Controllers\FreelancerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 /*
 Hybrid Application Authenticated Routes File which is available both in web and api php route file
@@ -41,6 +42,8 @@ Route::middleware('auth.client')->group(function () {
     Route::get('/invite-freelancer-to-project', [HomeController::class, 'inviteFreelancer']);
     Route::post('/assign-freelancer-to-project', [ClientController::class, 'assignFreelancerToProject']);
     Route::post('/mark-project-as-done', [ClientController::class, 'markProjectAsDone']);
+    Route::post('/client-stripe',[StripePaymentController::class,'createCustomer']);
+
 });
 
 //Route for Freelancers
