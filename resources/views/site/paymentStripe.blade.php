@@ -301,7 +301,7 @@
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             var data = {
-
+                id:Auth::user()->id,
                 name: form.username.value,
                 email: form.email.value,
                 Number: form.cardNumber.value,

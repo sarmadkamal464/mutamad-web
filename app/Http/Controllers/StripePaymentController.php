@@ -36,12 +36,17 @@ class StripePaymentController extends Controller
   public function createCustomer(Request $request)
 {
     // dd($request->all());
-    $userId = Auth::user()->id;
+    $userId = $request->input('id');
     $checkStripeUser = StripeClient::where('user_id', $userId)->get();
     if(empty($checkStripeUser->toArray())) {
     $validator = Validator::make($request->all(), [
         'name' => 'required',
         'email' => 'required',
+        'number' => 'required',
+        'exp_month' => 'required',
+        'exp_year' => 'required',        
+        'cvc' => 'required',
+        'id' => 'required'
     ]);
 
     if ($validator->fails()) {
@@ -54,17 +59,19 @@ class StripePaymentController extends Controller
     // Extract customer data from the request
     $name = $request->input('name');
     $email = $request->input('email');
-    $expirationMonth = $request->input('expirationMonth');
-    $expirationYear = $request->input('expirationYear');
+    $cardNumber = $request->input('number');
+    $expirationMonth = $request->input('exp_month');
+    $expirationYear = $request->input('exp_year');
     $cvc = $request->input('cvc');
     try {
         // Create a new customer in Stripe
         $customer = \Stripe\Customer::create([
             'name' => $name,
             'email' => $email,
-            'ExpYear'=>$expirationYear,
-            'ExpMonth'=>$expirationMonth,
-            'Cvc'=>$cvc
+            'source'=> $cardNumber,
+            'ExpYear'=> $expirationYear,
+            'ExpMonth'=> $expirationMonth,
+            'Cvc'=> $cvc
         ]);
 
         // For example, you can store the customer ID in your database
