@@ -35,13 +35,13 @@ class StripePaymentController extends Controller
      */
   public function createCustomer(Request $request)
 {
+    // dd($request->all());
     $userId = Auth::user()->id;
     $checkStripeUser = StripeClient::where('user_id', $userId)->get();
     if(empty($checkStripeUser->toArray())) {
     $validator = Validator::make($request->all(), [
         'name' => 'required',
         'email' => 'required',
-        'stripeToken' => 'required', // Updated field name
     ]);
 
     if ($validator->fails()) {
@@ -54,14 +54,17 @@ class StripePaymentController extends Controller
     // Extract customer data from the request
     $name = $request->input('name');
     $email = $request->input('email');
-    $stripeToken = $request->input('stripeToken'); // Updated variable name
-
+    $expirationMonth = $request->input('expirationMonth');
+    $expirationYear = $request->input('expirationYear');
+    $cvc = $request->input('cvc');
     try {
         // Create a new customer in Stripe
         $customer = \Stripe\Customer::create([
             'name' => $name,
             'email' => $email,
-            'source' => $stripeToken, // Pass the token directly
+            'ExpYear'=>$expirationYear,
+            'ExpMonth'=>$expirationMonth,
+            'Cvc'=>$cvc
         ]);
 
         // For example, you can store the customer ID in your database
@@ -89,15 +92,15 @@ class StripePaymentController extends Controller
 
  public function addFreelancerAccount(Request $request)
 {
+    dd($request);
     $name = $request->input('name');
     $email = $request->input('email');
     $accountNumber = $request->input('accountNumber');
-    $routingNumber = $request->input('routingNumber');
     $accountHolderName = $request->input('accountHolderName');
     $bankName = $request->input('bankName');
 
     // Set your Stripe secret key
-    \Stripe\Stripe::setApiKey('STRIPE_SECRET_KEY');
+   \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
     try {
         // Step 1: Create a bank account token using the bank account details
@@ -107,16 +110,15 @@ class StripePaymentController extends Controller
                 'country' => 'US',
                 'account_holder_name' => $accountHolderName,
                 'account_holder_type' => 'individual',
-                'account_number' => $accountNumber,
-                'routing_number' => $routingNumber,
-                
+                'account_number' => $accountNumber
+             
             ],
         ]);
 
         // Step 2: Create a Custom account for the freelancer
         $account = \Stripe\Account::create([
             'type' => 'custom',
-            'country' => 'US', // Replace with the freelancer's country
+            'country' => 'US', 
             'email' => $email,
             'business_type' => 'individual',
             'individual' => [
