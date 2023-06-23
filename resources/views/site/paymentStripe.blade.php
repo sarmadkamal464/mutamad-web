@@ -304,10 +304,10 @@
                 id: <?php echo Auth::user()->id; ?>,
                 name: form.username.value,
                 email: form.email.value,
-                Number: form.cardNumber.value,
-                ExpMonth: form.expirationMonth.value,
-                ExpYear: form.expirationYear.value,
-                Cvc: form.cvc.value,
+                number: form.cardNumber.value,
+                exp_month: form.expirationMonth.value,
+                exp_year: form.expirationYear.value,
+                cvc: form.cvc.value,
             };
             $.ajaxSetup({
                 headers: {
