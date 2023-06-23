@@ -304,22 +304,22 @@
 
                 name: form.username.value,
                 email: form.email.value,
-                cardNumber: form.cardNumber.value,
-                expirationMonth: form.expirationMonth.value,
-                expirationYear: form.expirationYear.value,
-                cvc: form.cvc.value,
+                Number: form.cardNumber.value,
+                ExpMonth: form.expirationMonth.value,
+                ExpYear: form.expirationYear.value,
+                Cvc: form.cvc.value,
             };
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            var url = '{{ url('') }}/stripepayment/create-customer';
+  
 
             $.ajax({
-                url: '/stripepayment/create-customer',
+                url: url,
                 type: 'post',
-                contentType: 'application/x-www-form-urlencoded',
                 data: data,
                 beforeSend: function() {
                     $('#loader').css('display', 'block');
