@@ -372,7 +372,7 @@
                                         </div>
                                         <div class="wt-description">
 
-                                            <p><span class="bold">Rating :</span>
+                                            <p style="font-size: 14px;"><span ><b> Rating :</b></span>
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     @if ($i <= $review->rating)
                                                         <i class="fa fa-star" style="color:rgb(241, 241, 54)"></i>
@@ -382,7 +382,7 @@
                                                 @endfor
                                             </p>
 
-                                            <p><span class="bold">Comment : </span>{{ $review->comment }}</p>
+                                            <p  style="font-size: 14px;"><span ><b> Comment : </b></span>{{ $review->comment }}</p>
                                         </div>
                                     </div>
                                 @endif
@@ -390,8 +390,8 @@
                                     <h3>Project Detail</h3>
                                 </div>
 
-                                <div class="wt-description">
-                                    <p>{{ $data->description }}</p>
+                                <div  class="wt-description">
+                                    <p  style="font-size: 14px;">{{ $data->description }}</p>
                                 </div>
                             </div>
                             <div class="wt-attachments">
