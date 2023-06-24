@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\StripeClient;
+use App\Models\Account;
 use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Token;
@@ -33,42 +34,56 @@ class StripePaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-  public function createCustomer(Request $request)
+
+public function createCustomer(Request $request)
 {
-    // dd($request->all());
-    $userId = Auth::user()->id;
-    $checkStripeUser = StripeClient::where('user_id', $userId)->get();
-    if(empty($checkStripeUser->toArray())) {
+    $userId = $request->input('id');
+    $checkStripeUser = StripeClient::where('user_id', $userId)->exists();
+
+    if ($checkStripeUser) {
+        return response()->json(['success' => false, 'message' => 'Customer already exists.'], 500);
+    }
+
     $validator = Validator::make($request->all(), [
         'name' => 'required',
         'email' => 'required',
+        'number' => 'required',
+        'exp_month' => 'required',
+        'exp_year' => 'required',
+        'cvc' => 'required',
+        'id' => 'required'
     ]);
 
     if ($validator->fails()) {
-        return $this->response->validationErrorResponse($request, $validator);
+        throw new ValidationException($validator);
     }
 
-    // Set your Stripe secret key
     \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
-    // Extract customer data from the request
     $name = $request->input('name');
     $email = $request->input('email');
-    $expirationMonth = $request->input('expirationMonth');
-    $expirationYear = $request->input('expirationYear');
+    $cardNumber = $request->input('number');
+    $expirationMonth = $request->input('exp_month');
+    $expirationYear = $request->input('exp_year');
     $cvc = $request->input('cvc');
     try {
-        // Create a new customer in Stripe
+        $token = \Stripe\Token::create([
+            'card' => [
+                'number' => $cardNumber,
+                'exp_month' => $expirationMonth,
+                'exp_year' => $expirationYear,
+                'cvc' => $cvc,
+            ],
+        ]);
+
         $customer = \Stripe\Customer::create([
             'name' => $name,
             'email' => $email,
-            'ExpYear'=>$expirationYear,
-            'ExpMonth'=>$expirationMonth,
-            'Cvc'=>$cvc
+            'source' => $token->id,
         ]);
 
-        // For example, you can store the customer ID in your database
         $customerId = $customer->id;
+
         $customerModel = new StripeClient();
         $customerModel->name = $name;
         $customerModel->email = $email;
@@ -76,83 +91,61 @@ class StripePaymentController extends Controller
         $customerModel->user_id = $userId;
         $customerModel->save();
 
-        return response()->json(['success' => true, 'message' => 'Customer Created Successfully']);
-        } catch (\Stripe\Exception\CardException $e) {
-            // Handle card error
-            return response()->json($e->getMessage(), 400);
-        } catch (\Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
-            // Handle other Stripe-related exceptions
-            return response()->json('An error occurred while creating the customer.', 500);
-        }
-    } else {
-        return response()->json(['success' => false, 'message' => 'Customer Already exist']);
+        return response()->json(['success' => true, 'message' => 'Customer created successfully.']);
+    } catch (\Stripe\Exception\CardException $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+    } catch (\Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
+        return response()->json(['success' => false, 'message' => 'An error occurred while creating the customer.'], 500);
     }
 }
 
 
- public function addFreelancerAccount(Request $request)
+public function addFreelancerAccount(Request $request)
 {
-    dd($request);
-    $name = $request->input('name');
-    $email = $request->input('email');
-    $accountNumber = $request->input('accountNumber');
-    $accountHolderName = $request->input('accountHolderName');
-    $bankName = $request->input('bankName');
+    $userId = $request->input('id');
+    $checkAccount = Account::where('user_id', $userId)->exists();
 
-    // Set your Stripe secret key
-   \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    if ($checkAccount) {
+        return response()->json(['success' => false, 'message' => 'Account already exists.'], 500);
+    }
+
+    $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'email' => 'required',
+        'account_number' => 'required',
+        'routing_number' => 'required',
+        'account_name' => 'required',
+        'bank_name' => 'required',
+        'id' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
+    }
 
     try {
-        // Step 1: Create a bank account token using the bank account details
-        $bankAccountToken = \Stripe\Token::create([
-            'bank_account' => [
-                'currency' => 'usd',
-                'country' => 'US',
-                'account_holder_name' => $accountHolderName,
-                'account_holder_type' => 'individual',
-                'account_number' => $accountNumber
-             
-            ],
-        ]);
+        $userId = $request->input('id');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $accountNumber = $request->input('account_number');
+        $routingNumber = $request->input('routing_number');
+        $accountHolderName = $request->input('account_name');
+        $bankName = $request->input('bank_name');
 
-        // Step 2: Create a Custom account for the freelancer
-        $account = \Stripe\Account::create([
-            'type' => 'custom',
-            'country' => 'US', 
-            'email' => $email,
-            'business_type' => 'individual',
-            'individual' => [
-                'email' => $email,
-                'first_name' => $name,
-                'last_name' => '',
-            ],
-        ]);
+        $account = new Account();
+        $account->user_id = $userId;
+        $account->name = $name;
+        $account->email = $email;
+        $account->account_number = $accountNumber;
+        $account->routing_number = $routingNumber;
+        $account->account_name = $accountHolderName;
+        $account->bank_name = $bankName;
+        $account->save();
 
-        // Step 3: Retrieve the freelancer's account ID
-        $accountId = $account->id;
-
-        // Step 4: Attach the bank account to the freelancer's account
-        $externalAccount = \Stripe\Account::createExternalAccount(
-            $accountId,
-            [
-                'external_account' => $bankAccountToken->id,
-            ]
-        );
-
-        // Step 5: Handle any errors and provide appropriate feedback
-
-        // Return a response indicating success and providing the freelancer's account ID
-        return response()->json([
-            'success' => true,
-            'message' => 'Freelancer account created successfully',
-            'accountId' => $accountId,
-        ]);
-    } catch (\Stripe\Exception\ApiErrorException $e) {
-        // Handle Stripe API errors
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage(),
-        ]);
+        return response()->json(['success' => true, 'message' => 'Account saved successfully']);
+    } catch (\Illuminate\Database\QueryException $e) {
+        // Handle the exception, log errors, or return an appropriate response
+        return response()->json(['success' => false, 'message' => 'Failed to save account'], 500);
     }
 }
 
