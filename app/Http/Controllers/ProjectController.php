@@ -343,4 +343,16 @@ public function getInvitationProjects(Request $request)
     return $this->response->collectionResponse($request, $data, true, $viewPage, $compact);
 }
 
+public function clientSpending(Request $request) {
+    $spent  = Project::where('client_id', Auth::user()->id)->where('status', 'completed')->sum('budget');
+
+    return response()->json(['success' => true, 'data' => $spent, 'message' => 'Client total spent']);
+}
+
+public function freelancerSpending(Request $request) {
+    $spent  = Proposal::where('freelancer_id', Auth::user()->id)->where('status', 'completed')->sum('amount');
+
+    return response()->json(['success' => true, 'data' => $spent, 'message' => 'Freelancer total earning']);
+}
+
 }
