@@ -44,6 +44,7 @@ Route::middleware('auth.client')->group(function () {
     Route::post('/mark-project-as-done', [ClientController::class, 'markProjectAsDone']);
     Route::post('/client-stripe',[StripePaymentController::class,'createCustomer']);
     Route::post('/freelancer-account', [StripePaymentController::class, 'addFreelancerAccount']);
+    Route::get('client-spending', [ProjectController::class, 'clientSpending']); Route::post('/freelancer-account', [StripePaymentController::class, 'addFreelancerAccount']);
 
 });
 
