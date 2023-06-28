@@ -118,7 +118,19 @@
                                                 </div>
                                                         @endif
                                                     @endauth
-                                                
+                                                    @auth
+                                                        @if (Auth::user()->role == 'client')
+                                                        <div class="form-group form-group-half">
+                                               <p>Total Spending: </p>
+
+                                               </div>
+                                                        @elseif (Auth::user()->role == 'freelancer')
+                                                        <div class="form-group form-group-half">
+                                                        <p>Total Earnings: </p>
+
+                                                </div>
+                                                        @endif
+                                                    @endauth
                                                 <div class="form-group form-group-half">
                                                     <input type="text" name="name" class="form-control"
                                                         placeholder="Name*" value="{{ $user->name }}" required>
@@ -189,7 +201,26 @@
     <!--Main End-->
 @endsection
 @section('script')
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
+          $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url = '{{ url('') }}/client-spending';
+  
+
+            $.ajax({
+                url: url,
+                type: 'get',
+            
+                
+                success: function(res) {
+                    console.log(res)
+                },
+        
+            });
 const encodedReviewsData = '{{ $user->reviews }}';
 const reviewsData = JSON.parse(encodedReviewsData.replace(/&quot;/g, '"'));
 
