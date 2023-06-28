@@ -7,6 +7,7 @@ use App\Models\Account;
 use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Token;
+use Stripe\PaymentIntent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -146,6 +147,54 @@ public function addFreelancerAccount(Request $request)
     } catch (\Illuminate\Database\QueryException $e) {
         // Handle the exception, log errors, or return an appropriate response
         return response()->json(['success' => false, 'message' => 'Failed to save account'], 500);
+    }
+}
+
+
+public function createPayment(Request $request)
+{
+    // dd($request->toArray());
+    $validator = Validator::make($request->all(), [
+        'amount' => 'required|numeric',
+        'id' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 400);
+    }
+
+    $amountInDollars = $request->input('amount');
+    $userId = $request->input('id');
+
+    // Convert amount to cents
+    $amountInCents = $amountInDollars * 100;
+
+    // Retrieve StripeClient by user_id
+    $stripeClient = StripeClient::where('user_id', $userId)->first();
+
+    if (!$stripeClient) {
+        return response()->json(['error' => 'Stripe client not found'], 404);
+    }
+
+    // Set your Stripe API key
+    Stripe::setApiKey("sk_test_51MPKvAEniYgzUx4Z8QTeDKeVZXCrk88PlQOT3zSh224WRNtWq4WiP63hU0a5nI2xl0LYEMn4dmwvKUX0ZQBsQ7uE00NOyTaRys");
+
+    try {
+        // Create a payment intent with Stripe
+        $paymentIntent = PaymentIntent::create([
+            'amount' => $amountInCents,
+            'currency' => 'usd',
+            'customer' => $stripeClient->customer_id,
+            'description' => 'Payment from the client',
+        ]);
+
+        // Handle successful payment intent creation
+        // You can save the payment information to your database or perform any additional actions
+
+        return response()->json(['success'=>true,'payment_id' => $paymentIntent->id], 201);
+    } catch (\Stripe\Exception\ApiErrorException $e) {
+        // Handle Stripe errors
+        return response()->json(['success' =>false, $e->getMessage()], 422);
     }
 }
 
