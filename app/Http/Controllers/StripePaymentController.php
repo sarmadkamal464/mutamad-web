@@ -58,7 +58,7 @@ public function createCustomer(Request $request)
         throw new ValidationException($validator);
     }
 
-    \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    \Stripe\Stripe::setApiKey(sk_test_51MPKvAEniYgzUx4Z8QTeDKeVZXCrk88PlQOT3zSh224WRNtWq4WiP63hU0a5nI2xl0LYEMn4dmwvKUX0ZQBsQ7uE00NOyTaRys);
 
     $name = $request->input('name');
     $email = $request->input('email');
