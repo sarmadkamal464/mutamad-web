@@ -119,18 +119,22 @@
                                                         @endif
                                                     @endauth
                                                     @auth
-                                                        @if (Auth::user()->role == 'client')
-                                                        <div class="form-group form-group-half">
-                                               <p>Total Spending: </p>
-
-                                               </div>
-                                                        @elseif (Auth::user()->role == 'freelancer')
-                                                        <div class="form-group form-group-half">
-                                                        <p>Total Earnings: </p>
-
-                                                </div>
-                                                        @endif
-                                                    @endauth
+    @if (Auth::user()->role == 'client')
+        <div class="form-group form-group-half">
+            <p>Total Spending: <span id="totalAmount"></span></p>
+        </div>
+        @php
+            $url = url('/client-spending');
+        @endphp
+    @elseif (Auth::user()->role == 'freelancer')
+        <div class="form-group form-group-half">
+            <p>Total Earnings: <span id="totalAmount"></span></p>
+        </div>
+        @php
+            $url = url('/freelancer-spending');
+        @endphp
+    @endif
+@endauth
                                                 <div class="form-group form-group-half">
                                                     <input type="text" name="name" class="form-control"
                                                         placeholder="Name*" value="{{ $user->name }}" required>
@@ -203,24 +207,22 @@
 @section('script')
 <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
-          $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var url = '{{ url('') }}/client-spending';
-  
+     $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-            $.ajax({
-                url: url,
-                type: 'get',
-            
-                
-                success: function(res) {
-                    console.log(res)
-                },
-        
-            });
+    var url = '{{ $url }}';
+
+    $.ajax({
+        url: url,
+        type: 'get',
+        success: function(res) {
+            console.log(res);
+            $('#totalAmount').text(res.data);
+        },
+    });
 const encodedReviewsData = '{{ $user->reviews }}';
 const reviewsData = JSON.parse(encodedReviewsData.replace(/&quot;/g, '"'));
 
