@@ -302,11 +302,12 @@
             event.preventDefault();
             var data = {
 
+                id: <?php echo Auth::user()->id; ?>,
                 name: form.username.value,
                 email: form.email.value,
-                cardNumber: form.cardNumber.value,
-                expirationMonth: form.expirationMonth.value,
-                expirationYear: form.expirationYear.value,
+                number: form.cardNumber.value,
+                exp_month: form.expirationMonth.value,
+                exp_year: form.expirationYear.value,
                 cvc: form.cvc.value,
             };
             $.ajaxSetup({
