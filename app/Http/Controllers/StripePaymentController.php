@@ -42,7 +42,7 @@ public function createCustomer(Request $request)
     $checkStripeUser = StripeClient::where('user_id', $userId)->exists();
 
     if ($checkStripeUser) {
-        return response()->json(['success' => false, 'message' => 'Customer already exists.'], 500);
+        return response()->json(['success' => false, 'message' => 'Card already exists.'], 500);
     }
 
     $validator = Validator::make($request->all(), [
