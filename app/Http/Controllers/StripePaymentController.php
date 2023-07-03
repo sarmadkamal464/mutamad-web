@@ -84,11 +84,13 @@ public function createCustomer(Request $request)
         ]);
 
         $customerId = $customer->id;
+        $paymentMethodId = $customer->default_source;
 
         $customerModel = new StripeClient();
         $customerModel->name = $name;
         $customerModel->email = $email;
         $customerModel->customer_id = $customerId;
+        $customerModel->payment_method_id = $paymentMethodId; // Store the payment method ID in the database
         $customerModel->user_id = $userId;
         $customerModel->save();
 
@@ -186,6 +188,8 @@ public function createPayment(Request $request)
             'currency' => 'usd',
             'customer' => $stripeClient->customer_id,
             'description' => 'Payment from the client',
+            'payment_method' =>$stripeClient->payment_method_id,
+            'confirm'=>true,
         ]);
 
         // Handle successful payment intent creation

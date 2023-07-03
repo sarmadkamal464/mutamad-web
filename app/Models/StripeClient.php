@@ -16,5 +16,6 @@ class StripeClient extends Model
         'email',
         'customer_id',
         'user_id',
+        'payment_method_id',
     ];
 }

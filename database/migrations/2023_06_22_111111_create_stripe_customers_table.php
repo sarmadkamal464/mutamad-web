@@ -13,15 +13,17 @@ class CreateStripeCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('stripe_customers', function (Blueprint $table) {
-             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('customer_id');
-            $table->integer('user_id');
-            $table->string('status')->default('active');
-            $table->timestamps();
-        });
+       Schema::create('stripe_customers', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('email');
+    $table->string('customer_id');
+    $table->integer('user_id');
+    $table->string('payment_method_id')->nullable();
+    $table->string('status')->default('active');
+    $table->timestamps();
+});
+
     }
 
     /**
