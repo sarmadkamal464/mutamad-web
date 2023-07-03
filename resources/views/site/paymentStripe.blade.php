@@ -319,64 +319,62 @@
   
 
             $.ajax({
-                url: url,
-                type: 'post',
-                data: data,
-                beforeSend: function() {
-                    $('#loader').css('display', 'block');
-                },
-                success: function(res) {
-                    const submitBtn = document.getElementById("submit-button");
-                    submitBtn.style.backgroundColor = "#696969";
-                    submitBtn.disabled = true;
-                    $.toast({
-                        text: 'Card Added',
-                        heading: 'Success',
-                        icon: 'success',
-                        showHideTransition: 'slide',
-                        allowToastClose: true,
-                        hideAfter: 5000,
-                        position: 'bottom-right',
-                        textAlign: 'left',
-                        loader: true,
-                        loaderBg: 'green'
-                    });
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Remove loader and show error message
-                    var errorMessage =
-                        'There was an error processing your request. Please try again later.';
-                    if (jqXHR.responseJSON && jqXHR.responseJSON.error && jqXHR.responseJSON.error
-                        .message) {
-                        errorMessage = jqXHR.responseJSON.error.message;
-                    } else if (errorThrown) {
-                        errorMessage = errorThrown;
-                    }
+    url: url,
+    type: 'post',
+    data: data,
+    beforeSend: function() {
+        $('#loader').css('display', 'block');
+    },
+    success: function(res) {
+        const submitBtn = document.getElementById("submit-button");
+        submitBtn.style.backgroundColor = "#696969";
+        submitBtn.disabled = true;
+        $.toast({
+            text: 'Card Added',
+            heading: 'Success',
+            icon: 'success',
+            showHideTransition: 'slide',
+            allowToastClose: true,
+            hideAfter: 5000,
+            position: 'bottom-right',
+            textAlign: 'left',
+            loader: true,
+            loaderBg: 'green'
+        });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        // Remove loader and show error message
+        var errorMessage =
+            'There was an error processing your request. Please try again later.';
+        if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+            errorMessage = jqXHR.responseJSON.message;
+        } else if (errorThrown) {
+            errorMessage = errorThrown;
+        }
 
-                    $.toast({
-                        text: 'An internal error has occurred. If you continue to experience this, please contact your administrator.',
-                        heading: 'Error',
-                        icon: 'error',
-                        showHideTransition: 'slide',
-                        allowToastClose: true,
-                        hideAfter: 5000,
-                        position: 'bottom-right',
-                        textAlign: 'left',
-                        loader: true,
-                        loaderBg: '#9EC600'
-                    });
+        $.toast({
+            text: errorMessage,
+            heading: 'Error',
+            icon: 'error',
+            showHideTransition: 'slide',
+            allowToastClose: true,
+            hideAfter: 5000,
+            position: 'bottom-right',
+            textAlign: 'left',
+            loader: true,
+            loaderBg: '#9EC600'
+        });
 
-                },
-                complete: function() {
-                    $('#loader').css('display', 'none');
+    },
+    complete: function() {
+        $('#loader').css('display', 'none');
 
-                    const submitBtn = document.getElementById("submit-button");
-                    submitBtn.style.backgroundColor = "#0098d6";
-                    submitBtn.disabled = false;
+        const submitBtn = document.getElementById("submit-button");
+        submitBtn.style.backgroundColor = "#0098d6";
+        submitBtn.disabled = false;
+    }
+});
 
-
-                }
-            });
         });
     </script>
 
