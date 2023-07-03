@@ -61,7 +61,7 @@ class ClientController extends Controller
             $project->save();
             return $this->response->successResponse($request, 'Project Posted Successfully', true, 'open-projects');
         } else {
-            return $this->response->errorResponse($request, 'Client does not have Stripe account', 403);
+            return $this->response->errorResponse($request, 'Please add your card details', 403);
         }
     }
 
