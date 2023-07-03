@@ -92,11 +92,11 @@ public function createCustomer(Request $request)
         $customerModel->user_id = $userId;
         $customerModel->save();
 
-        return response()->json(['success' => true, 'message' => 'Customer created successfully.']);
+        return response()->json(['success' => true, 'message' => 'Card Added successfully.']);
     } catch (\Stripe\Exception\CardException $e) {
         return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
     } catch (\Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
-        return response()->json(['success' => false, 'message' => 'An error occurred while creating the customer.'], 500);
+        return response()->json(['success' => false, 'message' => 'An error occurred while adding card.'], 500);
     }
 }
 
@@ -107,7 +107,7 @@ public function addFreelancerAccount(Request $request)
     $checkAccount = Account::where('user_id', $userId)->exists();
 
     if ($checkAccount) {
-        return response()->json(['success' => false, 'message' => 'Account already exists.'], 500);
+        return response()->json(['success' => false, 'message' => 'Account details already exist'], 500);
     }
 
     $validator = Validator::make($request->all(), [

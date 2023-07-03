@@ -226,51 +226,48 @@
                                 <h4>Account holder bank information</h4>
                                 <hr>
                                 <div class="wt-accountdel">
-                                    <form class="wt-formtheme wt-userform" id="bankAccountForm"
-                                        action="{{ route('addFreelancerAccount') }}" method="POST">
+                                    <form class="wt-formtheme wt-userform" 
+                                        action="{{ url('') }}/freelancer-account" method="POST" id="create-customer-form" role="form">
 
                                         @csrf
+                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                         <fieldset class="container">
-                                            <div class="form-group form-group row">
+                                            <div class="form-group form-group ">
                                                 <label class="form-label" for="name">Account owner<span
                                                         class="label-required">*</span></label>
                                                 <input id="name" type="text" name="name" class="form-control">
                                             </div>
-                                            <div class="form-group form-group row">
+                                            <div class="form-group form-group ">
                                                 <label class="form-label" for="email">Owner's Email<span
                                                         class="label-required">*</span></label>
                                                 <input id="email" type="email" name="email" class="form-control">
                                             </div>
-                                            <div class="form-group form-group row">
+                                            <div class="form-group form-group ">
                                                 <label class="form-label" for="accountNumber">Account Number<span
                                                         class="label-required">*</span></label>
                                                 <input id="accountNumber" type="text" name="accountNumber"
                                                     class="form-control">
                                             </div>
-                                            <div class="form-group form-group row">
+                                            <div class="form-group form-group ">
                                                 <label class="form-label" for="routingNumber">Routing Number<span
                                                         class="label-required">*</span></label>
                                                 <input id="routingNumber" type="text" name="routingNumber"
                                                     class="form-control">
                                             </div>
-                                            <div class="form-group form-group row">
+                                            <div class="form-group form-group ">
                                                 <label class="form-label" for="accountHolderName">Account Holder Name<span
                                                         class="label-required">*</span></label>
                                                 <input id="accountHolderName" type="text" name="accountHolderName"
                                                     class="form-control">
                                             </div>
-                                            <div class="form-group form-group row">
+                                            <div class="form-group form-group ">
                                                 <label class="form-label" for="bankName">Bank Name<span
                                                         class="label-required">*</span></label>
                                                 <input id="bankName" type="text" name="bankName" class="form-control">
                                             </div>
-                                            <div class="form-group form-group row">
-                                                <label class="form-label" for="card-element">Card Details<span
-                                                        class="label-required">*</span></label>
-                                                <div id="card-element"></div>
-                                            </div>
-                                            <div class="form-group form-group-half wt-btnarea row">
-                                                <button type="button" id="submitBtn"
+                                          
+                                            <div class="form-group form-group-half wt-btnarea ">
+                                                <button  id="submit-button" type="submit"
                                                     class="wt-btn singupBtn wt-btn-sm">Submit</button>
                                             </div>
                                         </fieldset>
@@ -293,72 +290,88 @@
         );
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener("DOMContentLoaded", function() {
+            const submitBtn = document.getElementById("submit-button");
+            submitBtn.style.cursor = "pointer";
+        });
+        var form = document.getElementById('create-customer-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var data = {
+            
+                name: form.name.value,
+                email: form.email.value,
+                bank_name: form.bankName.value,
+                account_number: form.accountNumber.value,
+                routing_number: form.routingNumber.value,
+                account_name: form.accountHolderName.value,
+                id: form.user_id.value 
+            };
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url = "{{ url('') }}/freelancer-account";
+  
 
-            var elements = stripe.elements();
-            var form = document.getElementById('bankAccountForm');
-            var submitBtn = document.getElementById('submitBtn');
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: data,
+                beforeSend: function() {
+                    $('#loader').css('display', 'block');
+                },
+                success: function(res) {
+                    const submitBtn = document.getElementById("submit-button");
+                    submitBtn.style.backgroundColor = "#696969";
+                    submitBtn.disabled = true;
+                    $.toast({
+                        text: 'Card Added',
+                        heading: 'Success',
+                        icon: 'success',
+                        showHideTransition: 'slide',
+                        allowToastClose: true,
+                        hideAfter: 5000,
+                        position: 'bottom-right',
+                        textAlign: 'left',
+                        loader: true,
+                        loaderBg: 'green'
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+        // Remove loader and show error message
+        var errorMessage =
+            'There was an error processing your request. Please try again later.';
+        if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+            errorMessage = jqXHR.responseJSON.message;
+        } else if (errorThrown) {
+            errorMessage = errorThrown;
+        }
 
-            // Handle form submission
-            submitBtn.addEventListener('click', function(event) {
-                event.preventDefault();
+        $.toast({
+            text: errorMessage,
+            heading: 'Error',
+            icon: 'error',
+            showHideTransition: 'slide',
+            allowToastClose: true,
+            hideAfter: 5000,
+            position: 'bottom-right',
+            textAlign: 'left',
+            loader: true,
+            loaderBg: '#9EC600'
+        });
 
-                // Disable the submit button to prevent multiple clicks
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Processing...';
+    },
+                complete: function() {
+                    $('#loader').css('display', 'none');
+
+                    const submitBtn = document.getElementById("submit-button");
+                    submitBtn.style.backgroundColor = "#0098d6";
+                    submitBtn.disabled = false;
 
 
-
-                stripe.createToken('bank_account', {
-                    country: 'US',
-                    currency: 'usd',
-                    routing_number: routingNumber.toString(),
-                    account_number: accountNumber.toString(),
-                    account_holder_name: accountHolderName.toString(),
-                    account_holder_type: 'individual'
-                }).then(function(result) {
-                    if (result.error) {
-                        // Inform the user if there was an error
-                        console.error('Token error: ', result.error.message);
-
-                        // Re-enable the submit button
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Submit';
-                    } else {
-                        // Set the Stripe token in the hidden input field
-                        var stripeToken = result.token.id;
-                        var formData = new FormData(form);
-                        formData.append('stripeToken', stripeToken);
-
-                        // Send the form data using AJAX
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '{{ route('addFreelancerAccount') }}');
-                        xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                if (xhr.status === 200) {
-                                    var response = JSON.parse(xhr.responseText);
-                                    if (response.success) {
-                                        // Success: Handle the response
-                                        console.log(response.message);
-                                        console.log(response.bankAccountId);
-                                    } else {
-                                        // Error: Handle the response
-                                        console.error(response.message);
-                                    }
-                                } else {
-                                    // Error: Handle the AJAX request
-                                    console.error('AJAX request failed');
-                                }
-
-                                // Re-enable the submit button
-                                submitBtn.disabled = false;
-                                submitBtn.textContent = 'Submit';
-                            }
-                        };
-                        xhr.send(formData);
-                    }
-                });
+                }
             });
         });
     </script>
