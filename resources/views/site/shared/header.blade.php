@@ -68,6 +68,11 @@
                                                  <span>Post Project</span>
                                              </a>
                                          </li>
+                                         <li>
+                                             <a href="{{ url('stripepayment/payment') }}">
+                                                 <span>Add Card</span>
+                                             </a>
+                                         </li>
 
                                          <li class="menu-item-has-children">
                                              <a href="javascript:void(0)">
@@ -84,6 +89,11 @@
                                              </ul>
                                          </li>
                                      @elseif (Auth::user()->role == 'freelancer')
+                                     <li>
+                                             <a href="{{ url('bankDetails') }}">
+                                                 <span>Add Bank Details</span>
+                                             </a>
+                                         </li>
                                          <li class="menu-item-has-children">
                                              <a href="javascript:void(0)">
                                                  <span>All Projects</span>
