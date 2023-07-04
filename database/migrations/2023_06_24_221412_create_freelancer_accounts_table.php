@@ -15,13 +15,13 @@ class CreateFreelancerAccountsTable extends Migration
     {
         Schema::create('freelancer_accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('email');
             $table->string('bank_name');
             $table->string('account_number');
             $table->string('routing_number');
             $table->string('account_name');
             $table->integer('user_id');
+            $table->string('account_id');
             $table->timestamps();
         });
     }
