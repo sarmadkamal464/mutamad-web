@@ -3,11 +3,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\StripeClient;
-use App\Models\Account;
+use App\Models\FreelancerAccount;
 use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Token;
 use Stripe\PaymentIntent;
+use Stripe\Transfer;
+use Stripe\Account;
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -103,17 +107,59 @@ public function createCustomer(Request $request)
 }
 
 
+// public function addFreelancerAccount(Request $request)
+// {
+//     $userId = $request->input('id');
+//     $checkAccount = Account::where('user_id', $userId)->exists();
+
+//     if ($checkAccount) {
+//         return response()->json(['success' => false, 'message' => 'Account details already exist'], 500);
+//     }
+
+//     $validator = Validator::make($request->all(), [
+//         'email' => 'required',
+//         'iban' => 'required',
+//         'account_name' => 'required',
+//         'bank_name' => 'required',
+//         'id' => 'required'
+//     ]);
+
+//     if ($validator->fails()) {
+//         return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
+//     }
+
+//     try {
+//         $userId = $request->input('id');
+//         $email = $request->input('email');
+//         $iban = $request->input('iban');
+//         $accountHolderName = $request->input('account_name');
+//         $bankName = $request->input('bank_name');
+
+//         $account = new Account();
+//         $account->user_id = $userId;
+//         $account->email = $email;
+//         $account->iban = $iban;
+//         $account->account_name = $accountHolderName;
+//         $account->bank_name = $bankName;
+//         $account->save();
+
+//         return response()->json(['success' => true, 'message' => 'Account saved successfully'],200);
+//     } catch (\Illuminate\Database\QueryException $e) {
+//         // Handle the exception, log errors, or return an appropriate response
+//         return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+//     }
+// }
+
 public function addFreelancerAccount(Request $request)
 {
     $userId = $request->input('id');
-    $checkAccount = Account::where('user_id', $userId)->exists();
+    $checkAccount = FreelancerAccount::where('user_id', $userId)->exists();
 
     if ($checkAccount) {
         return response()->json(['success' => false, 'message' => 'Account details already exist'], 500);
     }
 
     $validator = Validator::make($request->all(), [
-        'name' => 'required',
         'email' => 'required',
         'account_number' => 'required',
         'routing_number' => 'required',
@@ -121,6 +167,9 @@ public function addFreelancerAccount(Request $request)
         'bank_name' => 'required',
         'id' => 'required'
     ]);
+       \Stripe\Stripe::setApiKey("sk_test_51MPKvAEniYgzUx4Z8QTeDKeVZXCrk88PlQOT3zSh224WRNtWq4WiP63hU0a5nI2xl0LYEMn4dmwvKUX0ZQBsQ7uE00NOyTaRys");
+
+
 
     if ($validator->fails()) {
         return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
@@ -128,27 +177,61 @@ public function addFreelancerAccount(Request $request)
 
     try {
         $userId = $request->input('id');
-        $name = $request->input('name');
         $email = $request->input('email');
         $accountNumber = $request->input('account_number');
         $routingNumber = $request->input('routing_number');
         $accountHolderName = $request->input('account_name');
         $bankName = $request->input('bank_name');
 
-        $account = new Account();
+        // Create a token with the IBAN details
+        $token = \Stripe\Token::create([
+            'bank_account' => [
+                'country' => 'US', // Replace with the appropriate country code (e.g., 'US' for United States)
+                'currency' => 'usd', // Replace with the appropriate currency code (e.g., 'USD')
+                'account_holder_name' => $accountHolderName,
+                'account_holder_type' => 'individual', 
+                'routing_number' => $routingNumber,
+                'account_number' => $accountNumber,
+              
+            ],
+        ]);
+        // Create a Stripe account for the freelancer
+        $account = \Stripe\Account::create([
+             'type' => 'custom',
+            'country' => 'US', // Replace with the appropriate country code (e.g., 'US' for United States)
+            'email' => $email,
+            'external_account' => $token->id,
+           'capabilities' => [
+                'transfers' => ['requested' => true],
+            ],
+           
+        ]);
+
+         $transfer = \Stripe\Transfer::create([
+            'amount' => 400,
+            'currency' => 'usd',
+            'destination'=>'acct_1NQ7xGINUWVjiieN',
+        ]);
+// dd($transfer->toArray());
+        // Save the Stripe account ID in your database
+        $accountId = $account->id;
+        $account = new FreelancerAccount();
         $account->user_id = $userId;
-        $account->name = $name;
         $account->email = $email;
         $account->account_number = $accountNumber;
         $account->routing_number = $routingNumber;
         $account->account_name = $accountHolderName;
         $account->bank_name = $bankName;
+        $account->account_id = $accountId;
         $account->save();
 
-        return response()->json(['success' => true, 'message' => 'Account saved successfully']);
+        return response()->json(['success' => true, 'message' => 'Account saved successfully'], 200);
+    } catch (\Stripe\Exception\ApiErrorException $e) {
+        // Handle Stripe errors
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     } catch (\Illuminate\Database\QueryException $e) {
-        // Handle the exception, log errors, or return an appropriate response
-        return response()->json(['success' => false, 'message' => 'Failed to save account'], 500);
+        // Handle database errors
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }
 
