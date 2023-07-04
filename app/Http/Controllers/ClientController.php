@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Models\StripeClient;
+use Stripe\Stripe;
+use Stripe\Customer;
+use Stripe\Token;
+use Stripe\PaymentIntent;
+use Stripe\Transfer;
+use Stripe\Account;
 
 class ClientController extends Controller
 {
@@ -128,6 +134,7 @@ class ClientController extends Controller
 
     public function assignFreelancerToProject(Request $request)
     {
+        $userId = Auth::user()->id;
         $validator = Validator::make($request->all(), [
             'project_id' => 'required',
             'proposal_id' => 'required',
@@ -145,6 +152,32 @@ class ClientController extends Controller
         if (!$proposal) {
             return $this->response->errorResponse($request, 'No proposal found for this project', 403);
         }
+        // deduct amount from client
+        $projectBudget = Project::where('client_id', Auth::user()->id)->get(); 
+        // Convert amount to cents
+        $amountInCents = floatval(preg_replace('/\$/','',$projectBudget[0]->budget)) * 100;
+        // Retrieve StripeClient by user_id
+        $stripeClient = StripeClient::where('user_id', $userId)->first();
+        if (!$stripeClient) {
+            return response()->json(['error' => 'Stripe client not found'], 404);
+        }
+        // Set your Stripe API key
+        Stripe::setApiKey("sk_test_51MPKvAEniYgzUx4Z8QTeDKeVZXCrk88PlQOT3zSh224WRNtWq4WiP63hU0a5nI2xl0LYEMn4dmwvKUX0ZQBsQ7uE00NOyTaRys");
+        try {
+            // Create a payment intent with Stripe
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $amountInCents,
+                'currency' => 'usd',
+                'customer' => $stripeClient->customer_id,
+                'description' => 'Payment from the client',
+                'payment_method' =>$stripeClient->payment_method_id,
+                'confirm'=>true,
+            ]);
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            // Handle Stripe errors
+            return response()->json(['success' =>false, $e->getMessage()], 422);
+        }
+
         $freelancer = User::find($proposal->freelancer_id);
         $proposal->update([
             'status' => 'ongoing',
