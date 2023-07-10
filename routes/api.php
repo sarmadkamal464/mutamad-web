@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\UserApiController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,22 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(
-    function () {
-        Route::get('/', function () {
-            dd('Welcome to Mutamad-API');
-        });
-        Route::post('/signup', [UserApiController::class, 'signup']);
-        Route::post('/login', [UserApiController::class, 'login']);
-        Route::get('login/facebook', 'UserApiController@redirectToFacebook');
-        Route::get('login/facebook/callback', 'UserApiController@handleFacebookCallback');
-        Route::get('login/linkedin', 'UserApiController@redirectToLinkedIn');
-        Route::get('login/linkedin/callback', 'UserApiController@handleLinkedInCallback');
-        Route::get('login/google', [UserApiController::class, 'redirectToGoogle']);
-        Route::get('login/google/callback', [UserApiController::class, 'handleGoogleCallback']);
-
-
-        Route::middleware('auth')->group(function () {
-        });
-    }
-);
+Route::prefix('v1')->group(function () {
+    Route::get('/', function () {
+        dd('Welcome to Mutamad-API');
+    });
+    include 'hybrid.php';
+    Route::middleware('auth:api', 'throttle:60,1')->group(function () {
+        Route::post('logout', [UserController::class, 'logout']);
+        include 'hybrid-auth.php';
+    });
+});

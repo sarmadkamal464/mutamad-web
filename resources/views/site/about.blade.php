@@ -3,8 +3,6 @@
 @section('description', 'Description')
 @section('keywords', 'keywords')
 @section('style')
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-
 @endsection
 @section('content')
     <!--Inner Home Banner Start-->

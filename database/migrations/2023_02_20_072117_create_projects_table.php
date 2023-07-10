@@ -17,10 +17,12 @@ class CreateProjectsTable extends Migration
             $table->string('title')->comment('Title of the project');
             $table->text('description')->comment('Description of the project');
             $table->unsignedDecimal('budget', 10, 2)->comment('Budget allocated for the project');
-            $table->string('duration')->comment('Project Duration');
+            $table->unsignedBigInteger('duration_id')->comment('Project Duration based on project Durtation Table');
+            $table->foreign('duration_id')->references('id')->on('project_duration');
             $table->enum('status', ['open', 'ongoing', 'completed', 'cancelled'])->default('open')->comment('Status of the project');
             $table->string('document')->nullable()->comment('Document uploaded within the project');
             $table->timestamp('due_date')->nullable()->comment('Due date of the project');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

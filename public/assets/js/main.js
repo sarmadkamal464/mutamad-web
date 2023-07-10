@@ -251,8 +251,9 @@ jQuery(document).on('ready', function() {
 	} catch (err) {}
 	/* PRELOADER*/
 	jQuery(window).on('load', function() {
-		jQuery(".preloader-outer").delay(1000).fadeOut();
-		jQuery(".loader").delay(500).fadeOut("slow");
+		// change by dev
+		jQuery(".preloader-outer").delay(100).fadeOut();
+		jQuery(".loader").delay(100).fadeOut("slow");
 	});
 	/*OPEN CLOSE */
 	jQuery('.wt-projectdropdown').on('click', function(event){
