@@ -7,7 +7,7 @@
       }
     ],
     "routes": [
-    { "src": "/socket.io/(.*)", "dest": "/index.js" },
-    { "src": "/(.*)", "dest": "/index.js" }
+    { "src": "/socket.io/(.*)", "dest": "/server.js" },
+    { "src": "/(.*)", "dest": "/server.js" }
   ]
   }
