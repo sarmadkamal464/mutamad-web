@@ -1,15 +1,13 @@
 const app = require('express')();
+const PORT = process.env.PORT || 3000;
 const server = require('http').Server(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true
+    origin: "*"
   }
 });
 
-server.listen(3000, () => {
+server.listen(PORT, () => {
   console.log('Server listening on port 3000');
 });
 
