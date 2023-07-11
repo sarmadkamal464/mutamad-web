@@ -569,9 +569,8 @@ setInterval(() => {
 
 
        // Connect to server using socket.io
-const socket = io("http://localhost:3000", {
+const socket = io("https://mutammad-chat-3d89d69d9ee9.herokuapp.com/", {
 
-  transports: ["websocket"],
 });
 
 
