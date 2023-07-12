@@ -1060,15 +1060,21 @@ setInterval(() => {
 
         // Add resize event listener to dynamically check screen size
         window.addEventListener('resize', checkScreenSize);
-        function formatTime(timeString) {
-    const date = new Date(timeString);
-    const options = {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true
-    };
-    const formattedTime = date.toLocaleString(undefined, options);
-    return formattedTime;
+        function formatTime(dt) {
+            const currentDate = new Date();
+    const inputDate = new Date(dt);
+  
+    if (currentDate.toDateString() === inputDate.toDateString()) {
+      // Return time if it's today
+      return inputDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+      // Return date in the form of DD/MM/YY
+      const day = inputDate.getDate().toString().padStart(2, '0');
+      const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = inputDate.getFullYear().toString();
+  
+      return `${day}/${month}/${year}`;
+    }
 }
 
 // Search Functionality
