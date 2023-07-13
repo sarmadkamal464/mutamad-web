@@ -33,7 +33,9 @@ Route::post('changePassword', [UserController::class, 'changePassword']);
 Route::get('/stripepayment/payment', [StripePaymentController::class, 'paymentStripe'])->name('stripe.payment');
 Route::get('/bankDetails', [StripePaymentController::class, 'bankDetail']);
 Route::post('/stripepayment/create-customer', [StripePaymentController::class, 'createCustomer'])->name('stripe.create-customer');
+Route::get('/stripepayment/create-customer/{id}', [StripePaymentController::class, 'getCardDetails'])->name('stripe.get-customer');
 Route::post('/freelancer-account', [StripePaymentController::class, 'addFreelancerAccount'])->name('addFreelancerAccount');
+Route::get('/bank/freelancer-account/{id}', [StripePaymentController::class, 'getFreelancerAccount'])->name('getFreelancerAccount');
 
 // Will redirect to profile if loggedIn
 Route::group(['middleware' => 'auth.check'], function () {

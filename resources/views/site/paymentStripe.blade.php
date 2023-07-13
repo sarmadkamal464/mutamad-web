@@ -96,12 +96,16 @@
             <div class="row">
                 <div class="col-lg-7 mx-auto">
                     <div class="bg-white rounded-lg shadow-sm p-5">
+                    <label class="error-message"  id="already-message" for="#">
+                        Card already exist
+                                            </label>
                         <!-- Credit card form tabs -->
                         <a data-toggle="pill" href="#nav-tab-card" class="nav-link active rounded-pill">
                             <i class="fa fa-credit-card"></i>
                             Credit Card
                         </a>
                         <!-- End -->
+                     
                         <!-- Credit card form content -->
                         <div class="tab-content">
                             <!-- credit card info-->
@@ -207,7 +211,46 @@
             'pk_test_51MPKvAEniYgzUx4ZEA7Q6imlaGDykq9UQhKBpzGTKAmeaOkhQeSgVIvt3EgI7YCX5kFhJLfk1lpyjiNonksHII9300JsKD1l52'
         );
         var customerId = '';
+        document.addEventListener("DOMContentLoaded", function() {
+            getFreelancerAccount();
+        });
 
+        function getFreelancerAccount() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url = ` {{ url('') }}/stripepayment/create-customer/{{ Auth::user()->id }}`;
+  
+
+            $.ajax({
+    url: url,
+          
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const data= response.card_details;
+                        var form = document.getElementById('create-customer-form');
+                     form.username.value=data.name;
+                 form.email.value = data.email  ;
+               form.cardNumber.value = data.card_last4  ;
+                form.expirationMonth.value = data.expiration_month  ;
+                 form.expirationYear.value = data.expiration_year  ;
+        
+                 const submitBtn = document.getElementById("submit-button");
+        submitBtn.style.display = "none";
+                    } else {
+                        document.getElementById('already-message').style.display = 'none';
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                    document.getElementById('already-message').style.display = 'none';
+           }
+            });
+        }
+       
         document.addEventListener("DOMContentLoaded", function() {
             const submitBtn = document.getElementById("submit-button");
             submitBtn.style.cursor = "pointer";
@@ -300,6 +343,7 @@
         var form = document.getElementById('create-customer-form');
         form.addEventListener('submit', function(event) {
             event.preventDefault();
+        
             var data = {
 
                 id: <?php echo Auth::user()->id; ?>,
@@ -376,6 +420,7 @@
 });
 
         });
+ 
     </script>
 
 
