@@ -39,7 +39,36 @@ class StripePaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
+    public function getCardDetails(Request $request, $userId)
+{
+    $stripeClient = StripeClient::where('user_id', $userId)->first();
 
+    if (!$stripeClient) {
+        return response()->json(['success' => false, 'message' => 'No card found for the user.'], 404);
+    }
+
+    try {
+        \Stripe\Stripe::setApiKey("sk_test_51MPKvAEniYgzUx4Z8QTeDKeVZXCrk88PlQOT3zSh224WRNtWq4WiP63hU0a5nI2xl0LYEMn4dmwvKUX0ZQBsQ7uE00NOyTaRys");
+
+        $customer = \Stripe\Customer::retrieve($stripeClient->customer_id);
+        $card = \Stripe\PaymentMethod::retrieve($stripeClient->payment_method_id);
+
+        $cardDetails = [
+            'name' => $customer->name,
+            'email' => $customer->email,
+            'card_brand' => $card->card->brand,
+            'card_last4' => $card->card->last4,
+            'expiration_month' => $card->card->exp_month,
+            'expiration_year' => $card->card->exp_year,
+        ];
+
+        return response()->json(['success' => true, 'card_details' => $cardDetails]);
+    } catch (\Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
+        return response()->json(['success' => false, 'message' => 'An error occurred while retrieving card details.'], 500);
+    }
+}
+
+    
 public function createCustomer(Request $request)
 {
     $userId = $request->input('id');
@@ -233,6 +262,16 @@ public function addFreelancerAccount(Request $request)
         // Handle database errors
         return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
+}
+public function getFreelancerAccount(Request $request, $id)
+{
+    $freelancerAccount = FreelancerAccount::where('user_id', $id)->first();
+
+    if (!$freelancerAccount) {
+        return response()->json(['success' => false, 'message' => 'Freelancer account not found.'], 404);
+    }
+
+    return response()->json(['success' => true, 'freelancer_account' => $freelancerAccount]);
 }
 
 

@@ -43,6 +43,7 @@ Route::middleware('auth.client')->group(function () {
     Route::post('/assign-freelancer-to-project', [ClientController::class, 'assignFreelancerToProject']);
     Route::post('/mark-project-as-done', [ClientController::class, 'markProjectAsDone']);
     Route::post('/client-stripe',[StripePaymentController::class,'createCustomer']);
+    Route::get('/client-stripe/{id}',[StripePaymentController::class,'getCardDetails']);
     Route::get('client-spending', [ProjectController::class, 'clientSpending']); 
     Route::post('/payments-create', [StripePaymentController::class, 'createPayment'])->name('payments.create');
     
@@ -67,4 +68,5 @@ Route::middleware('auth.freelancer')->group(function () {
     Route::post('/fe-assign-freelancer-to-project', [ClientController::class, 'assignFreelancerToProject']);
     Route::get('freelancer-spending', [ProjectController::class, 'freelancerSpending']);
     Route::post('/freelancer-account', [StripePaymentController::class, 'addFreelancerAccount']);
+    Route::get('/freelancer-account/{id}', [StripePaymentController::class, 'getFreelancerAccount']);
 });
