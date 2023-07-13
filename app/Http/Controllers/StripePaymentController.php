@@ -44,7 +44,7 @@ class StripePaymentController extends Controller
     $stripeClient = StripeClient::where('user_id', $userId)->first();
 
     if (!$stripeClient) {
-        return response()->json(['success' => false, 'message' => 'No card found for the user.'], 404);
+        return response()->json(['success' => false, 'message' => 'No card found for the user.'], 200);
     }
 
     try {
@@ -268,7 +268,7 @@ public function getFreelancerAccount(Request $request, $id)
     $freelancerAccount = FreelancerAccount::where('user_id', $id)->first();
 
     if (!$freelancerAccount) {
-        return response()->json(['success' => false, 'message' => 'Freelancer account not found.'], 404);
+        return response()->json(['success' => false, 'message' => 'Freelancer account not found.'], 200);
     }
 
     return response()->json(['success' => true, 'freelancer_account' => $freelancerAccount]);
