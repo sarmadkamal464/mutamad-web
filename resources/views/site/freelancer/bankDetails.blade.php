@@ -106,7 +106,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            var url = "{{ url('') }}/bank/freelancer-account/{{ Auth::user()->id }}";
+            var url = "{{ url('') }}/freelancer-account/{{ Auth::user()->id }}";
 
             $.ajax({
     url: url,

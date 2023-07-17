@@ -221,7 +221,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            var url = ` {{ url('') }}/stripepayment/create-customer/{{ Auth::user()->id }}`;
+            var url = ` {{ url('') }}/client-stripe/{{ Auth::user()->id }}`;
   
 
             $.ajax({
